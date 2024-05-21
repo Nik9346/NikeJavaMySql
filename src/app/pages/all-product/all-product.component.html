@@ -1,0 +1,37 @@
+<div class="container-fluid">
+    <app-navbar [shoesSelectedArray]="shoesSelectedArray" (displaycartEmitter)="viewCart()" (closeCartEmitter)="hideCartNow()" [cartVisible]="cartVisible" [isLoggedIn]="isLoggedIn" [username]="user" (logoutEmitter)="logout()"></app-navbar>
+    <app-slider></app-slider>
+    <div class="container-fluid container-lg">
+        <div class="row mt-md-3">
+            <h3>Tutti i prodotti ({{shoesFiltered.length}})</h3>
+        </div>
+        <div class="row">
+            <app-breadcrumbs [category]="category" [color]="color"></app-breadcrumbs>
+            <div class="row d-md-flex col-12">
+                <app-sidebar class="col-12 col-md-4 col-lg-3" (allItemEmit)="resetItem()" [shoesFiltered]="shoesFiltered" [shoesColor]="shoesColor"
+                    [shoes]="shoes" [shoesCategory]="shoesCategory" (priceEmitter)="filterPrice($event)"
+                    (colorEmitter)="goToColor($event)" (emitter)="goToCategory($event)">
+                </app-sidebar>
+                <div class="col-12 col-md-8 col-lg-9">
+                    <div class="row">
+                        <ng-container *ngFor="let s of shoesFiltered">
+                            <ng-container *ngIf="priceFilter == null">
+                                <div *ngIf=" color == null || s.colori_disponibili.includes(color)"
+                                    class="my-2 px-1 my-md-5 col-12 col-md-6 col-xl-4">
+                                    <app-shoes-card [shoes]="s"></app-shoes-card>
+                                </div>
+                            </ng-container>
+                            <ng-container
+                                *ngIf="(s.prezzo <= priceFilter && s.prezzo >= priceFilter -50) && (color == null || s.colori_disponibili.includes(color))">
+                                <div class="my-2 px-1 my-md-5 col-12 col-md-6 col-xl-4">
+                                    <app-shoes-card [shoes]="s"></app-shoes-card>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

@@ -1,0 +1,15 @@
+<div class="container-fluid">
+    <app-navbar [shoesSelectedArray]="shoesSelectedArray" (displaycartEmitter)="viewCart()" (closeCartEmitter)="hideCartNow()" [cartVisible]="cartVisible" [isLoggedIn]="isLoggedIn" [username]="user" (logoutEmitter)="logout()"></app-navbar>
+    <app-slider></app-slider>
+    <div class="container">
+        <div class="row mt-md-3">
+            <h3>Best Seller ({{best_seller.length}})</h3>
+        </div>
+        <div class="row">
+            <div class="my-3 px-1 col-12 col-md-6 col-lg-4 col-xl-3" *ngFor="let s of best_seller">
+                    <app-shoes-card [shoes]="s"></app-shoes-card>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

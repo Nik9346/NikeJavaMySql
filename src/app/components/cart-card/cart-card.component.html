@@ -1,0 +1,42 @@
+<div [ngClass]="{'d-block' : cartVisible == true}"
+    class="position-cart backgr-col-white col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3 ml-5 me-lg-3 border border-dark">
+    <div class="row mx-3 my-2">
+        <div class="align-items-center d-flex justify-content-between">
+            <h5 class="font-size-9em my-0">Aggiunto al carrello</h5>
+            <button type="button" (click)="closeCart()" class="btn btn-close" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+    <div class="row justify-content-end my-3 mx-3">
+        <ng-container *ngFor="let s of shoesSelectedArray">
+            <div *ngIf="s" class="d-md-flex">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <img [src]="s.immagine" alt="">
+                </div>
+                <div class="mx-3 col-12 col-md-6 col-lg-9">
+                    <h4>{{s.nome}}</h4>
+                    <h5>{{s.categoria}}</h5>
+                    <p>Taglia/Misura EU: {{s.taglia_selezionata}}</p>
+                    <p>Colore: {{s.colore_selezionato}}</p>
+                    <h5>{{s.prezzo | currency : 'EUR'}}</h5>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="row d-flex my-3 mx-3">
+        <ng-container *ngIf="!isLoggedIn">
+            <div class="col-md-12 col-lg-6 py-2 py-lg-0 px-2 px-lg-1">
+                <button routerLink="/cart" class="btn-add-favorite col-12">Visualizza carrello <span *ngIf="shoesSelectedArray">({{shoesSelectedArray.length}})</span></button>
+            </div>
+            <div class="col-md-12 col-lg-6 my-3 my-md-0 px-2 px-lg-1">
+                <button *ngIf="!isLoggedIn" class="btn-add-cart col-12" routerLink="/payment">Pagamento</button>
+            </div>
+        </ng-container>
+        <ng-container  *ngIf="isLoggedIn">
+            <div class="col-md-12 my-3 my-md-0 px-2 px-lg-1">
+            <button class="btn-add-cart col-12" routerLink="/cart">Vai al carrello</button>
+        </div>
+        </ng-container>
+    </div>
+</div>

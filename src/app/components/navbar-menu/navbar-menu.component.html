@@ -1,0 +1,40 @@
+<div class="container">
+    <!-- <div class="px-5 mx-5 transition-5ms"> -->
+        <div id="navbar-menu-list transition-5ms" class="row d-flex justify-content-between">
+            <ul class="col-12 col-md-6 col-lg-3 py-2 dropdown px-md-5">
+                <li><h6 routerLink="/all-product" class="pointer">Tutti i prodotti</h6></li>
+                <li><a class="dropdown-item" routerLink="/New">Tutti i nuovi arrivi</a></li>
+                <li><a class="dropdown-item" routerLink="/infinite">Infinite Scrolling</a></li>
+                <li><a class="dropdown-item" routerLink="/best-seller">Best Seller</a></li>
+                <li><a class="dropdown-item text-muted">Calendario dei lanci SNKRS</a></li>
+                <li><a class="dropdown-item text-muted">Divise delle nazioni 2024</a></li>
+            </ul>
+            <ul class="d-none d-lg-block col-3 py-2 px-5">
+                <li><h6>Scopri le icone</h6></li>
+                <li><a class="text-muted">Air Force 1</a></li>
+                <li><a class="text-muted">Air Jordan 1</a></li>
+                <li><a class="text-muted">Air Max</a></li>
+                <li><a class="text-muted">Dunk</a></li>
+                <li><a class="text-muted">Blazer</a></li>
+                <li><a class="text-muted">Pegasus</a></li>
+                <li><a class="text-muted">Mercurial</a></li>
+            </ul>
+            <ul class="col-12 border-top d-md-none" ></ul>
+            <ul class="col-12 col-md-6 col-lg-3 py-2 px-md-5 border-top">
+                <li><h6>Scopri lo sport</h6></li>
+                <li *ngFor="let c of shoesCategory">
+                    <a class="dropdown-item" [routerLink]="['/category', c]">{{c}}</a>
+                </li>
+            </ul>
+            <ul class="d-none d-lg-block col-3 py-2 px-5">
+                <li><h6>Di tendenza</h6></li>
+                <li><a class="text-muted">Air Max Home</a></li>
+                <li><a class="text-muted">Sneakers Y2K</a></li>
+                <li><a class="text-muted">Nike Style By</a></li>
+                <li><a class="text-muted">Collezione Jordan Retro</a></li>
+                <li><a class="text-muted">Teenager</a></li>
+                <li><a class="text-muted">EasyOn</a></li>
+                <li><a class="text-muted">Sostenibilità</a></li>
+            </ul>
+        </div>
+</div>

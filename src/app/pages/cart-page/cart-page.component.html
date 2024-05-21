@@ -1,0 +1,138 @@
+<app-navbar [isLoggedIn]="isLoggedIn" [username]="user" (logoutEmitter)="logout()"></app-navbar>
+<app-slider></app-slider>
+<div class="container-fluid">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="border border-light p-md-1">
+                    <div class="px-md-2 row">
+                        <h5 class="color-orange">Spedizione gratuita per i Member.</h5>
+                    </div>
+                    <div class="px-2 row">
+                        <p class="mb-0">Diventa Member Nike e approfitta della spedizione rapida e gratuita. <u>Unisciti
+                                a noi</u> o
+                            <u>Accedi</u>
+                        </p>
+                    </div>
+                </div>
+                <div class="row my-3 my-md-3">
+                    <h3>Carrello</h3>
+                </div>
+                <div *ngFor="let s of cartShoesItem" class="row">
+                    <div class="mt-3 col-12 col-md-3">
+                        <img [src]="s.immagine" alt="">
+                        <div class="row">
+                            <h6>Ritiro gratuito</h6>
+                            <h6><u>Trova un negozio</u></h6>
+                        </div>
+                    </div>
+                    <div class="py-4 col-9 col-md-7">
+                        <h5 class="mb-2">{{s.nome}}</h5>
+                        <p class="mb-1">{{s.categoria}}</p>
+                        <p class="mb-1">{{s.colore_selezionato}}</p>
+                        <div class="d-md-flex">
+                            <p class="mb-0">Taglia/misura</p>
+                            <select [(ngModel)]="s.taglia_selezionata" class="mx-2 form-select p-0"
+                                aria-label="Default select example" *ngIf="s">
+                                <option selected>{{s.taglia_selezionata}}</option>
+                                <option *ngFor="let size of s.taglie_disponibili">{{size}}</option>
+                            </select>
+                            <p class="mb-0">Quantità</p>
+                            <select [(ngModel)]="s.quantita" class="mx-2 form-select p-0"
+                                aria-label="Default select example">
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="mt-3 row">
+                            <div class="d-flex">
+                                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
+                                    height="24px" fill="none">
+                                    <path stroke="currentColor" stroke-miterlimit="10" stroke-width="1.5"
+                                        d="M3.76 10.5V8.25h16.5v3H6.76c-.83 0-1.5.67-1.5 1.5v6c0 .83.67 1.5 1.5 1.5h10.5c.83 0 1.5-.67 1.5-1.5v-7.5m-4.5-7.5c-1.24 0-2.25 1.01-2.25 2.25v2.25h2.25c1.24 0 2.25-1.01 2.25-2.25s-1.01-2.25-2.25-2.25zm-4.5 0c1.24 0 2.25 1.01 2.25 2.25v2.25H9.76C8.51 8.25 7.51 7.24 7.51 6s1-2.25 2.25-2.25zm2.25 4.78v11.72">
+                                    </path>
+                                </svg>
+                                <svg class="mx-2" aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img"
+                                    width="24px" height="24px" fill="none">
+                                    <path stroke="currentColor" stroke-width="1.5"
+                                        d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451">
+                                    </path>
+                                </svg>
+                                <svg class="pointer" (click)="removeItem(s)" aria-hidden="true" focusable="false"
+                                    viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
+                                    <path stroke="currentColor" stroke-miterlimit="10" stroke-width="1.5"
+                                        d="M14.25 7.5v12m-4.5-12v12M5.25 6v13.5c0 1.24 1.01 2.25 2.25 2.25h9c1.24 0 2.25-1.01 2.25-2.25V5.25h2.75m-2.75 0H21m-12-3h5.25c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5H3">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-4 col-3">
+                        <p><strong>{{(s.prezzo * s.quantita) | currency : 'EUR'}}</strong></p>
+                    </div>
+                </div>
+                <div class="mt-2 border-top">
+                    <h3 class="mt-3">Preferiti</h3>
+                    <p>Vuoi visualizzare i preferiti? <u>Unisciti a noi</u> o <u>Accedi</u></p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="row">
+                    <h3>Riepilogo</h3>
+                </div>
+                <div class="row accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="px-0 accordion-button border-0 collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                                aria-controls="collapseOne">
+                                Hai un codice promozionale?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="px-0 accordion-body d-md-flex justify-content-between">
+                                <input
+                                    class="mb-2 mb-md-0 col-12 col-sm-12 col-md-6 col-lg-8 border border-secondary-subtle rounded"
+                                    type="text">
+                                <button
+                                    class="mx-md-2 col-12 col-sm-12 col-md-6 col-lg-4 btn btn-add-favorite">Applica</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row border-bottom">
+                    <div class="d-flex justify-content-between">
+                        <p>Subtotale</p>
+                        <p>{{subtotal | currency : 'EUR'}}</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Costi di spedizione e gestione previsti</p>
+                        <ng-container *ngIf="subtotal">
+                            <p *ngIf="delivery != 'Gratis'">{{delivery | currency : 'EUR'}}</p>
+                            <p *ngIf="delivery === 'Gratis'">{{delivery}}</p>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="row border-bottom">
+                    <div class="d-flex mt-3 justify-content-between">
+                        <p>Totale</p>
+                        <p *ngIf="subtotal != 0">{{total | currency : 'EUR'}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <button [disabled]="cartShoesItem.length == 0" *ngIf="isLoggedIn == false" class="my-2 btn-add-cart"
+                        routerLink="/payment" (click)="dataUpdate()">Vai al pagamento</button>
+                    <button [disabled]="cartShoesItem.length == 0" *ngIf="isLoggedIn == true" class="my-2 btn-add-cart"
+                        routerLink="/order" (click)="dataUpdateLogged()">Vai al pagamento</button>
+                    <button class="my-2 btn-add-favorite"><img alt="PayPal" width="51" height="14"
+                            src="https://www.nike.com/assets/experience/pet/payment-icons/paypal@2x.png"
+                            class="css-v7ibj3 e1cllo3c1"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

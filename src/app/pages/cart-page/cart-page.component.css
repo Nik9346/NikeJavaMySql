@@ -1,0 +1,19 @@
+.color-orange {
+  color: orangered;
+  font-weight: bold;
+}
+
+.accordion-item {
+  border: none;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: white;
+}
+
+.btn-add-cart[disabled] {
+  background: #e5e5e5;
+  font-weight: 500;
+  color: #9e9ea0;
+  border-color: transparent;
+}

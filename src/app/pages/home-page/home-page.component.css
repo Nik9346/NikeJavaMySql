@@ -1,0 +1,23 @@
+/* The heart of the matter */
+.horizontal-scrollable .row {
+  overflow-x: auto;
+}
+
+.btn {
+  width: 2.5em;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  line-height: 2em;
+}
+
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+.btn-add-cart, .btn-add-favorite {
+  bottom: 5%;
+  left: 5%;
+  width: 100px;
+  height: 2em;
+  border: 0px;
+}

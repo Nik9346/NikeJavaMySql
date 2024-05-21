@@ -1,0 +1,18 @@
+<div class="container-fluid">
+    <app-navbar [isLoggedIn]="isLoggedIn" [username]="user" (logoutEmitter)="logout()"></app-navbar>
+    <app-slider></app-slider>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <ng-container *ngIf="isRegister == true">
+                    <app-auth-form [passwordError]="passwordError" (loginEmitter)="goToLogin($event)"
+                        (registrationEmitter)="viewRegistration()"></app-auth-form>
+                </ng-container>
+                <ng-container *ngIf="isRegister == false">
+                    <app-register-form (formDataEmit)="updateDataUser($event)"></app-register-form>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

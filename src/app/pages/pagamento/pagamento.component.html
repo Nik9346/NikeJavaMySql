@@ -1,0 +1,285 @@
+<div class="container-fluid">
+    <app-navbar-payment></app-navbar-payment>
+    <div class="mt-5 container">
+        <div class="row text-center">
+            <h3>Pagamento</h3>
+        </div>
+        <div class="row">
+            <div class="mt-3 col-12 col-md-8 pe-md-5">
+                <div class="mb-4 accordion d-block d-md-none" id="accordionExample">
+                    <div class="border-bottom">
+                        <h2 class="accordion-header">
+                            <button class="ps-0 accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <h4>Nel Carrello</h4>
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row" *ngFor="let s of shoesSelected">
+                                    <div class="col-3">
+                                        <img [src]="s.immagine" alt="">
+                                    </div>
+                                    <div class="col-9">
+                                        <h6>{{s.nome}}</h6>
+                                        <p>Misura: {{s.taglia_selezionata}}</p>
+                                        <p>Colore: {{s.colore_selezionato}}</p>
+                                        <p>Quantità: {{s.quantita}}</p>
+                                        <p>Prezzo: {{s.prezzo | currency: 'EUR'}}</p>
+                                    </div>
+                                </div>
+                                <div class="row d-flex justify-content-between align-items-center">
+                                    <div class="mt-5 d-flex justify-content-between">
+                                        <p>Subtotale</p>
+                                        <p>{{subtotal | currency : 'EUR'}}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>Costi di spedizione stimati</p>
+                                        <p>{{deliveryCost | currency: 'EUR'}}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>Totale</p>
+                                        <p>{{total | currency: 'EUR'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Opzioni di consegna</h4>
+                </div>
+                
+                <div #formTemplate class="row my-3 mt-md-5 border-bottom">
+                    <form #paymentForm1="ngForm" (ngSubmit)="onSubmit()">
+                        <div class="d-md-flex justify-content-between mb-3">
+                            <div class="col-12 col-md-6 mb-3 mb-md-0 pe-md-1">
+                                <button type="button" [ngClass]="{'border-black': delivery === 'delivery'}"
+                                    class="btn-form col-12">Spedizione</button>
+                            </div>
+                            <div class="col-12 col-md-6 ps-md-1">
+                                <button type="button" [ngClass]="{'border-black': delivery === 'withdraw'}"
+                                    class="btn-form col-12" (click)="goWithDraw()"
+                                    [disabled]="delivery === 'delivery'">Ritiro</button>
+                            </div>
+                        </div>
+                        <div class="d-md-flex justify-content-between mb-2 mb-md-3">
+                            <div class="col-12 col-md-6 mb-2 mb-md-0 pe-md-1">
+                                <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
+                                    placeholder="Nome*" name="nome" ngModel required minlength="3"
+                                    pattern="^(?!\s+$)[a-zA-Z0-9_\s]+$" [(ngModel)]="nome">
+                                <div *ngIf="paymentForm1.controls.nome?.touched && paymentForm1.controls.nome?.value?.length <1"
+                                    id="name-error" class="form-text text-red">Inserisci il tuo nome.</div>
+                                <div *ngIf="paymentForm1.controls.nome?.errors?.pattern || paymentForm1.controls.nome?.errors?.minlength"
+                                    id="name-error2" class="form-text text-red">Il campo nome deve avere almeno 3
+                                    caratteri</div>
+                            </div>
+                            <div class="ps-md-1 col-12 col-md-6">
+                                <input type="text" class="form-control" id="surname" aria-describedby="emailHelp"
+                                    placeholder="Cognome*" name="cognome" ngModel required minlength="3"
+                                    [(ngModel)]="cognome" pattern="^(?!\s+$)[a-zA-Z0-9_\s]+$">
+                                <div *ngIf="paymentForm1.controls.cognome?.touched && paymentForm1.controls.cognome?.value?.length <1"
+                                    id="surname-error" class="form-text text-red">Inserisci il tuo Cognome.</div>
+                                <div *ngIf="paymentForm1.controls.cognome?.errors?.minlength || paymentForm1.controls.cognome?.errors?.pattern"
+                                    id="surname-error2" class="form-text text-red">Il campo Cognome deve avere almeno 3
+                                    caratteri</div>
+                            </div>
+                        </div>
+                        <div class="mb-2 mb-md-3">
+                            <input type="text" class="form-control" id="Address" required
+                                placeholder="Indirizzo e numero civico*" name="indirizzo" ngModel minlength="6"
+                                [(ngModel)]="indirizzo">
+                            <div *ngIf="paymentForm1.controls.indirizzo?.touched == true && paymentForm1.controls.indirizzo?.value?.length <1"
+                                id="address-error" class="form-text text-red">Questo campo è obbligatorio</div>
+                            <div *ngIf="paymentForm1.controls.indirizzo?.errors?.minlength" id="address-error2"
+                                class="form-text text-red">Inserisci un indirizzo valido</div>
+                        </div>
+                        <div class="d-md-flex justify-content-between mb-md-2">
+                            <div class="col-12 col-md-2 mb-2">
+                                <input type="text" required class="form-control" id="CAP" placeholder="CAP*" name="cap"
+                                    [(ngModel)]="cap" [(ngModel)]="cap" ngModel required maxlength="5"
+                                    pattern="^\d{5}$">
+                                <div *ngIf="paymentForm1.controls.cap?.errors?.pattern" id="cap-error"
+                                    class="form-text text-red">Inserisci un cap valido.</div>
+                                <div *ngIf="paymentForm1.controls.cap?.touched && paymentForm1.controls.cap?.value?.length <1"
+                                    id="cap-error2" class="form-text text-red">Questo campo è obbligatorio</div>
+                            </div>
+                            <div class="col-12 col-md-6 px-md-2 mb-2">
+                                <input type="text" class="form-control" id="City" placeholder="Città*" name="citta"
+                                    [(ngModel)]="citta" ngModel required minlength="3"
+                                    pattern="^(?!\s+$)[a-zA-ZÀ-ÖØ-öø-ÿ\s'-]+$">
+                                <div *ngIf="paymentForm1.controls.citta?.errors?.pattern" id="city-error"
+                                    class="form-text text-red">Inserisci una città valida.</div>
+                                <div *ngIf="paymentForm1.controls.citta?.touched && paymentForm1.controls.citta?.value?.length <1"
+                                    id="city-error2" class="form-text text-red">Questo campo è obbligatorio</div>
+                            </div>
+                            <div class="col-12 col-md-4 mb-2">
+                                <input type="text" value="Italia" class="form-control" id="Country" [(ngModel)]="paese"
+                                    placeholder="Paese/regione*" name="paese" ngModel minlength="3">
+                            </div>
+                        </div>
+                        <div class="d-md-flex justify-content-between">
+                            <div class="me-1 col-12 col-md-7 mb-2">
+                                <input type="email" class="form-control" id="email" placeholder="E-mail*" required
+                                    [(ngModel)]="email" ngModel name="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
+                                <div *ngIf="paymentForm1.controls.email?.touched == true && paymentForm1.controls.email?.value?.length <1"
+                                    class="form-text text-red">Questo campo è obbligatorio</div>
+                                <div *ngIf="paymentForm1.controls.email?.touched == true && paymentForm1.controls.email?.errors?.pattern"
+                                    class="form-text text-red">Inserisci un indirizzo email valido</div>
+                            </div>
+
+                            <div class="col-12 col-md-5 mb-2">
+                                <input type="tel" required class="form-control" id="PhoneNumber" name="telefono"
+                                    [(ngModel)]="telefono" [(ngModel)]="telefono" required ngModel
+                                    pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$"
+                                    placeholder="Numero di telefono*">
+                                <div *ngIf="paymentForm1.controls.telefono?.touched == true && paymentForm1.controls.telefono?.value?.length < 1"
+                                    class="form-text text-red">Questo campo è obbligatorio</div>
+                                <div *ngIf="paymentForm1.controls.telefono?.errors?.pattern" class="form-text text-red">
+                                    Inserisci un numero di telefono valido</div>
+                            </div>
+                        </div>
+                        <div class="text-end mt-3 mb-3">
+                            <button type="submit" class="col-12 col-md-6 col-lg-3 btn btn-save-form"
+                                [disabled]="paymentForm1.form.status == 'INVALID'">Salva e continua</button>
+                        </div>
+                    </form>
+                </div>
+            
+                <div class="row mt-2 mt-md-5" *ngIf="paymentForm1.submitted == true || isLoggedIn">
+                    <div>
+                        <h6>Indirizzo di spedizione</h6>
+                        <p class="mb-0">{{nome}}{{cognome}}</p>
+                        <p>{{indirizzo}}, {{cap}}, {{paese}}</p>
+                        <p class="mb-0">{{email}}</p>
+                        <p class="mb-0">{{telefono}}</p>
+                    </div>
+                </div>
+                <div class="row py-3 py-md-3 border-bottom">
+                    <h4>Pagamento</h4>
+                </div>
+                <div #formTemplatePayment class="hidden transition-ease-in row my-3 mt-md-3 border-bottom">
+
+                    <div>
+                        <p class="mb-0">Paese/regione di fatturazione</p>
+                        <p>{{paese}} <u><strong>Modifica</strong></u></p>
+                    </div>
+                    <div class="form-check my-2 my-md-3">
+                        <input class="form-check-input pointer" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Possiedi una gift card, un voucher prodotto o un codice promozionale?
+                        </label>
+                    </div>
+                    <div class="my-2 my-md-3">
+                        <div class="row">
+                            <p>Seleziona un metodo di pagamento</p>
+                        </div>
+                        <div class="form-check mb-1">
+                            <input checked class="form-check-input" type="radio" name="flexRadioDefault" value="card"
+                                [(ngModel)]="paymentMethod" (change)="updateValueTarget($event)" id="flexRadioDefault">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Carta di credito o debito
+                            </label>
+                        </div>
+                        <div class="form-check mb-1">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                                value="contrassegno" [(ngModel)]="paymentMethod" (change)="updateValueTarget($event)">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Contrassegno
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                disabled>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                <img alt="PayPal"
+                                    src="//www.nike.com/static/checkoutux/checkout/master/_next/img/payment/logo_paypal2x.png"
+                                    decoding="async" data-nimg="intrinsic" class="d-sm-ib va-sm-m ta-sm-c css-mo730t"
+                                    width="60px">
+                            </label>
+                        </div>
+                    </div>
+                    <form [formGroup]="paymentForm2" (ngSubmit)="onSubmitPay()">
+                        <div *ngIf="paymentMethod == 'card'" class="border rounded pt-3 pb-5 px-3 mb-3"
+                            [ngClass]="{'hidden': paymentMethod == 'contrassegno'}">
+                            <div class="row mb-3">
+                                <p>Aggiungi carta</p>
+                            </div>
+                            <div class="d-md-flex justify-content-between">
+                                <div class="mb-3 col-12 col-md-6">
+                                    <input type="text" class="form-control" maxlength="19" formControlName="cardNumber"
+                                        aria-describedby="emailHelp">
+                                    <div *ngIf="paymentForm2.controls.cardNumber?.errors?.pattern"
+                                        class="form-text text-red">Inserisci un numero di carta valido</div>
+                                    <div *ngIf="paymentForm2.controls.cardNumber?.touched && paymentForm2.controls.cardNumber?.value?.length < 1"
+                                        class="form-text text-red">Questo campo è obbligatorio</div>
+                                </div>
+                                <div class="mb-3 col-12 col-md-3">
+                                    <input type="month" (change)="getTime()" class="form-control" placeholder="MM/AA"
+                                        formControlName="expiringDateCard">
+                                    <div *ngIf="(dateToValidated) < (dataCurrentToValitated)"
+                                        class="form-text text-red">Inserisci una data valida</div>
+                                    <div *ngIf="paymentForm2.controls.expiringDateCard?.touched && paymentForm2.controls.expiringDateCard?.value=== ''"
+                                        class="form-text text-red">Questo campo è obbligatorio</div>
+                                </div>
+                                <div class="mb-3 col-12 col-md-2">
+                                    <input type="text" maxlength="4" class="form-control" formControlName="cardCvv"
+                                        placeholder="CVV">
+                                    <div *ngIf="paymentForm2.controls.cardCvv?.errors?.pattern"
+                                        class="form-text text-red">
+                                        Inserisci un CVV valido</div>
+                                    <div *ngIf="paymentForm2.controls.cardCvv?.touched && paymentForm2.controls.cardCvv?.value?.length < 1"
+                                        class="form-text text-red">Questo campo è obbligatorio</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end my-3">
+                            <button routerLink="/order" [disabled]="!paymentForm2.valid && paymentMethod == 'card'" type="submit" class="col-12 col-md-8 col-lg-8 col-xl-6 col-xxl-4 btn btn-save-form">Passa alla verifica dell'ordine</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="row py-3 py-md-3 border-bottom">
+                    <h4>Verifica dell'ordine</h4>
+                </div>
+            </div>
+            <div class="d-none d-md-block col-12 col-md-4 mt-3">
+                <div class="row d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Nel carrello</h4>
+                        <p class="m-0"><u>Modifica</u></p>
+                    </div>
+                    <div class="mt-5 d-flex justify-content-between">
+                        <p>Subtotale</p>
+                        <p>{{subtotal | currency : 'EUR'}}</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Costi di spedizione stimati</p>
+                        <p *ngIf="deliveryCost != 'Gratis'">{{deliveryCost | currency: 'EUR'}}</p>
+                        <p *ngIf="deliveryCost === 'Gratis'">{{deliveryCost}}</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Totale</p>
+                        <p>{{total | currency: 'EUR'}}</p>
+                    </div>
+                </div>
+                <div class="row mt-3 mb-2">
+                    <p class="px-0">Arriva entro il giorno mar 7 mag</p>
+                </div>
+                <div class="row" *ngFor="let s of shoesSelected">
+                    <div class="col-3">
+                        <img [src]="s.immagine" alt="">
+                    </div>
+                    <div class="col-9">
+                        <h6>{{s.nome}}</h6>
+                        <p class="mb-0">Misura: {{s.taglia_selezionata}}</p>
+                        <p class="mb-0">Colore: {{s.colore_selezionato}}</p>
+                        <p class="mb-0">Quantità: {{s.quantita}}</p>
+                        <p class="mb-0">Prezzo: {{s.prezzo | currency: 'EUR'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

@@ -1,0 +1,10 @@
+<div class="card border-0">
+    <img (click)="goToShoes()" [src]='shoes.immagine' class="card-img-top" alt="..." height="380px">
+  <div class="card-body">
+    <h6 *ngIf="shoes.best_seller > 4" class="color-new-best fw-bolder">Best Seller</h6>
+    <h6 *ngIf="shoes.nuovo_arrivi == true" class="color-new-best fw-bolder">Nuovo Arrivo!</h6>
+    <h6 class="card-text">{{shoes.nome}}</h6>
+    <p class="card-text fw-bold">{{shoes.categoria}}</p>
+    <p class="card-text">{{shoes.prezzo | currency: 'EUR'}}</p>
+  </div>
+</div>

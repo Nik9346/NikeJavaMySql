@@ -1,0 +1,28 @@
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="col-12">
+    <div class="mb-md-4 mx-md-5">
+        <h3>Entra nell'area Riservata</h3>
+    </div>
+    <div class="form-group my-md-3 mx-md-5">
+        <label for="exampleInputEmail1">Indirizzo E-mail</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            placeholder="Inserisci la tua email" formControlName="email">
+            <div *ngIf="authForm.controls.email?.touched == true && authForm.controls.email?.value?.length <1"
+            class="form-text text-red">Inserisci l'indirizzo email per entrare</div>
+        <div *ngIf="authForm.controls.email?.touched == true && authForm.controls.email?.errors?.pattern"
+            class="form-text text-red">Inserisci un indirizzo email valido</div>
+    </div>
+    <div class="form-group my-md-3 mx-md-5">
+        <label for="exampleInputPassword1">Inserisci la password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" formControlName="password">
+        <div *ngIf="authForm.controls.password?.touched == true && authForm.controls.password?.value?.length <1"
+                class="form-text text-red">Inserisci la password</div>
+        <!-- <div *ngIf="authForm.controls.password?.touched == true && authForm.controls.password?.errors?.pattern"
+                class="form-text text-red">La password inserita non è corretta</div> -->
+        <div *ngIf="passwordError"
+                class="form-text text-red">La password inserita non è corretta</div>
+    </div>
+    <div class="d-md-flex justify-content-between mt-md-5 mx-md-5">
+        <button [disabled]="!authForm.valid" type="submit" class="btn-add-cart col-12 my-2 my-md-0 col-md-5 ">Accedi</button>
+        <button type="button" class="btn-add-cart col-12 col-md-5" (click)="goToRegistration()">Registrati</button>
+    </div>
+</form>

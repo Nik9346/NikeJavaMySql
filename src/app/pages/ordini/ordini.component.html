@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <app-navbar [isLoggedIn]="isLoggedIn" [username]="user" (logoutEmitter)="logout()"></app-navbar>
+    <app-slider></app-slider>
+    <div class="mt-5 container">
+        <div class="text-center">
+            <h4>Lista degli ordini</h4>
+        </div>
+        <div class="card my-2 my-md-5" *ngFor="let s of orderedData">
+            <h5 class="card-header">Numero Ordine #{{s.orderNumber}}</h5>
+            <div class="card-body p-2 py-md-3 mb-3 justify-content-center d-md-flex">
+                <ng-container *ngFor="let shoes of s.orderItem">
+                    <div class="col-12 col-md-6 col-lg-4 px-md-2 col-xxl-3 my-2 my-md-0">
+                        <app-card-order-product class="mx-lg-5" [shoes]="shoes"></app-card-order-product>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="justify-content-center d-flex">
+            <button class="col-12 col-md-4 btn-add-cart" routerLink="/home-page">Acquista Nuovi Prodotti</button>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

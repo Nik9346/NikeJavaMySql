@@ -1,0 +1,12 @@
+<div class="card col-12">
+    <img [src]="shoes.immagine" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{shoes.nome}}</h5>
+      <p class="card-text">{{shoes.descrizione}}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Colore: {{shoes.colore_selezionato}}</li>
+      <li class="list-group-item">Misura: {{shoes.taglia_selezionata}}</li>
+      <li class="list-group-item">Prezzo: {{shoes.prezzo | currency : 'EUR'}}</li>
+    </ul>
+  </div>

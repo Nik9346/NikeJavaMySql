@@ -1,0 +1,63 @@
+img {
+  max-width: 100%;
+}
+
+.btn-size-select {
+  box-shadow: #e5e5e5 0px 0px 0px 1px;
+}
+
+.btn-size-select:hover {
+  border: 1px solid black;
+}
+
+.btn-add-cart {
+  background-color: black;
+  color: white;
+  border-radius: 24px;
+  height: 3em;
+}
+
+.btn-add-cart:hover {
+  background-color: #707072;
+}
+
+.btn-add-favorite {
+  border: 1px solid lightgrey;
+  border-radius: 24px;
+  height: 3em;
+}
+
+.btn-add-favorite:hover {
+  border-color: black;
+}
+
+.border-red {
+  border: 1px solid red;
+}
+
+.color-red {
+  color: red;
+}
+
+.container-fluid {
+  transition: 1s ease-in;
+}
+
+.container-filter {
+  background-color: rgba(0, 0, 0, 0.486);
+  -webkit-filter: brightness(50%);
+}
+
+.filter-brightness {
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.filter-brightness:hover {
+  filter: brightness(50%);
+}
+
+.hover-border:hover {
+  border: 1px solid black;
+  border-radius: 8px;
+}

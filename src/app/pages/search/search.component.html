@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <app-navbar (searchEmitter)="clearSearcheShoesVariable()" [isLoggedIn]="isLoggedIn" [username]="user" (logoutEmitter)="logout()"></app-navbar>
+    <app-slider></app-slider>
+    <div class="container horizontal-scrollable">
+        <div class="row mt-md-3">
+            <h3>Scarpe Trovate ({{searchShoes.length}})</h3>
+        </div>
+        <div class="row">
+            <ng-container *ngFor="let s of searchShoes">
+            <div class="my-5 px-1 col-12 col-md-6 col-lg-4 col-xxl-3">
+                <app-shoes-card [shoes]="s" ></app-shoes-card>
+            </div>
+        </ng-container>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

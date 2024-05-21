@@ -1,0 +1,68 @@
+<div class="container-fluid">
+    <app-navbar [shoesSelectedArray]="shoesSelectedArray" (displaycartEmitter)="viewCart()"
+        (closeCartEmitter)="hideCartNow()" [cartVisible]="cartVisible" [isLoggedIn]="isLoggedIn" [username]="user"
+        (logoutEmitter)="logout()"></app-navbar>
+    <app-slider></app-slider>
+    <div class="container-fluid" #container>
+            <div class="mt-5 container justify-content-between">
+                <div class="row" *ngIf="singleShoes">
+                    <div class="d-flex flex-row flex-lg-column col-2 col-lg-1 my-lg-3">
+                        <img class="filter-brightness" [src]="singleShoes.immagine" alt="">
+                        <img class="filter-brightness mx-2 mx-lg-0 my-lg-2" [src]="singleShoes.immagine" alt="">
+                        <img class="filter-brightness" [src]="singleShoes.immagine" alt="">
+                        <img class="filter-brightness mx-2 mx-lg-0 my-lg-2" [src]="singleShoes.immagine" alt="">
+                    </div>
+                    <div class="col-12 col-lg-7 px-2 py-3">
+                        <img class="rounded" [src]="singleShoes.immagine" height="670px" alt="">
+                        <h3 class="mt-md-3">Descrizione</h3>
+                        <p>{{singleShoes.descrizione}}</p>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="my-3">
+                            <h3>{{singleShoes.nome}}</h3>
+                            <h5>{{singleShoes.categoria}}</h5>
+                            <h5>{{singleShoes.prezzo}} €</h5>
+                        </div>
+                        <div>
+                            <img class=" rounded hover-border pointer" [src]="singleShoes.immagine" height="70px"
+                                width="70px" alt="">
+                        </div>
+                        <div class="my-3 px-3 py-2" [ngClass]="{'border-red':!completeSizeColor}">
+                            <div class="row">
+                                <div class="my-3 col-6" [ngClass]="{'color-red':!completeSizeColor}">
+                                    <p class="px-1">Seleziona la taglia/misura</p>
+                                </div>
+                                <div class="my-3 col-6" [ngClass]="{'color-red':!completeSizeColor}">
+                                    <p>Guida alle taglie e alle misure</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="my-2 col-4 d-flex px-1" *ngFor="let t of taglieDisponibili">
+                                    <button [ngClass]="{'border-black': sizeSelected == t }"
+                                        class="col btn btn-size-select" (click)="getSize(t)">EU {{t}}</button>
+                                </div>
+                            </div>
+                            <div class="row border-top">
+                                <div class="mt-2 col-6 d-flex px-1" *ngFor="let c of coloriDisponibili">
+                                    <button [ngClass]="{'border-black': colorSelected == c}"
+                                        class="col btn btn-size-select" (click)="getColor(c)">{{c}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <button class="btn btn-add-cart col-12" (click)="addToCart()">Aggiungi al
+                                    carrello</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <button class="btn btn-add-favorite col-12">Aggiungi ai preferiti</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <app-footer></app-footer>
+</div>
