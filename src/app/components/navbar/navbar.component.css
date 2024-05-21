@@ -67,3 +67,8 @@ li a {
 .border-radius-24 {
   border-radius: 24px;
 }
+
+svg {
+  user-select: none;
+  pointer-events: none;
+}
