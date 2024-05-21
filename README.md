@@ -15,7 +15,8 @@ Le principali funzionalità utilizzate sono:
 - Angular Guards a protezione delle rotte
 
 Per il controllo dei campi di input dei relativi Form sono stati utilizzati:
--Template driven Forms con relative Regex
+-Template driven Forms con relative Regex.
+
 -Reactive Forms
 
 Per l'autenticazione è stato utilizzato il servizio di accesso tramite Token e Bearer jwt
