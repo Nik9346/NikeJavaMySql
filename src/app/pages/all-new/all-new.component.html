@@ -3,7 +3,7 @@
     <app-slider></app-slider>
     <div class="container horizontal-scrollable">
         <div class="row mt-md-3">
-            <h3>Tutti i nuovi Arrivi ({{shoes.length}})</h3>
+            <h3 *ngIf="shoes">Tutti i nuovi Arrivi ({{shoes.length}})</h3>
         </div>
         <div class="row">
             <ng-container *ngFor="let s of shoes">
