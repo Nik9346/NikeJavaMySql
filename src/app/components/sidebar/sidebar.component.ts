@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IShoes } from '../../models/shoes-interface.models';
 import { ShoesService } from '../../services/shoes.service';
+import { IColor } from '../../models/color.interface';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,12 +13,15 @@ export class SidebarComponent {
   @Input() shoes: IShoes[] = []
   @Input() shoesColor: string[] = []
   @Input() shoesFiltered: IShoes[] = []
+  @Input() colorMap: IColor[]
   @Output() emitter: EventEmitter<string> = new EventEmitter()
   @Output() colorEmitter:EventEmitter<string> = new EventEmitter()
   @Output() priceEmitter:EventEmitter<number> = new EventEmitter()
   @Output() allItemEmit:EventEmitter<void> = new EventEmitter()
   
-  constructor(){  };
+  constructor(){
+    console.log(this.colorMap);
+    };
 
 
   filterPrice(value:number) {

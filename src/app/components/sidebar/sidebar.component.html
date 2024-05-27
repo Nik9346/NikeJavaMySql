@@ -28,8 +28,8 @@
             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
                 data-bs-parent="#accordionFlushExample1">
                 <div class="accordion-body d-flex flex-wrap">
-                    <div class="col-6 text-center" *ngFor="let color of shoesColor">
-                        <span class="text-link"(click)="getColor(color)">{{color}}</span>
+                    <div class="col-6 text-center" *ngFor="let color of colorMap">
+                        <span class="text-link"(click)="getColor(color.colore)"><li class="rounded border" [ngStyle]="{'background-color': color.esadecimale}"></li></span>
                     </div>
                 </div>
             </div>

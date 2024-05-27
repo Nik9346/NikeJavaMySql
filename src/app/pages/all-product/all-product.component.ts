@@ -3,6 +3,7 @@ import { ShoesService } from '../../services/shoes.service';
 import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
 
 import { AuthService } from '../../services/auth.service';
+import { IColor } from '../../models/color.interface';
 
 @Component({
   selector: 'app-all-product',
@@ -22,9 +23,42 @@ export class AllProductComponent{
   user:string
   cartVisible: boolean = false
   shoesSelectedArray:IShoesSelected[] = []
-  shoesColorTraduct: string[] = ["Black","White", "Grey","Blue","Red","Black/Yellow","Grey/Blue","White Red","Green","Grey/Orange","White black","Blue/Green","Black red","Blue/Red","Red White","Black/Grey","Silver","Gold","Orange","Black White","Red-black"]
+  colorMap : {[key: string]:string} ={
+    "Black": "#000000",
+    "White": "#ffffff",
+    "Grey": "#808080",
+    "Blue": "#0000ff",
+    "Red": "#ff0000",
+    "Yellow": "#ffff00",
+    "Green": "#008000",
+    "Orange": "#ffa500",
+    "Silver": "#c0c0c0",
+    "Gold": "#ffd700"
+  }
+  colorObject: IColor[]=[ { colore: "Black", esadecimale: this.colorMap["Black"] || "" },
+  { colore: "Bianco", esadecimale: this.colorMap["White"] || "" },
+  { colore: "Grigio", esadecimale: this.colorMap["Grey"] || "" },
+  { colore: "Blue", esadecimale: this.colorMap["Blue"] || "" },
+  { colore: "Rosso", esadecimale: this.colorMap["Red"] || "" },
+  { colore: "Nero/Giallo", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Yellow"]})` },
+  { colore: "Grigio/Blue", esadecimale: `linear-gradient(${this.colorMap["Grey"]}, ${this.colorMap["Blue"]})` },
+  { colore: "Bianco/Rosso", esadecimale: `linear-gradient(${this.colorMap["White"]}, ${this.colorMap["Red"]})` },
+  { colore: "Verde", esadecimale: this.colorMap["Green"] || "" },
+  { colore: "Grigio/Arancio", esadecimale: `linear-gradient(${this.colorMap["Grey"]}, ${this.colorMap["Orange"]})` },
+  { colore: "Bianco/Nero", esadecimale: `linear-gradient(${this.colorMap["White"]}, ${this.colorMap["Black"]})` },
+  { colore: "Blue/Verde", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Green"]})` },
+  { colore: "Nero/Rosso", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Red"]})` },
+  { colore: "Blue/Rosso", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Red"]})` },
+  { colore: "Rosso/Bianco", esadecimale: `linear-gradient(${this.colorMap["Red"]}, ${this.colorMap["White"]})` },
+  { colore: "Nero/Grigio", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Grey"]})` },
+  { colore: "Argento", esadecimale: this.colorMap["Silver"] || "" },
+  { colore: "Oro", esadecimale: this.colorMap["Gold"] || "" },
+  { colore: "Arancione", esadecimale: this.colorMap["Orange"] || "" },
+  { colore: "Nero/Bianco", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["White"]})` },
+  { colore: "Rosso/Nero", esadecimale: `linear-gradient(${this.colorMap["Red"]}, ${this.colorMap["Black"]})` }]
+ 
 
-  constructor(private shoesService: ShoesService, private authService:AuthService) { }
+  constructor(private shoesService: ShoesService, private authService:AuthService ) { }
   ngAfterViewInit() {
     // chiamata verso il db per il popolamento della variabile shoes e shoesFiltered + definizione delle categorie, nomi, colori
     this.isLoggedIn = this.authService.isLoggedIn
@@ -50,6 +84,7 @@ export class AllProductComponent{
     })
     this.shoesSelectedArray = this.shoesService.shoesSelectedArray
     console.log(this.shoesColor);
+    
     
   }
 

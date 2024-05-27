@@ -8,7 +8,7 @@
         <div class="row">
             <app-breadcrumbs [category]="category" [color]="color"></app-breadcrumbs>
             <div class="row d-md-flex col-12">
-                <app-sidebar class="col-12 col-md-4 col-lg-3" (allItemEmit)="resetItem()" [shoesFiltered]="shoesFiltered" [shoesColor]="shoesColor"
+                <app-sidebar class="col-12 col-md-4 col-lg-3" (allItemEmit)="resetItem()" [shoesFiltered]="shoesFiltered" [colorMap]="colorObject" [shoesColor]="shoesColor"
                     [shoes]="shoes" [shoesCategory]="shoesCategory" (priceEmitter)="filterPrice($event)"
                     (colorEmitter)="goToColor($event)" (emitter)="goToCategory($event)">
                 </app-sidebar>
