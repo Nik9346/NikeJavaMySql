@@ -32,20 +32,24 @@ export class ShoesService {
 
   // Chiamata per ottenere tutte le scarpe
   getShoes(): Observable<any> {
-    return this.httprequest.get("http://localhost:3000/prodotti")
+    // return this.httprequest.get("http://localhost:3000/prodotti")
     // return this.httprequest.get("http://casavergari.ns0.it:3000/prodotti")
+    return this.httprequest.get("https://json-server-nikeangular.onrender.com/prodotti")
   }
   // Chiamata per ottenere tutte le scarpe filtrate per categoria
   getShoesByCat(shoesCategory:string):Observable<any>{
-    return this.httprequest.get(`http://localhost:3000/prodotti?categoria=${shoesCategory}`)
+    // return this.httprequest.get(`http://localhost:3000/prodotti?categoria=${shoesCategory}`)
+    return this.httprequest.get(`https://json-server-nikeangular.onrender.com/prodotti?categoria=${shoesCategory}`)
   }
   // Chiamata per ottenere tutte le scarpe filtrate per la chiave nuovi arrivi
   getNewShoes(nuovo_arrivo:boolean):Observable<any>{
-    return this.httprequest.get(`http://localhost:3000/prodotti?nuovo_arrivi=${nuovo_arrivo}`)
+    // return this.httprequest.get(`http://localhost:3000/prodotti?nuovo_arrivi=${nuovo_arrivo}`)
+    return this.httprequest.get(`https://json-server-nikeangular.onrender.com/prodotti?nuovo_arrivi=${nuovo_arrivo}`)
   }
 //  Chiamata utilizzata per restituire la scarpa selezionata in base all'id
   getShoesById(shoesId: number): Observable<any> {
-    return this.httprequest.get(`http://localhost:3000/prodotti/${shoesId}`)
+    // return this.httprequest.get(`http://localhost:3000/prodotti/${shoesId}`)
+    return this.httprequest.get(`https://json-server-nikeangular.onrender.com/prodotti/${shoesId}`)
     // return this.httprequest.get(`http://casavergari.ns0.it:3000/prodotti/${shoesId}`)
   }
   // Questa funzione è stata utilizzata all'inizio del progetto per popolare il campo immagine di ogni scarpa
