@@ -1,18 +1,27 @@
 li h5 {
   cursor: pointer;
 }
+
 li:hover {
   color: grey;
 }
 
 ul {
-  padding: 0.5em;
+  padding: .5em;
 }
 
 .text-link {
   cursor: pointer;
   font-weight: 600;
 }
+
 .text-link:hover {
   color: grey;
-}/*# sourceMappingURL=sidebar.component.css.map */
+}
+
+.round-color {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  list-style: none;
+}

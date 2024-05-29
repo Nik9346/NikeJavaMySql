@@ -35,20 +35,21 @@ export class AllProductComponent{
     "Silver": "#c0c0c0",
     "Gold": "#ffd700"
   }
-  colorObject: IColor[]=[ { colore: "Black", esadecimale: this.colorMap["Black"] || "" },
+  colorObject: IColor[]=[ 
+  { colore: "Nero", esadecimale: this.colorMap["Black"] || "" },
   { colore: "Bianco", esadecimale: this.colorMap["White"] || "" },
   { colore: "Grigio", esadecimale: this.colorMap["Grey"] || "" },
-  { colore: "Blue", esadecimale: this.colorMap["Blue"] || "" },
+  { colore: "Blu", esadecimale: this.colorMap["Blue"] || "" },
   { colore: "Rosso", esadecimale: this.colorMap["Red"] || "" },
   { colore: "Nero/Giallo", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Yellow"]})` },
   { colore: "Grigio/Blue", esadecimale: `linear-gradient(${this.colorMap["Grey"]}, ${this.colorMap["Blue"]})` },
   { colore: "Bianco/Rosso", esadecimale: `linear-gradient(${this.colorMap["White"]}, ${this.colorMap["Red"]})` },
   { colore: "Verde", esadecimale: this.colorMap["Green"] || "" },
-  { colore: "Grigio/Arancio", esadecimale: `linear-gradient(${this.colorMap["Grey"]}, ${this.colorMap["Orange"]})` },
+  { colore: "Grigio/Arancione", esadecimale: `linear-gradient(${this.colorMap["Grey"]}, ${this.colorMap["Orange"]})` },
   { colore: "Bianco/Nero", esadecimale: `linear-gradient(${this.colorMap["White"]}, ${this.colorMap["Black"]})` },
-  { colore: "Blue/Verde", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Green"]})` },
+  { colore: "Blu/Verde", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Green"]})` },
   { colore: "Nero/Rosso", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Red"]})` },
-  { colore: "Blue/Rosso", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Red"]})` },
+  { colore: "Blu/Rosso", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Red"]})` },
   { colore: "Rosso/Bianco", esadecimale: `linear-gradient(${this.colorMap["Red"]}, ${this.colorMap["White"]})` },
   { colore: "Nero/Grigio", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Grey"]})` },
   { colore: "Argento", esadecimale: this.colorMap["Silver"] || "" },
@@ -135,6 +136,8 @@ export class AllProductComponent{
       })
     })
     this.shoesSelectedArray = this.shoesService.shoesSelectedArray
+    this.color = null;
+    this.priceFilter = null;
   }
 //  Funzioni relativi alla visualizzazione del carrello
   viewCart() {
