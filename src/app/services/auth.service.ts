@@ -13,10 +13,12 @@ export class AuthService {
   register(credential){
     console.log(credential);
     
-    return this.httprequest.post("http://localhost:3000/register", credential)
+    // return this.httprequest.post("http://localhost:3000/register", credential)
+    return this.httprequest.post("https://json-server-nikeangular.onrender.com/register", credential)
   }
   login(loginData){{
-    return this.httprequest.post("http://localhost:3000/login",loginData)
+    // return this.httprequest.post("http://localhost:3000/login",loginData)
+    return this.httprequest.post("https://json-server-nikeangular.onrender.com/login",loginData)
   }}
 
   isAuthenticated(){
