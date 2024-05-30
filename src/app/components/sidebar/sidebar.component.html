@@ -31,7 +31,7 @@
                     <ng-container *ngFor="let color of colorMap">
                     <div class="col-2 m-1 text-center" *ngIf="shoesColor.includes(color.colore)">
                             <span class="text-link" (click)="getColor(color.colore)">
-                                <li class="round-color border" [ngStyle]="{'background': color.esadecimale}"></li>
+                                <li class="round-color color-ball border" [ngStyle]="{'background': color.esadecimale}"></li>
                             </span>
                     </div>
                 </ng-container>

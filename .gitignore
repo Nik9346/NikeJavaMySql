@@ -3,3 +3,5 @@ node_modules/
 src/environments/environments*.ts
 
 dist/
+
+.angular
