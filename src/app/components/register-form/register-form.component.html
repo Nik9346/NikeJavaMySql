@@ -95,9 +95,11 @@
                 class="form-text text-red">Inserisci una password di almeno 8 caratteri e 1 numero</div>
         </div>
     </div>
-    <div class="d-flex justify-content-center mt-3">
-        <button [disabled]="!registerForm.valid" type="submit" class="btn-add-cart col-12 col-md-6"
+    <div class="d-md-flex justify-content-center mt-3">
+        <button [disabled]="!registerForm.valid" type="submit" class="btn-add-cart col-12 col-md-6 mx-md-1"
             routerLink="/login">Registrati</button>
+        <button type="button" (click)="goToLogin()" class="btn-add-cart border-0 col-12 col-md-6 mx-md-1">Accedi</button>
     </div>
+ 
 
 </form>

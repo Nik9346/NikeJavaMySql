@@ -9,7 +9,7 @@
                         (registrationEmitter)="viewRegistration()"></app-auth-form>
                 </ng-container>
                 <ng-container *ngIf="isRegister == false">
-                    <app-register-form (formDataEmit)="updateDataUser($event)"></app-register-form>
+                    <app-register-form (toLogin)="viewLogin()" (formDataEmit)="updateDataUser($event)"></app-register-form>
                 </ng-container>
             </div>
         </div>

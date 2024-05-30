@@ -14,6 +14,7 @@ export class RegisterFormComponent implements OnInit {
   registerForm : FormGroup
   formData : any
   @Output() formDataEmit: EventEmitter<UserData> = new EventEmitter<UserData>()
+  @Output() toLogin: EventEmitter<void> = new EventEmitter()
   
   ngOnInit(): void {
       this.registerForm = new FormGroup({
@@ -33,6 +34,8 @@ export class RegisterFormComponent implements OnInit {
   onSubmit(){
     this.formData = this.registerForm
     this.formDataEmit.emit(this.formData.value)
-    console.log(this.formData, "sto emettendo");
+  }
+  goToLogin(){
+    this.toLogin.emit()
   }
 }

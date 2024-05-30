@@ -29,6 +29,9 @@ export class AuthComponent {
   viewRegistration() {
     this.isRegister = false
   }
+  viewLogin(){
+    this.isRegister = true
+  }
   // Funzione utilizzata per passare i dati della registrazione al database
   updateDataUser(event: UserData) {
     this.authService.register(event).subscribe((response)=>{
