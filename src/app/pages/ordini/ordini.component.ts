@@ -32,6 +32,8 @@ export class OrdiniComponent implements OnInit {
       // this.orderedData = this.localStorage.getOrderedProductByUserId(this.userId)
       // Funzione aggiornata che fa una chiamata al db
       this.dataService.getData(this.localStorage.getToken(),this.userId, this.orderedData).subscribe((response:IOrderData[])=>{
+        console.log(response);
+        
         this.orderedData = response
       })
     }
@@ -41,6 +43,7 @@ export class OrdiniComponent implements OnInit {
     this.isLoggedIn = false
     this.authService.isLoggedIn = !this.authService.isLoggedIn
   }
+  
 
 
 }
