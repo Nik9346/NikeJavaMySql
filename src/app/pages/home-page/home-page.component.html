@@ -1,75 +1,79 @@
 <div class="container-fluid">
-    <app-navbar [shoesSelectedArray]="shoesSelectedArray" [isLoggedIn]="isLoggedIn" [username]="user"
-        (logoutEmitter)="logout()" (displaycartEmitter)="viewCart()" (closeCartEmitter)="hideCartNow()"
-        [cartVisible]="cartVisible"></app-navbar>
-    <app-slider></app-slider>
-    <app-banner></app-banner>
-    <div class="container">
-        <div class="horizontal-scrollable ps-3 mb-5">
-            <div class="row mt-3 mt-md-5 d-md-flex align-items-center">
-                <div class="col-12 col-md-6">
-                    <h3>Trend della settimana</h3>
+    <app-navbar (filterContainer)="filterContainerBlur()" (filterContainerOff)="filterContainerBlurOff()" [shoesSelectedArray]="shoesSelectedArray"
+        [isLoggedIn]="isLoggedIn" [username]="user" (logoutEmitter)="logout()" (displaycartEmitter)="viewCart()"
+        (closeCartEmitter)="hideCartNow()" [cartVisible]="cartVisible"></app-navbar>
+    <div class="container-fluid px-0" #container>
+        <app-slider></app-slider>
+        <app-banner></app-banner>
+        <div class="container">
+            <div class="horizontal-scrollable ps-3 mb-5">
+                <div class="row mt-3 mt-md-5 d-md-flex align-items-center">
+                    <div class="col-12 col-md-6">
+                        <h3>Trend della settimana</h3>
+                    </div>
+                    <div class="col-12 col-md-6 text-end px-0">
+                        <button type="button" class="mx-2 btn btn-light align-items-center"
+                            (click)="slideLeft()">&lt;</button>
+                        <button type="button" class="mx-2 btn btn-light" (click)="slideright()">&gt;</button>
+                    </div>
                 </div>
-                <div class="col-12 col-md-6 text-end px-0">
-                    <button type="button" class="mx-2 btn btn-light align-items-center"
-                        (click)="slideLeft()">&lt;</button>
-                    <button type="button" class="mx-2 btn btn-light" (click)="slideright()">&gt;</button>
-                </div>
-            </div>
-            <div #divcarousel class="scroll-smooth row flex-row flex-nowrap">
-                <div class="px-0 my-2 mx-1 col-12 col-md-6 col-lg-4 col-xxl-3" *ngFor="let s of shoes.slice(0,10)">
-                    <app-shoes-card [shoes]="s"></app-shoes-card>
-                </div>
-            </div>
-        </div>
-        <div class="horizontal-scrollable ps-3 mb-5">
-            <div class="row mt-3 mt-md-5 d-md-flex align-items-center">
-                <div class="col-12 col-md-6">
-                    <h3>Acquista per Sport</h3>
-                </div>
-                <div class="col-12 col-md-6 text-end px-0">
-                    <button type="button" class="mx-2 btn btn-light align-items-center"
-                        (click)="slideLeft2()">&lt;</button>
-                    <button type="button" class="mx-2 btn btn-light" (click)="slideright2()">&gt;</button>
+                <div #divcarousel class="scroll-smooth row flex-row flex-nowrap">
+                    <div class="px-0 my-2 mx-1 col-12 col-md-6 col-lg-4 col-xxl-3" *ngFor="let s of shoes.slice(0,10)">
+                        <app-shoes-card [shoes]="s"></app-shoes-card>
+                    </div>
                 </div>
             </div>
-            <div #divcarousel2 class="scroll-smooth row flex-row flex-nowrap">
-                <div class="position-relative px-0 my-2 mx-1 col12 col-md-4">
-                    <img src="../../../assets/basket.webp" alt="">
-                    <button class="position-absolute btn-add-cart px-2" routerLink="/category/Basket">Basket</button>
+            <div class="horizontal-scrollable ps-3 mb-5">
+                <div class="row mt-3 mt-md-5 d-md-flex align-items-center">
+                    <div class="col-12 col-md-6">
+                        <h3>Acquista per Sport</h3>
+                    </div>
+                    <div class="col-12 col-md-6 text-end px-0">
+                        <button type="button" class="mx-2 btn btn-light align-items-center"
+                            (click)="slideLeft2()">&lt;</button>
+                        <button type="button" class="mx-2 btn btn-light" (click)="slideright2()">&gt;</button>
+                    </div>
                 </div>
-                <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
-                    <img src="../../../assets/Calcio.webp" alt="">
-                    <button class="position-absolute btn-add-cart px-2">Calcio</button>
-                </div>
-                <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
-                    <img src="../../../assets/danza.webp" alt="">
-                    <button class="position-absolute btn-add-cart px-2">Danza</button>
-                </div>
-                <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
-                    <img src="../../../assets/Running.webp" alt="">
-                    <button class="position-absolute btn-add-cart px-2" routerLink="/category/Running">Running</button>
-                </div>
-                <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
-                    <img src="../../../assets/skateboard.webp" alt="">
-                    <button class="position-absolute btn-add-cart px-2">Skateboard</button>
-                </div>
-                <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
-                    <img src="../../../assets/Tennis.webp" alt="">
-                    <button class="position-absolute btn-add-cart px-2">Tennis</button>
-                </div>
-                <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
-                    <img src="../../../assets/yoga.webp" alt="">
-                    <button class="position-absolute btn-add-cart px-2">Yoga</button>
-                </div>
-                <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
-                    <img src="../../../assets/Training.webp" alt="">
-                    <button class="position-absolute btn-add-cart px-2"
-                        routerLink="/category/Training">Training</button>
+                <div #divcarousel2 class="scroll-smooth row flex-row flex-nowrap">
+                    <div class="position-relative px-0 my-2 mx-1 col12 col-md-4">
+                        <img src="../../../assets/basket.webp" alt="">
+                        <button class="position-absolute btn-add-cart px-2"
+                            routerLink="/category/Basket">Basket</button>
+                    </div>
+                    <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
+                        <img src="../../../assets/Calcio.webp" alt="">
+                        <button class="position-absolute btn-add-cart px-2">Calcio</button>
+                    </div>
+                    <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
+                        <img src="../../../assets/danza.webp" alt="">
+                        <button class="position-absolute btn-add-cart px-2">Danza</button>
+                    </div>
+                    <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
+                        <img src="../../../assets/Running.webp" alt="">
+                        <button class="position-absolute btn-add-cart px-2"
+                            routerLink="/category/Running">Running</button>
+                    </div>
+                    <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
+                        <img src="../../../assets/skateboard.webp" alt="">
+                        <button class="position-absolute btn-add-cart px-2">Skateboard</button>
+                    </div>
+                    <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
+                        <img src="../../../assets/Tennis.webp" alt="">
+                        <button class="position-absolute btn-add-cart px-2">Tennis</button>
+                    </div>
+                    <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
+                        <img src="../../../assets/yoga.webp" alt="">
+                        <button class="position-absolute btn-add-cart px-2">Yoga</button>
+                    </div>
+                    <div class="position-relative px-0 my-2 mx-1 col-12 col-md-4">
+                        <img src="../../../assets/Training.webp" alt="">
+                        <button class="position-absolute btn-add-cart px-2"
+                            routerLink="/category/Training">Training</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
+        <app-footer></app-footer>
     </div>
-    <app-footer></app-footer>
 </div>

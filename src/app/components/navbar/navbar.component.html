@@ -68,21 +68,21 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="col-lg-8 col-xl-9 d-lg-flex">
                 <ul class="navbar-nav mx-auto mb-4 mb-lg-0">
-                    <li class="nav-item drop-hover">
-                        <a class="nav-link active pb-lg-3 font-weight-bold" aria-current="page">Novità e in evidenza</a>
+                    <li class="nav-item drop-hover" (mouseenter)="filterOn()" (mouseleave)="filterOff()">
+                        <a class="nav-link active d-md-inline font-weight-bold" aria-current="page">Novità e in evidenza</a>
                         <ul id="menuView">
                             <app-navbar-menu></app-navbar-menu>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pb-lg-3">Uomo</a>
+                        <a class="nav-link pb-2 d-md-inline">Uomo</a>
                     <li class="nav-item dropdown">
-                        <a class="nav-link pb-lg-3" aria-expanded="false">Donna</a>
+                        <a class="nav-link d-md-inline" aria-expanded="false">Donna</a>
                     <li class="nav-item">
-                        <a class="nav-link pb-lg-3">Kids</a>
+                        <a class="nav-link d-md-inline">Kids</a>
                     </li>
                     <li class="d-none d-xl-block nav-item">
-                        <a class="nav-link pb-lg-3">Outlet</a>
+                        <a class="nav-link d-md-inline">Outlet</a>
                     </li>
                 </ul>
             </div>

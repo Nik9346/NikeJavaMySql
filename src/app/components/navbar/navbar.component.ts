@@ -23,6 +23,8 @@ export class NavbarComponent{
   @Output() displaycartEmitter: EventEmitter<void> = new EventEmitter<void>
   @Output() closeCartEmitter: EventEmitter<void> = new EventEmitter
   @Output() logoutEmitter: EventEmitter<void> = new EventEmitter
+  @Output() filterContainer: EventEmitter<void> = new EventEmitter
+  @Output() filterContainerOff: EventEmitter<void> = new EventEmitter
   
   constructor(private router: Router) { }
 
@@ -64,5 +66,14 @@ export class NavbarComponent{
 
   logout(){
     this.logoutEmitter.emit()
+  }
+
+  filterOn()
+  {
+    this.filterContainer.emit()
+  }
+  filterOff()
+  {
+    this.filterContainerOff.emit()
   }
 }

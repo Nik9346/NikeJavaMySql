@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild, } from '@angular/core'
 import { ShoesService } from '../../services/shoes.service';
 import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
 import { AuthService } from '../../services/auth.service';
+import { filter } from 'rxjs';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class HomePageComponent implements AfterViewInit {
   isLoggedIn: boolean
   @ViewChild('divcarousel') divcarousel: ElementRef<HTMLDivElement>
   @ViewChild('divcarousel2') divcarousel2: ElementRef<HTMLDivElement>
+  @ViewChild('container') container: ElementRef<HTMLDivElement>
   cartVisible: boolean = false
   shoesSelectedArray: IShoesSelected[] = []
 
@@ -67,6 +69,15 @@ export class HomePageComponent implements AfterViewInit {
   }
   hideCartNow() {
     this.cartVisible = false
+  }
+
+  filterContainerBlur()
+  {
+    this.container.nativeElement.style.filter = 'blur(8px)'
+  }
+  filterContainerBlurOff()
+  {
+    this.container.nativeElement.style.filter = 'none'
   }
   // Funzione utilizzata per il logout
   logout() {

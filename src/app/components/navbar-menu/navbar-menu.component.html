@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-3">
     <!-- <div class="px-5 mx-5 transition-5ms"> -->
         <div id="navbar-menu-list transition-5ms" class="row d-flex justify-content-between">
             <ul class="col-12 col-md-6 col-lg-3 py-2 dropdown px-md-5">
@@ -20,7 +20,7 @@
                 <li><a class="text-muted">Mercurial</a></li>
             </ul>
             <ul class="col-12 border-top d-md-none" ></ul>
-            <ul class="col-12 col-md-6 col-lg-3 py-2 px-md-5 border-top">
+            <ul class="col-12 col-md-6 col-lg-3 py-2 px-md-5">
                 <li><h6>Scopri lo sport</h6></li>
                 <li *ngFor="let c of shoesCategory">
                     <a class="dropdown-item" [routerLink]="['/category', c]">{{c}}</a>
