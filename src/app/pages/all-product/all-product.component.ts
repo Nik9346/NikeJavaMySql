@@ -68,6 +68,8 @@ export class AllProductComponent{
     }
     this.shoesService.getShoes().subscribe((response) => {
       this.shoes = response
+      console.log(response);
+      
       this.shoesFiltered = this.shoes
       this.shoes.forEach((element) => {
         this.shoesName.push(element.nome)

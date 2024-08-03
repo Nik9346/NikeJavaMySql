@@ -35,6 +35,7 @@ export class ShoesService {
     // return this.httprequest.get("http://localhost:3000/prodotti")
     // return this.httprequest.get("http://casavergari.ns0.it:3000/prodotti")
     return this.httprequest.get("https://json-server-nikeangular.onrender.com/prodotti")
+    // return this.httprequest.get("http://localhost:8080/scarpe/get")
   }
   // Chiamata per ottenere tutte le scarpe filtrate per categoria
   getShoesByCat(shoesCategory:string):Observable<any>{
