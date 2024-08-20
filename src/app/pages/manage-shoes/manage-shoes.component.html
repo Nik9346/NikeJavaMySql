@@ -1,0 +1,33 @@
+<form>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Email address</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Seleziona la Categoria</label>
+        <select class="form-control" id="opzione" (change)="onSelectCategoryChange($event)">
+            <option selected *ngFor="let c of categorie">{{c.descrizione}}</option>
+            <option value="altro">Atro...</option>
+        </select>
+        <div *ngIf="newCategoryInsert" class="form-group">
+            <label for="exampleFormControlInput1">Nuova Categoria</label>
+            <input type="text" class="form-control" id="colorInput" placeholder="Inserisci un nuovo colore" [(ngModel)]="categoria.descrizione" name="categoria">
+            <button class="m-2 p-2 btn btn-primary" (click)="registraCategoria()">Salva</button>
+        </div>
+    </div><div class="form-group">
+        <label for="exampleFormControlSelect1">Seleziona il colore</label>
+        <select class="form-control" id="opzioneColore" (change)="onSelectColoreChange($event)">
+            <option selected *ngFor="let col of colori">{{col.colore}}</option>
+            <option value="altro">Atro...</option>
+        </select>
+    </div>
+    <div *ngIf="newColorInsert" class="form-group">
+        <label for="exampleFormControlInput1">Nuovo colore</label>
+        <input type="text" class="form-control" id="colorInput" placeholder="Inserisci un nuovo colore" [(ngModel)]="coloreNuovo.colore" name="colore">
+        <button class="m-2 p-2 btn btn-primary" (click)="salvaColore()">Salva</button>
+    </div>
+    <ul *ngFor="let col of nuoviColori">
+        <li>{{col.colore}}</li>
+    </ul>
+    <button (click)="registraColori()" *ngIf="nuoviColori.length>0" class="btn btn-primary">Carica Colori</button>
+</form>

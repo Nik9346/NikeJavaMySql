@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IShoesSelected } from '../models/shoes-interface.models';
 import { IOrderData } from '../models/orderData-interface.models';
+
 
 @Injectable({
   providedIn: 'root'
@@ -37,10 +37,11 @@ export class LocalWebsaveService {
 
   }
   // con questa funzione recupero i dati salvati nel locale storage
-  getData(userId: string){
+  getData(userId: string) : any {
     const shoesOrderString = localStorage.getItem(`orderedProducts_${userId}`)
-    const ShoesOrder = JSON.parse(shoesOrderString)
-    console.log(ShoesOrder);
+    if(shoesOrderString){
+    const ShoesOrder : Object = JSON.parse(shoesOrderString)
+    }
   }
 
   // vecchia funzione utilizzata per recuperare gli elementi salvati nel local storage passando l'userid, restituisce un array di scarpe in quanto inizialmente salvavo nel local storage solo il prodotto ordinato

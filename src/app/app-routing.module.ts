@@ -14,6 +14,7 @@ import { InfiniteScrollComponent } from './pages/infinite-scroll/infinite-scroll
 import { AuthComponent } from './pages/auth/auth.component';
 import { OrdiniComponent } from './pages/ordini/ordini.component';
 import { authGuard } from './services/auth.guard';
+import { ManageShoesComponent } from './pages/manage-shoes/manage-shoes.component';
 
 const routes: Routes = [
 {
@@ -72,7 +73,12 @@ const routes: Routes = [
 {
   path:'ordini',
   component:OrdiniComponent, canActivate:[authGuard]
+},
+{
+  path:'manage',
+  component:ManageShoesComponent
 }
+
 ];
 
 @NgModule({

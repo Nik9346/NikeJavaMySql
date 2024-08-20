@@ -13,6 +13,7 @@
             </svg>
         </div>
         <div id="headers-link">
+            <a *ngIf="isLoggedIn" routerLink="/manage">Aggiungi Prodotti</a>
             <a *ngIf="isLoggedIn" routerLink="/ordini">Ordini</a>
             <a class="d-none d-md-inline">Trova un negozio</a>
             <a class="d-none d-md-inline">Aiuto</a>

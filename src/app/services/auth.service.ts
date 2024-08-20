@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private httprequest:HttpClient) { }
 
   register(credential){
-    console.log(credential);
+    // console.log(credential);
     
     // return this.httprequest.post("http://localhost:3000/register", credential)
     return this.httprequest.post("https://json-server-nikeangular.onrender.com/register", credential)

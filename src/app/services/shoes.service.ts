@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IShoes, IShoesSelected } from '../models/shoes-interface.models';
 import { Observable } from 'rxjs';
+import { ICategory } from '../models/category.interface';
+import { NgIf } from '@angular/common';
+import { IColor, IcolorDb } from '../models/color.interface';
 
 
 @Injectable({
@@ -26,17 +29,34 @@ export class ShoesService {
   email: string
   user: string
   id:string
-  
+  testUrlRequest : string = "http://localhost:8080/";
+  deployUrl : string = "https://json-server-nikeangular.onrender.com/"
+  test:boolean = true
 
   constructor(private httprequest: HttpClient) {}
+
+
 
   // Chiamata per ottenere tutte le scarpe
   getShoes(): Observable<any> {
     // return this.httprequest.get("http://localhost:3000/prodotti")
-    // return this.httprequest.get("http://casavergari.ns0.it:3000/prodotti")
     return this.httprequest.get("https://json-server-nikeangular.onrender.com/prodotti")
     // return this.httprequest.get("http://localhost:8080/scarpe/get")
   }
+  getCategory():Observable<any> {
+    return this.httprequest.get(`${this.test ? this.testUrlRequest : this.deployUrl}categorie/get`)
+  }
+  postCategory(categoria : ICategory){
+    return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}categorie/post`,categoria);
+  }
+
+  getColor():Observable<any>{
+    return this.httprequest.get("http://localhost:8080/colore/get")
+  }
+  postColori(colori: IcolorDb[]){
+    return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}colore/add`,colori)
+  }
+  
   // Chiamata per ottenere tutte le scarpe filtrate per categoria
   getShoesByCat(shoesCategory:string):Observable<any>{
     // return this.httprequest.get(`http://localhost:3000/prodotti?categoria=${shoesCategory}`)
