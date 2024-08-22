@@ -1,3 +1,7 @@
+import { ICategory } from "./category.interface"
+import { IcolorDb } from "./color.interface"
+import { ITagliaDb } from "./taglia.interface"
+
 export interface IShoes {
     id: number
     nome: string
@@ -28,5 +32,17 @@ export interface IShoesSelected {
     nuovo_arrivi: boolean
     best_seller: number
     quantita:number
-    
+}
+//interfaccia di dialogo con Db
+export interface IShoesDb{
+  id:number,
+  nome: string,
+  prezzo: number,
+  descrizione: string,
+  immagine: string,
+  categoria: ICategory,
+  bestSeller: number,
+  nuovoArrivi: boolean
+  taglie:ITagliaDb[]
+  colori:IcolorDb[]
 }

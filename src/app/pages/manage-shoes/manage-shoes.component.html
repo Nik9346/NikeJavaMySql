@@ -1,33 +1,163 @@
-<form>
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Email address</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlSelect1">Seleziona la Categoria</label>
-        <select class="form-control" id="opzione" (change)="onSelectCategoryChange($event)">
-            <option selected *ngFor="let c of categorie">{{c.descrizione}}</option>
-            <option value="altro">Atro...</option>
-        </select>
-        <div *ngIf="newCategoryInsert" class="form-group">
-            <label for="exampleFormControlInput1">Nuova Categoria</label>
-            <input type="text" class="form-control" id="colorInput" placeholder="Inserisci un nuovo colore" [(ngModel)]="categoria.descrizione" name="categoria">
-            <button class="m-2 p-2 btn btn-primary" (click)="registraCategoria()">Salva</button>
+<div class="container-fluid">
+    <div class="container">
+        <div class="col-12 border col-md-10 col-xl-8 p-2 my-4 mx-auto">
+            <form class="border col-12">
+                <div class="border justify-content-between col-12 d-flex row">
+                    <div class="border  col-5 row">
+                        <div class="border col-12 form-group my-2 py-2">
+                            <label for="nomeScarpa">Inserisci il nome della Scarpa</label>
+                            <input type="text" class="form-control" id="nomeScarpa" [(ngModel)]="nomeScarpa"
+                                name="nomeScarpa" placeholder="Nome della scarpa">
+                        </div>
+                        <!-- Selezione e inserimento Categoria -->
+                        <div class="form-group col-12">
+                            <label for="opzioneCategoria">Seleziona la Categoria</label>
+                            <select class="form-control" id="opzioneCategoria"
+                                (change)="onSelectCategoryChange($event)">
+                                <option selected name="selectCategory" *ngFor="let c of categorie" [value]="c.id"
+                                    name="categoriaSelezionata">{{c.descrizione}}</option>
+                                <option value="altro">Atro...</option>
+                            </select>
+                            <div *ngIf="newCategoryInsert" class="form-group">
+                                <label for="categoryInput">Nuova Categoria</label>
+                                <input type="text" class="form-control" id="categoryInput"
+                                    placeholder="Inserisci una nuova categoria" [(ngModel)]="categoriaInserita"
+                                    name="categoria">
+                                <button class="m-2 p-2 btn btn-primary"
+                                    (click)="salvaCategoria()">Salva</button>
+                                <button class="m-2 p-2 btn btn-primary"
+                                    (click)="registraNuovaCategoria()">Carica Categoria</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Selezione e inserimento colori -->
+                    <div class="col-7 row">
+                        <h4 class="mt-2 text-center">Seleziona il colore</h4>
+                        <div *ngFor="let c of colori" class="col-4 py-2 px-1">
+                            <input type="checkbox" [value]="c.id" (change)="onSelectColore($event)"
+                                class="form-check-input">
+                            <p class="d-inline px-1">{{c.colore}}</p>
+                        </div>
+                        <div class="col-4 py-2 px-1">
+                            <input type="checkbox" class="form-check-input" (change)="onSelectColoreChange($event)"
+                                name="" id="" value="altroColore">
+                            <p class="d-inline px-1">Nuovo Colore...</p>
+                        </div>
+                        <div *ngIf="coloriSelezionati.length>0">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="button" aria-pressed="false"
+                                autocomplete="off" (click)="registraColoriScarpa()">
+                                Salva Colori Scarpa
+                            </button>
+                        </div>
+                        <div *ngIf="newColorInsert" class="form-group">
+
+                            <input type="text" class="form-control" id="colorInput"
+                                placeholder="Inserisci un nuovo colore" [(ngModel)]="coloreInserito" name="colore">
+                            <button class="m-2 p-2 btn btn-primary" (click)="salvaNuovoColore()">Salva</button>
+                        </div>
+                        <ul *ngFor="let col of coloriNuovi">
+                            <li>{{col.colore}}</li>
+                        </ul>
+                        <button (click)="registraNuoviColori()" *ngIf="coloriNuovi.length>0"
+                            class="btn btn-primary">Carica
+                            Colori</button>
+                    </div>
+                </div>
+                <!-- Descrizione del modello e selezione della taglia -->
+                <div class="col-12 row justify-content-between">
+                    <!-- Descrizione del modello -->
+                    <div class="col-6 form-group my-2 py-2">
+                        <label for="dettaglioScarpa">
+                            <h5>Descrizione del modello:</h5>
+                        </label>
+                        <textarea name="dettaglioScarpa" id="dettaglioScarpa"
+                            placeholder="Inserisci una descrizione sintetica del modello..."
+                            [(ngModel)]="descrizioneScarpa" name="descrizioneScarpa"></textarea>
+                    </div>
+                    <!-- Selezione e inserimento taglie -->
+                    <div class="col-6 row justify-content-space">
+                        <h4 class="mt-2 text-center">Seleziona la taglia</h4>
+                        <div *ngFor="let t of taglieDisponibili" class="col-4 p-2">
+                            <input type="checkbox" [value]="t.id" (change)="onSelectTaglia($event)"
+                                class="form-check-input">
+                            <p class="d-inline px-1">{{t.taglia}}</p>
+                        </div>
+                        <div class="col-4 p-2">
+                            <input type="checkbox" class="form-check-input" (change)="onSelectTagliaInsert($event)"
+                                name="inserimentoTaglia" id="tagliaInsert" value="altraTaglia">Altro...
+                        </div>
+                        <div *ngIf="newTagliaInsert" class="form-group">
+                            <label for="tagliaInput">Nuova Taglia</label>
+                            <input type="number" class="form-control" id="tagliaInput"
+                                placeholder="Inserisci un nuovo numero di Taglia" [(ngModel)]="tagliaInserita"
+                                name="taglia">
+                            <button class="m-2 p-2 btn btn-primary" (click)="salvaNuovaTaglia()">Salva</button>
+                        </div>
+                        <ul class="list-group list-group-numbered">
+                            <li *ngFor="let tag of taglieNuove" class="list-group-item">{{tag.taglia}}</li>
+                        </ul>
+                        <button (click)="registraNuovaTaglia()" *ngIf="taglieNuove.length>0"
+                            class="btn btn-primary">Carica
+                            Taglie</button>
+                        <div *ngIf="taglieSelezionate.length>0">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="button" aria-pressed="false"
+                                autocomplete="off" (click)="registraTaglieScarpa()">
+                                Salva Taglie Scarpa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 row">
+                    <div class="col-6">
+                        <label for="inserimentoImmagineScarpa">Inserisci un'immagine della scarpa</label>
+                        <input type="file" id="inserimentoImmagineScarpa">
+                    </div>
+                    <div class="col-6 row">
+                        <div class="col-6">
+                            <input type="number" id="bestSellerNumb" max="5" min="1" [(ngModel)]="bestSeller"
+                                name="bestSeller" required>
+                            <label class="px-1" for="bestSellerNumb">Best Seller 1-5</label>
+                        </div>
+                        <div class="col-6">
+                            <input type="checkbox" class="form-check-input" id="nuovo-arrivo-check"
+                                (change)="newArrivo($event)">
+                            <label class="px-1" for="nuovo-arrivo-check">Nuovo Arrivo</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-1 row col-12">
+                    <div class="form-group">
+                        <input class="form-control" type="number" id="price" maxlength="10" placeholder="149,99"
+                            [(ngModel)]="prezzo" name="prezzo">
+                        <label for="price">Inserisci il prezzo della scarpa</label>
+                    </div>
+                </div>
+                <div class="row col-12">
+                    <div *ngIf="scarpa != undefined">
+                        <h3>
+                            {{scarpa.nome}}
+                        </h3>
+                        <p>Descrizione: {{scarpa.descrizione}}</p>
+                        <p>Best Seller: {{scarpa.bestSeller}}</p>
+                        <p>Categoria:{{scarpa.categoria.descrizione}}</p>
+                        <p>Nuovo Arrivo:{{scarpa.nuovoArrivi}}</p>
+                        <ul> Colori Disponibili:
+                            <li *ngFor="let c of scarpa.colori">{{c.colore}}</li>
+                        </ul>
+                        <ul> Taglie disponibili:
+                            <li *ngFor="let t of scarpa.taglie">{{t.taglia}}</li>
+                        </ul>
+                        <p>Prezzo: {{scarpa.prezzo}} €</p>
+                    </div>
+                </div>
+                <div class="mx-auto row col-8 justify-content-between">
+                    <button class="col-5 btn btn-outline-secondary" (click)="salvaDatiScarpa()">Salva dati
+                        Scarpa</button>
+                    <button type="submit" class="col-5 btn btn-outline-primary" (click)="registraDatiScarpa()">
+                        Invia dati Scarpa
+                    </button>
+                </div>
+            </form>
         </div>
-    </div><div class="form-group">
-        <label for="exampleFormControlSelect1">Seleziona il colore</label>
-        <select class="form-control" id="opzioneColore" (change)="onSelectColoreChange($event)">
-            <option selected *ngFor="let col of colori">{{col.colore}}</option>
-            <option value="altro">Atro...</option>
-        </select>
     </div>
-    <div *ngIf="newColorInsert" class="form-group">
-        <label for="exampleFormControlInput1">Nuovo colore</label>
-        <input type="text" class="form-control" id="colorInput" placeholder="Inserisci un nuovo colore" [(ngModel)]="coloreNuovo.colore" name="colore">
-        <button class="m-2 p-2 btn btn-primary" (click)="salvaColore()">Salva</button>
-    </div>
-    <ul *ngFor="let col of nuoviColori">
-        <li>{{col.colore}}</li>
-    </ul>
-    <button (click)="registraColori()" *ngIf="nuoviColori.length>0" class="btn btn-primary">Carica Colori</button>
-</form>
+</div>

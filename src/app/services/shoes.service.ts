@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IShoes, IShoesSelected } from '../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesSelected } from '../models/shoes-interface.models';
 import { Observable } from 'rxjs';
 import { ICategory } from '../models/category.interface';
 import { NgIf } from '@angular/common';
 import { IColor, IcolorDb } from '../models/color.interface';
+import { ITagliaDb } from '../models/taglia.interface';
 
 
 @Injectable({
@@ -43,18 +44,31 @@ export class ShoesService {
     return this.httprequest.get("https://json-server-nikeangular.onrender.com/prodotti")
     // return this.httprequest.get("http://localhost:8080/scarpe/get")
   }
+  postShoes(scarpa:IShoesDb){
+    return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}scarpe/add`,scarpa)
+  }
+
+  //chiamate per ottenere e salvare nuove categorie
   getCategory():Observable<any> {
     return this.httprequest.get(`${this.test ? this.testUrlRequest : this.deployUrl}categorie/get`)
   }
   postCategory(categoria : ICategory){
-    return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}categorie/post`,categoria);
+    return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}categorie/add`,categoria);
   }
-
+  //chiamate per ottenere e salvare nuovi colori
   getColor():Observable<any>{
     return this.httprequest.get("http://localhost:8080/colore/get")
   }
   postColori(colori: IcolorDb[]){
     return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}colore/add`,colori)
+  }
+
+  //chiamate per ottenere tutte le taglie
+  getTaglia():Observable<any>{
+    return this.httprequest.get(`${this.test ? this.testUrlRequest : this.deployUrl}taglia/get`)
+  }
+  postTaglie(taglie:ITagliaDb[]){
+    return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}taglia/addSizes`,taglie)
   }
   
   // Chiamata per ottenere tutte le scarpe filtrate per categoria
