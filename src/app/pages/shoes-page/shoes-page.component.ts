@@ -3,6 +3,7 @@ import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
 import { ShoesService } from '../../services/shoes.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-shoes-page',
@@ -17,13 +18,17 @@ export class ShoesPageComponent {
   sizeSelected: string = null
   colorSelected: string = null
   completeSizeColor: boolean = true
-  shoesSelectedArray: IShoesSelected[]
+  shoesSelectedArray: IShoesSelected[] = []
   @ViewChild('container') container: ElementRef
   cartVisible: boolean = false
   isLoggedIn: boolean
   user: string
 
-  constructor(private shoesService: ShoesService, private activatedrouter: ActivatedRoute, private authService: AuthService) {
+  constructor(
+    private shoesService: ShoesService, 
+    private activatedrouter: ActivatedRoute, 
+    private authService: AuthService,
+    private sessionService: SessionService) {
     this.isLoggedIn = this.authService.isLoggedIn
     if (this.isLoggedIn) {
       this.user = this.shoesService.user
@@ -39,7 +44,6 @@ export class ShoesPageComponent {
         })
       })
     })
-    this.shoesSelectedArray = this.shoesService.shoesSelectedArray
   }
 
   // con questa funzione aggiungo delle proprietà al prodotto che mi occorrono per il carrello
@@ -47,7 +51,8 @@ export class ShoesPageComponent {
     const shoesCopy: IShoes = { ...this.singleShoes }
     shoesCopy.taglia_selezionata = this.sizeSelected
     shoesCopy.colore_selezionato = this.colorSelected
-    this.shoesService.shoesSelectedArray.push(shoesCopy)
+    this.shoesSelectedArray.push(shoesCopy)
+    // this.sessionService.setItem(this.shoesService.shoesSelectedArray)
   }
   //  controllo che sia selezionata la taglia e la assegno ad una variabile
   getSize(t: string) {
@@ -75,6 +80,7 @@ export class ShoesPageComponent {
       this.completeSizeColor = true
       this.getShoesAttribute()
       this.viewCart()
+      this.sessionService.setItem(this.shoesSelectedArray); //attenzione devo salvare l'articolo su una nuova variabile altrimenti da null quando non recupera il carrello
     }
   }
   viewCart() {

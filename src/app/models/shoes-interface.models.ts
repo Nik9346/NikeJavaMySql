@@ -1,5 +1,6 @@
 import { ICategory } from "./category.interface"
 import { IcolorDb } from "./color.interface"
+import { IOrderDb } from "./orderData-interface.models"
 import { ITagliaDb } from "./taglia.interface"
 
 export interface IShoes {
@@ -45,4 +46,11 @@ export interface IShoesDb{
   nuovoArrivi: boolean
   taglie:ITagliaDb[]
   colori:IcolorDb[]
+}
+
+export interface IScarpaOrdinataDb{
+  id:number,
+  quantità:number,
+  scarpa:IShoesDb,
+  ordine:IOrderDb
 }

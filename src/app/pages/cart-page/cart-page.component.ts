@@ -4,6 +4,7 @@ import { ShoesService } from '../../services/shoes.service';
 import { LocalWebsaveService } from '../../services/local-websave.service';
 import { AuthService } from '../../services/auth.service';
 import { DataPostService } from '../../services/data-post.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-cart-page',
@@ -23,7 +24,7 @@ export class CartPageComponent implements AfterViewInit {
   user: string
   
 
-  constructor(private shoesService: ShoesService, private localeStorage: LocalWebsaveService, private authService: AuthService, private dataService : DataPostService) {
+  constructor(private shoesService: ShoesService, private sessionService: SessionService, private localeStorage: LocalWebsaveService, private authService: AuthService, private dataService : DataPostService) {
     // this.cartShoesItem = this.shoesService.shoesSelectedArray
     // this.cartShoesItem.forEach((element) => {
     //   element.quantita = this.selectedQuantity
@@ -31,7 +32,8 @@ export class CartPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.cartShoesItem = this.shoesService.shoesSelectedArray
+    const savedStorage = this.sessionService.getItem("carrello:");
+    this.cartShoesItem = savedStorage;
     this.cartShoesItem.forEach((element) => {
       element.quantita = this.selectedQuantity
     })
@@ -67,12 +69,8 @@ export class CartPageComponent implements AfterViewInit {
   
   // Funzione utilizzata per la rimozione dell'elemento dall'array del carrello
   removeItem(s: IShoesSelected) {
-    this.shoesService.shoesSelectedArray.find((element) => {
-      if (element.id == s.id) {
-        const index = this.shoesService.shoesSelectedArray.indexOf(element)
-        this.shoesService.shoesSelectedArray.splice(index, 1)
-      }
-    })
+    this.sessionService.removeItemCart(s);
+    this.cartShoesItem = this.sessionService.getItem("carrello:")
   }
 
   get subtotal(): number {

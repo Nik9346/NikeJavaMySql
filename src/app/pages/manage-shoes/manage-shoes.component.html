@@ -125,6 +125,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Inserimento del prezzo della scarpa -->
                 <div class="m-1 row col-12">
                     <div class="form-group">
                         <input class="form-control" type="number" id="price" maxlength="10" placeholder="149,99"
@@ -133,6 +134,7 @@
                     </div>
                 </div>
                 <div class="row col-12">
+                    <!-- Riepilogo scarpa prima di invio dati -->
                     <div *ngIf="scarpa != undefined">
                         <h3>
                             {{scarpa.nome}}
