@@ -29,3 +29,8 @@ export interface IUtenteDb{
     profilo:IProfiloUtenteDb
     ordini: IOrderDb[]
 }
+
+export interface ILoginDataDbResponse{
+    codice:number,
+    messaggio:string
+}

@@ -4,12 +4,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8">
-                <ng-container *ngIf="isRegister == true">
+                <ng-container *ngIf="isRegister == true && !registerDb">
                     <app-auth-form [passwordError]="passwordError" (loginEmitter)="goToLogin($event)"
-                        (registrationEmitter)="viewRegistration()"></app-auth-form>
+                        (registrationEmitter)="viewRegistration()" (registrationEmitterDb)="viewRegistrationDb()"></app-auth-form>
                 </ng-container>
                 <ng-container *ngIf="isRegister == false">
                     <app-register-form (toLogin)="viewLogin()" (formDataEmit)="updateDataUser($event)"></app-register-form>
+                </ng-container>
+                <ng-container *ngIf="registerDb">
+                    <app-register-db-form (formDataDbEmit)="updateDataUserDb($event)" (toLogin)="goToLoginDb($event)"></app-register-db-form>
                 </ng-container>
             </div>
         </div>

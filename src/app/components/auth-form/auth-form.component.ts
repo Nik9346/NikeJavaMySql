@@ -14,8 +14,9 @@ export class AuthFormComponent implements OnInit {
   authForm : FormGroup
   loginData : UserData
   @Input() passwordError : boolean
-  @Output() registrationEmitter: EventEmitter<void> = new EventEmitter()
-  @Output() loginEmitter: EventEmitter<Object> = new EventEmitter<Object>()
+  @Output() registrationEmitter: EventEmitter<void> = new EventEmitter();
+  @Output() loginEmitter: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() registrationEmitterDb: EventEmitter<Object> = new EventEmitter<Object>();
 
   ngOnInit(): void {
       this.authForm = new FormGroup({
@@ -31,6 +32,9 @@ export class AuthFormComponent implements OnInit {
 
   goToRegistration(){
     this.registrationEmitter.emit()
+  }
+  goToRegistrationDb(){
+    this.registrationEmitterDb.emit();
   }
 
   goToLogin(){

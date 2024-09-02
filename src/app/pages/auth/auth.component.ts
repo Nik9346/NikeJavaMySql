@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
 import { UserData } from '../../models/register-interface.models';
-import { loginData } from '../../models/login-interface.models';
+import { ILoginDataDbResponse, IUtenteDb, loginData } from '../../models/login-interface.models';
 import { LocalWebsaveService } from '../../services/local-websave.service'
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './auth.component.sass'
 })
 export class AuthComponent {
-
+  registerDb : boolean = false
   isRegister: boolean = true
   isLoggedIn: boolean
   user: string
@@ -29,6 +29,10 @@ export class AuthComponent {
   viewRegistration() {
     this.isRegister = false
   }
+  //funzione utilizzata per registrare l'utente nel db
+  viewRegistrationDb(){
+    this.registerDb = true;
+  }
   viewLogin(){
     this.isRegister = true
   }
@@ -36,9 +40,14 @@ export class AuthComponent {
   updateDataUser(event: UserData) {
     this.authService.register(event).subscribe((response)=>{
       console.log(response);
-  
     })
     this.router.navigate(['/home-page'])    
+  }
+  updateDataUserDb(event:IUtenteDb){
+    this.authService.registerDb(event).subscribe((response:ILoginDataDbResponse)=>{
+      const responseServerLogin:ILoginDataDbResponse = response;
+      this.saveTokentoStorage(responseServerLogin.messaggio);
+    })
   }
   // Funzione utilizzata al click sul pulsante login prende i dati dal database, fa una chiamata post al locale storage per salvare il token, cambia il valore della variabile IsloggedIn in true e posta tutti i dati allo shoesService. Poi reindirizza alla home-page
   goToLogin(event: Object) {
@@ -65,6 +74,16 @@ export class AuthComponent {
     })
   }
 
+  goToLoginDb(event:IUtenteDb){
+    this.authService.loginDb(event).subscribe((response: ILoginDataDbResponse)=>{
+      console.log(response);
+      this.saveTokentoStorage(response.messaggio)
+      this.authService.isLoggedIn = true
+      this.router.navigate(['/home-page']);
+    },(error)=>{
+      console.log(error);
+    })
+  }
 
   // Funzione utilizzata per salvare il token nel locale storage
   saveTokentoStorage(token: string): void {

@@ -33,6 +33,7 @@ import { AuthFormComponent } from './components/auth-form/auth-form.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { OrdiniComponent } from './pages/ordini/ordini.component';
 import { ManageShoesComponent } from './pages/manage-shoes/manage-shoes.component';
+import { RegisterDbFormComponent } from './components/register-db-form/register-db-form.component';
 
 
 
@@ -68,6 +69,7 @@ import { ManageShoesComponent } from './pages/manage-shoes/manage-shoes.componen
     RegisterFormComponent,
     OrdiniComponent,
     ManageShoesComponent,
+    RegisterDbFormComponent,
 
   ],
   imports: [
