@@ -10,6 +10,8 @@
                 placeholder="Inserisci il nome" formControlName="nome">
             <div *ngIf="registerForm.controls.nome?.touched && registerForm.controls.nome?.value?.length <1"
                 id="name-error" class="form-text text-red">Inserisci il tuo nome.</div>
+            <div *ngIf="registerForm.controls.nome?.touched && registerForm.controls.nome?.errors?.pattern"
+                id="name-error" class="form-text text-red">Inserisci un nome valido</div>
         </div>
         <div class="form-group col-md-6">
             <label for="cognome">Cognome</label>
@@ -19,45 +21,10 @@
                 id="surname-error" class="form-text text-red">Inserisci il tuo Cognome.</div>
         </div>
     </div>
+    <div formArrayName="indirizzi">
+        <app-address-form [addressForm]="indirizzo"></app-address-form>
+    </div>
     <!-- <div class="col-12 d-md-flex my-md-2">
-        <div class="form-group col-md-6 me-md-2">
-            <label for="indirizzo">Indirizzo</label>
-            <input type="text" class="form-control" id="indirizzo" placeholder="Inserisci il tuo indirizzo"
-                formControlName="indirizzo">
-            <div *ngIf="registerForm.controls.indirizzo?.touched == true && registerForm.controls.indirizzo.value.length <1"
-                id="address-error" class="form-text text-red">Questo campo è obbligatorio</div>
-            <div *ngIf="registerForm.controls.indirizzo?.errors?.minlength" id="address-error2"
-                class="form-text text-red">Inserisci un indirizzo valido</div>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="citta">Città</label>
-            <input type="text" class="form-control" id="citta" aria-describedby="emailHelp"
-                placeholder="Inserisci la città" formControlName="citta">
-            <div *ngIf="registerForm.controls.citta?.errors?.pattern" id="city-error" class="form-text text-red">
-                Inserisci una città valida.</div>
-            <div *ngIf="registerForm.controls.citta?.touched && registerForm.controls.citta?.value?.length <1"
-                id="city-error2" class="form-text text-red">Questo campo è obbligatorio</div>
-        </div>
-    </div>
-    <div class="col-12 d-md-flex my-md-2">
-        <div class="form-group col-md-6 me-md-2">
-            <label for="Paese">Paese</label>
-            <input type="text" class="form-control" id="Paese" placeholder="Inserisci il Paese" formControlName="paese">
-            <div *ngIf="registerForm.controls.paese?.touched == true && registerForm.controls.paese?.value?.length <1"
-                class="form-text text-red">Questo campo è obbligatorio</div>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="cap">Cap</label>
-            <input type="text" class="form-control" id="cap" aria-describedby="emailHelp" placeholder="Inserisci il cap"
-                formControlName="cap">
-            <div *ngIf="registerForm.controls.cap?.errors?.pattern" id="cap-error" class="form-text text-red">
-                Inserisci
-                un cap valido.</div>
-            <div *ngIf="registerForm.controls.cap?.touched && registerForm.controls.cap?.value?.length <1"
-                id="cap-error2" class="form-text text-red">Questo campo è obbligatorio</div>
-        </div>
-    </div>
-    <div class="col-12 d-md-flex my-md-2">
         <div class="form-group col-md-6 me-md-2">
             <label for="telefono">Telefono</label>
             <input type="tel" class="form-control" id="telefono" aria-describedby="emailHelp"
@@ -75,8 +42,9 @@
                 class="form-text text-red">Questo campo è obbligatorio</div>
             <div *ngIf="registerForm.controls.email?.touched == true && registerForm.controls.email?.errors?.pattern"
                 class="form-text text-red">Inserisci un indirizzo email valido</div>
-        </div>
-    </div> -->
+        </div> -->
+    <!-- </div> -->
+
     <div formGroupName="profilo">
         <div class="col-12 d-md-flex my-md-2">
             <div class="form-group col-md-6 me-md-2">
@@ -100,8 +68,8 @@
     <div class="d-md-flex justify-content-center mt-3">
         <button [disabled]="!registerForm.valid" type="submit" class="btn-add-cart col-12 col-md-6 mx-md-1"
             routerLink="/login">Registrati</button>
-        <button type="button" (click)="goToLogin()"
-            class="btn-add-cart border-0 col-12 col-md-6 my-2 my-md-0 mx-md-1">Accedi</button>
+        <button type="button" (click)="goToLoginPage()"
+            class="btn-add-cart border-0 col-12 col-md-6 my-2 my-md-0 mx-md-1">Torna Indietro</button>
     </div>
 
 

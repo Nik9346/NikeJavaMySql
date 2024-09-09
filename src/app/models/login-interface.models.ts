@@ -1,3 +1,4 @@
+import { IAddressDb } from "./address.interface"
 import { IOrderDb } from "./orderData-interface.models"
 
 export interface loginData{
@@ -26,8 +27,9 @@ export interface IUtenteDb{
     id:number,
     nome:string,
     cognome:string,
-    profilo:IProfiloUtenteDb
-    ordini: IOrderDb[]
+    profilo:IProfiloUtenteDb,
+    ordini: IOrderDb[],
+    indirizzi: IAddressDb[],
 }
 
 export interface ILoginDataDbResponse{

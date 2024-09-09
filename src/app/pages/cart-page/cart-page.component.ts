@@ -127,6 +127,9 @@ export class CartPageComponent implements AfterViewInit {
   logout(){
     this.isLoggedIn = false
     this.authService.isLoggedIn = !this.authService.isLoggedIn
+    localStorage.removeItem("token")
+    sessionStorage.removeItem("utente:")
+    sessionStorage.removeItem("carrello:")
   }
 }
 

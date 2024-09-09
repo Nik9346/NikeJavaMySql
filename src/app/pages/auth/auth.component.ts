@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
 import { UserData } from '../../models/register-interface.models';
-import { ILoginDataDbResponse, IUtenteDb, loginData } from '../../models/login-interface.models';
+import { ILoginDataDbResponse, IProfiloUtenteDb, IUtenteDb, loginData } from '../../models/login-interface.models';
 import { LocalWebsaveService } from '../../services/local-websave.service'
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { DataPostService } from '../../services/data-post.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -12,14 +14,14 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './auth.component.sass'
 })
 export class AuthComponent {
-  registerDb : boolean = false
+  registerDb: boolean = true
   isRegister: boolean = true
   isLoggedIn: boolean
   user: string
   passwordError: boolean = false
 
 
-  constructor(private shoesService: ShoesService, private localStorageService: LocalWebsaveService, private router: Router, private authService: AuthService) {
+  constructor(private shoesService: ShoesService, private localStorageService: LocalWebsaveService, private dataService: DataPostService, private router: Router, private authService: AuthService) {
     this.isLoggedIn = this.authService.isLoggedIn
     this.isLoggedIn = this.authService.isLoggedIn
     this.user = this.shoesService.user
@@ -28,24 +30,28 @@ export class AuthComponent {
   //  Funzione utilizzata per visualizzare il form di registrazione al click sul pulsante registrati
   viewRegistration() {
     this.isRegister = false
+    this.registerDb = true
   }
   //funzione utilizzata per registrare l'utente nel db
-  viewRegistrationDb(){
-    this.registerDb = true;
+  viewRegistrationDb() {
+    this.registerDb = false;
+    this.isRegister = true;
   }
-  viewLogin(){
-    this.isRegister = true
+  viewLogin() {
+    this.registerDb = true
+    console.log(this.isRegister);
+    
   }
   // Funzione utilizzata per passare i dati della registrazione al database
   updateDataUser(event: UserData) {
-    this.authService.register(event).subscribe((response)=>{
+    this.authService.register(event).subscribe((response) => {
       console.log(response);
     })
-    this.router.navigate(['/home-page'])    
+    this.router.navigate(['/home-page'])
   }
-  updateDataUserDb(event:IUtenteDb){
-    this.authService.registerDb(event).subscribe((response:ILoginDataDbResponse)=>{
-      const responseServerLogin:ILoginDataDbResponse = response;
+  updateDataUserDb(event: IUtenteDb) {
+    this.authService.registerDb(event).subscribe((response: ILoginDataDbResponse) => {
+      const responseServerLogin: ILoginDataDbResponse = response;
       this.saveTokentoStorage(responseServerLogin.messaggio);
     })
   }
@@ -74,15 +80,22 @@ export class AuthComponent {
     })
   }
 
-  goToLoginDb(event:IUtenteDb){
-    this.authService.loginDb(event).subscribe((response: ILoginDataDbResponse)=>{
-      console.log(response);
+  //funzione utilizzata per il login nel database e recupero dei dati dopo login
+  goToLoginDb(event: IProfiloUtenteDb) {
+    this.authService.loginDb(event).pipe(switchMap((response: ILoginDataDbResponse) => {
       this.saveTokentoStorage(response.messaggio)
       this.authService.isLoggedIn = true
-      this.router.navigate(['/home-page']);
-    },(error)=>{
-      console.log(error);
+      return this.dataService.getProfiloByUsername(event.username)
     })
+    ).subscribe((profiloResponse:IUtenteDb) => {
+      this.shoesService.nome = profiloResponse.nome
+      this.shoesService.cognome = profiloResponse.cognome
+      this.shoesService.user = profiloResponse.profilo.username
+      this.router.navigate(['/home-page']);
+    },
+      (error) => {
+        console.log(error);
+      })
   }
 
   // Funzione utilizzata per salvare il token nel locale storage

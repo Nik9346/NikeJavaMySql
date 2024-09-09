@@ -34,6 +34,7 @@ import { RegisterFormComponent } from './components/register-form/register-form.
 import { OrdiniComponent } from './pages/ordini/ordini.component';
 import { ManageShoesComponent } from './pages/manage-shoes/manage-shoes.component';
 import { RegisterDbFormComponent } from './components/register-db-form/register-db-form.component';
+import { AddressFormComponent } from './components/address-form/address-form.component';
 
 
 
@@ -70,6 +71,7 @@ import { RegisterDbFormComponent } from './components/register-db-form/register-
     OrdiniComponent,
     ManageShoesComponent,
     RegisterDbFormComponent,
+    AddressFormComponent,
 
   ],
   imports: [

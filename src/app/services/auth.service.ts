@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IUtenteDb } from '../models/login-interface.models';
+import { IProfiloUtenteDb, IUtenteDb } from '../models/login-interface.models';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,10 @@ export class AuthService {
   registerDb(credential:IUtenteDb){
     return this.httprequest.post("http://localhost:8080/utente/registrazioneUtente",credential);
   }
-  loginDb(credential:IUtenteDb){
-    return this.httprequest.put("http://localhost:8080/utente/login", credential);
+  loginDb(credential:IProfiloUtenteDb){
+    return this.httprequest.put("http://localhost:8080/utente/login", credential, {withCredentials:true});
+  }
+  logoutDb(token:String){
+    return this.httprequest.delete(`http://localhost:8080/utente/logout/${token}`, {withCredentials:true})
   }
 }

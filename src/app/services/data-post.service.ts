@@ -40,4 +40,8 @@ export class DataPostService {
     return this.http.get(`https://json-server-nikeangular.onrender.com/users/${idUser}`, {headers})
   }
 
+  getProfiloByUsername(username:string){
+    return this.http.get(`http://localhost:8080/utente/username/${username}`)
+  }
+
 }

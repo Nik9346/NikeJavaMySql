@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserData } from '../../models/register-interface.models';
+import { IProfiloUtenteDb } from '../../models/login-interface.models';
 
 @Component({
   selector: 'app-auth-form',
@@ -9,35 +10,48 @@ import { UserData } from '../../models/register-interface.models';
 })
 export class AuthFormComponent implements OnInit {
 
-  email:string
+  email: string
   password: string
-  authForm : FormGroup
-  loginData : UserData
-  @Input() passwordError : boolean
+  authForm: FormGroup
+  loginData: UserData
+  @Input() passwordError: boolean
   @Output() registrationEmitter: EventEmitter<void> = new EventEmitter();
   @Output() loginEmitter: EventEmitter<Object> = new EventEmitter<Object>();
   @Output() registrationEmitterDb: EventEmitter<Object> = new EventEmitter<Object>();
 
   ngOnInit(): void {
-      this.authForm = new FormGroup({
-        email : new FormControl ("", [Validators.required,Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]),
-        password: new FormControl("", [Validators.required,Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$')])
-      })
+    this.authForm = new FormGroup({
+      username: new FormControl("", Validators.required),
+      password: new FormControl("", [Validators.required, Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$')])
+    })
   }
 
-  onSubmit(){
+  onSubmit() {
     this.loginData = this.authForm.value
     this.goToLogin()
   }
 
-  goToRegistration(){
+  goToRegistration() {
     this.registrationEmitter.emit()
   }
-  goToRegistrationDb(){
+  goToRegistrationDb() {
     this.registrationEmitterDb.emit();
   }
 
-  goToLogin(){
-    this.loginEmitter.emit(this.loginData)
+  //Funzione utilizzata prima del cambio backend
+  // goToLogin() {
+  //   // this.loginEmitter.emit(this.loginData)
+  // }
+
+
+  goToLogin() {
+    const datiutente = this.authForm.value
+    const profiloLogin: IProfiloUtenteDb = {
+      username: datiutente.username,
+      password: datiutente.password,
+      id: null,
+      token: undefined
+    }
+    this.loginEmitter.emit(profiloLogin)
   }
 }

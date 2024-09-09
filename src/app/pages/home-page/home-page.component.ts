@@ -3,6 +3,7 @@ import { ShoesService } from '../../services/shoes.service';
 import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
 import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs';
+import { SessionService } from '../../services/session.service';
 
 
 @Component({
@@ -23,13 +24,16 @@ export class HomePageComponent implements AfterViewInit {
 
 
 
-  constructor(private shoesService: ShoesService, private authService: AuthService) { }
+  constructor(private shoesService: ShoesService, private authService: AuthService, private session: SessionService) { }
 
   // Funzione che fa una chiamata al service e popola le due variabili relative alle scarpe e al carrello
   ngAfterViewInit() {
     this.shoesService.getShoes().subscribe((response) => {
       this.shoes = response
     })
+    let randomNumber : number = this.shoesService.getRandomArbitrary()
+    let randomNumberString : string = randomNumber.toString(10)
+    sessionStorage.setItem("utente:", randomNumberString)
     this.shoesSelectedArray = this.shoesService.shoesSelectedArray
     this.isLoggedIn = this.authService.isLoggedIn
     if (this.isLoggedIn) {
@@ -81,9 +85,15 @@ export class HomePageComponent implements AfterViewInit {
   }
   // Funzione utilizzata per il logout
   logout() {
+    this.authService.logoutDb(localStorage.getItem("token")).subscribe((response)=>{
+      console.log(response);
+    })
     this.isLoggedIn = false
     this.authService.isLoggedIn = !this.authService.isLoggedIn
     this.shoesService.shoesSelectedArray.splice(0,this.shoesSelectedArray.length)
+    localStorage.removeItem("token")
+    sessionStorage.removeItem("utente:")
+    sessionStorage.removeItem("carrello:")
   }
 
 
