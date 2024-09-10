@@ -34,8 +34,21 @@ export interface IShoesSelected {
     best_seller: number
     quantita:number
 }
-//interfaccia di dialogo con Db
+//interfaccia di dialogo con Db in fase di presentazione json scarpa DTO
 export interface IShoesDb{
+  id:number,
+  nome: string,
+  prezzo: number,
+  descrizione: string,
+  immagine: string,
+  categoria: ICategory,
+  bestSeller: number,
+  nuovoArrivi: boolean
+  taglie:string[]
+  colori:string[]
+}
+//interfaccia di dialogo db in fase di salvataggio scarpa
+export interface IShoesDbForSave{
   id:number,
   nome: string,
   prezzo: number,
@@ -53,4 +66,23 @@ export interface IScarpaOrdinataDb{
   quantità:number,
   scarpa:IShoesDb,
   ordine:IOrderDb
+}
+
+export interface IShoesCartDb{
+  scarpa:IShoesDb,
+  colore: IcolorDb,
+  taglia: ITagliaDb,
+  quantita?: number
+  }
+export interface IShoesItemAddToCart{
+  scarpa : {
+    id: number
+  },
+  colore: {
+    id:number
+  },
+  taglia:{
+    id:number
+  },
+  quantita?: number
 }

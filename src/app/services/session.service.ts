@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IShoes, IShoesSelected } from '../models/shoes-interface.models';
+import { IShoes, IShoesCartDb, IShoesDb, IShoesItemAddToCart, IShoesSelected } from '../models/shoes-interface.models';
+import { elementAt } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,8 @@ export class SessionService {
 
   constructor() { }
 
-  setItem(shoesInCart: IShoesSelected[]): void {
-    let cartSaveInSession: IShoesSelected[] = this.getItem("carrello:")
+  setItem(shoesInCart: IShoesCartDb[]): void {
+    let cartSaveInSession: IShoesCartDb[] = this.getItem("carrello:")
     if (cartSaveInSession == null) {
       sessionStorage.setItem("carrello:", JSON.stringify(shoesInCart));
     } else {
@@ -19,8 +20,24 @@ export class SessionService {
       sessionStorage.setItem("carrello:", JSON.stringify(shoesInCart));
     }
   }
-  removeItemCart(shoes: IShoes): void {
-    let cartSaveInSession: IShoesSelected[] = this.getItem("carrello:")
+
+  addItem(shoesAddToCart: IShoesItemAddToCart):void{
+    let cartSaveInSession : IShoesItemAddToCart[] = this.getItem("carrello:")
+    if(cartSaveInSession == null){
+      let shoesCartItemArray : IShoesItemAddToCart[] = [shoesAddToCart];
+      sessionStorage.setItem("carrello:",JSON.stringify(shoesCartItemArray));
+    } else{
+      let shoesCartItemArray : IShoesItemAddToCart[]= []
+      cartSaveInSession.forEach((element) =>{
+        shoesCartItemArray.push(element)
+      })
+      shoesCartItemArray.push(shoesAddToCart)
+      sessionStorage.setItem("carrello:",JSON.stringify(shoesCartItemArray));
+    }
+  }
+
+  removeItemCart(shoes: IShoesCartDb): void {
+    let cartSaveInSession: IShoesCartDb[] = this.getItem("carrello:")
     console.log(shoes);
     let index = cartSaveInSession.indexOf(shoes);
     cartSaveInSession.splice(index,1);

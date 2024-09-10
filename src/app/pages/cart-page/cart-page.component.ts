@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoesCartDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { ShoesService } from '../../services/shoes.service';
 import { LocalWebsaveService } from '../../services/local-websave.service';
 import { AuthService } from '../../services/auth.service';
@@ -34,9 +34,9 @@ export class CartPageComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     const savedStorage = this.sessionService.getItem("carrello:");
     this.cartShoesItem = savedStorage;
-    this.cartShoesItem.forEach((element) => {
-      element.quantita = this.selectedQuantity
-    })
+    // this.cartShoesItem.forEach((element) => {
+    //   element.quantita = this.selectedQuantity
+    // })
     this.isLoggedIn = this.authService.isLoggedIn
     if (this.isLoggedIn) {
       this.user = this.shoesService.user
@@ -68,7 +68,7 @@ export class CartPageComponent implements AfterViewInit {
   }
   
   // Funzione utilizzata per la rimozione dell'elemento dall'array del carrello
-  removeItem(s: IShoesSelected) {
+  removeItem(s: IShoesCartDb) {
     this.sessionService.removeItemCart(s);
     this.cartShoesItem = this.sessionService.getItem("carrello:")
   }

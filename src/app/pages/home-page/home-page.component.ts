@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
-import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs';
 import { SessionService } from '../../services/session.service';
@@ -13,7 +13,7 @@ import { SessionService } from '../../services/session.service';
 })
 export class HomePageComponent implements AfterViewInit {
 
-  shoes: IShoes[] = []
+  shoes: IShoesDb[] = []
   user: string
   isLoggedIn: boolean
   @ViewChild('divcarousel') divcarousel: ElementRef<HTMLDivElement>

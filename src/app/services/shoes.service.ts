@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IShoes, IShoesDb, IShoesSelected } from '../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesDbForSave, IShoesSelected } from '../models/shoes-interface.models';
 import { Observable } from 'rxjs';
 import { ICategory } from '../models/category.interface';
 import { NgIf } from '@angular/common';
@@ -41,10 +41,10 @@ export class ShoesService {
   // Chiamata per ottenere tutte le scarpe
   getShoes(): Observable<any> {
     // return this.httprequest.get("http://localhost:3000/prodotti")
-    return this.httprequest.get("https://json-server-nikeangular.onrender.com/prodotti")
-    // return this.httprequest.get("http://localhost:8080/scarpe/get")
+    //return this.httprequest.get("https://json-server-nikeangular.onrender.com/prodotti")
+     return this.httprequest.get("http://localhost:8080/scarpe/get")
   }
-  postShoes(scarpa:IShoesDb){
+  postShoes(scarpa:IShoesDbForSave){
     return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}scarpe/add`,scarpa)
   }
 
@@ -59,6 +59,9 @@ export class ShoesService {
   getColor():Observable<any>{
     return this.httprequest.get("http://localhost:8080/colore/get")
   }
+  getColorByColorName(colorName : string):Observable<any>{
+    return this.httprequest.get(`${this.test ? this.testUrlRequest : this.deployUrl}colore/get/colore/${colorName}`)
+  }
   postColori(colori: IcolorDb[]){
     return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}colore/add`,colori)
   }
@@ -66,6 +69,9 @@ export class ShoesService {
   //chiamate per ottenere tutte le taglie
   getTaglia():Observable<any>{
     return this.httprequest.get(`${this.test ? this.testUrlRequest : this.deployUrl}taglia/get`)
+  }
+  getTagliaByNumber(numeroTaglia:number) :Observable<any>{
+    return this.httprequest.get(`${this.test ? this.testUrlRequest : this.deployUrl}taglia/get/${numeroTaglia}`)
   }
   postTaglie(taglie:ITagliaDb[]){
     return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}taglia/addSizes`,taglie)
@@ -84,8 +90,9 @@ export class ShoesService {
 //  Chiamata utilizzata per restituire la scarpa selezionata in base all'id
   getShoesById(shoesId: number): Observable<any> {
     // return this.httprequest.get(`http://localhost:3000/prodotti/${shoesId}`)
-    return this.httprequest.get(`https://json-server-nikeangular.onrender.com/prodotti/${shoesId}`)
+    // return this.httprequest.get(`https://json-server-nikeangular.onrender.com/prodotti/${shoesId}`)
     // return this.httprequest.get(`http://casavergari.ns0.it:3000/prodotti/${shoesId}`)
+    return this.httprequest.get(`${this.test ? this.testUrlRequest : this.deployUrl}scarpe/get/scarpa/${shoesId}`)
   }
   // Questa funzione è stata utilizzata all'inizio del progetto per popolare il campo immagine di ogni scarpa
   addImgShoes(shoesId: number, imgUrl: string): Observable<any> {

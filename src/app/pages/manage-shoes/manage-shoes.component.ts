@@ -3,7 +3,7 @@ import { ICategory } from '../../models/category.interface';
 import { ShoesService } from '../../services/shoes.service';
 import { IColor, IcolorDb } from '../../models/color.interface';
 import { ITagliaDb } from '../../models/taglia.interface';
-import { IShoes, IShoesDb } from '../../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesDbForSave } from '../../models/shoes-interface.models';
 import { UntypedFormBuilder } from '@angular/forms';
 
 @Component({
@@ -15,7 +15,7 @@ export class ManageShoesComponent {
 
   bestSeller: number;
   nuovoArrivo: boolean = false
-  scarpa: IShoesDb = undefined
+  scarpa: IShoesDbForSave = undefined
   nomeScarpa: string;
   prezzo: number;
   descrizioneScarpa: string;

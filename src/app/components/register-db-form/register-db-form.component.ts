@@ -37,14 +37,14 @@ export class RegisterDbFormComponent {
       })
     })
   }
-  addAddress(){
-    const addressGroup :IAddressDb = this.fb.group({
-      citta: ['',Validators.required],
-      indirizzo:['',Validators.required],
-      cap:['',Validators.required]
-    })
-    this.indirizzi.push(addressGroup)
-  }
+  // addAddress(){
+  //   const addressGroup :IAddressDb = this.fb.group({
+  //     citta: ['',Validators.required],
+  //     indirizzo:['',Validators.required],
+  //     cap:['',Validators.required]
+  //   })
+  //   this.indirizzi.push(addressGroup)
+  // }
 
   onSubmit() {
     // this.indirizziDb.push(this.formData.indirizzi);

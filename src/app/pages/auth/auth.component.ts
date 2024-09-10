@@ -85,6 +85,7 @@ export class AuthComponent {
     this.authService.loginDb(event).pipe(switchMap((response: ILoginDataDbResponse) => {
       this.saveTokentoStorage(response.messaggio)
       this.authService.isLoggedIn = true
+      console.log(this.authService.isLoggedIn);
       return this.dataService.getProfiloByUsername(event.username)
     })
     ).subscribe((profiloResponse:IUtenteDb) => {

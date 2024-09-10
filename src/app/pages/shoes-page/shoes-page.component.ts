@@ -1,9 +1,12 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, viewChild } from '@angular/core';
-import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Output, output, ViewChild, viewChild } from '@angular/core';
+import { IShoes, IShoesCartDb, IShoesDb, IShoesItemAddToCart, IShoesSelected } from '../../models/shoes-interface.models';
 import { ShoesService } from '../../services/shoes.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SessionService } from '../../services/session.service';
+import { ITagliaDb } from '../../models/taglia.interface';
+import { IcolorDb } from '../../models/color.interface';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-shoes-page',
@@ -12,23 +15,27 @@ import { SessionService } from '../../services/session.service';
 })
 export class ShoesPageComponent {
 
-  singleShoes: IShoes
-  taglieDisponibili: string[] = []
-  coloriDisponibili: string[] = []
-  sizeSelected: string = null
-  colorSelected: string = null
+  singleShoes: IShoesDb
+  taglieDisponibili: ITagliaDb[] = []
+  coloriDisponibili: IcolorDb[] = []
+  sizeSelected: ITagliaDb = null
+  colorSelected: IcolorDb = null
   completeSizeColor: boolean = true
-  shoesSelectedArray: IShoesSelected[] = []
+  shoesSelectedArray: IShoesCartDb[] = []
+  shoesSelectedArrayForCartSave: IShoesCartDb[] = []
+  shoesToAddToCart: IShoesItemAddToCart
   @ViewChild('container') container: ElementRef
   cartVisible: boolean = false
   isLoggedIn: boolean
   user: string
 
+
   constructor(
-    private shoesService: ShoesService, 
-    private activatedrouter: ActivatedRoute, 
+    private shoesService: ShoesService,
+    private activatedrouter: ActivatedRoute,
     private authService: AuthService,
-    private sessionService: SessionService) {
+    private sessionService: SessionService,
+    private cartService: CartService) {
     this.isLoggedIn = this.authService.isLoggedIn
     if (this.isLoggedIn) {
       this.user = this.shoesService.user
@@ -36,11 +43,16 @@ export class ShoesPageComponent {
     this.activatedrouter.params.subscribe((params) => {
       this.shoesService.getShoesById(params.productId).subscribe((response) => {
         this.singleShoes = response
-        this.singleShoes.taglie_disponibili.forEach((taglia) => {
-          this.taglieDisponibili.push(taglia)
+        this.singleShoes.taglie.forEach((taglia) => {
+          this.shoesService.getTagliaByNumber(+taglia).subscribe((res) => {
+            this.taglieDisponibili.push(res);
+            console.log(this.taglieDisponibili);
+          })
         })
-        this.singleShoes.colori_disponibili.forEach((colore) => {
-          this.coloriDisponibili.push(colore)
+        this.singleShoes.colori.forEach((colore) => {
+          this.shoesService.getColorByColorName(colore).subscribe((res) => {
+            this.coloriDisponibili.push(res);
+          })
         })
       })
     })
@@ -48,14 +60,27 @@ export class ShoesPageComponent {
 
   // con questa funzione aggiungo delle proprietà al prodotto che mi occorrono per il carrello
   getShoesAttribute(): void {
-    const shoesCopy: IShoes = { ...this.singleShoes }
-    shoesCopy.taglia_selezionata = this.sizeSelected
-    shoesCopy.colore_selezionato = this.colorSelected
-    this.shoesSelectedArray.push(shoesCopy)
-    // this.sessionService.setItem(this.shoesService.shoesSelectedArray)
+    const shoesCopy: IShoesItemAddToCart = {
+      scarpa: {id:this.singleShoes.id},
+      colore: {id:this.colorSelected.id},
+      taglia: {id:this.sizeSelected.id},
+      quantita: 1
+    }
+    const shoesSelectedForArray : IShoesCartDb = {
+      scarpa: this.singleShoes,
+      colore: this.colorSelected,
+      taglia: this.sizeSelected,
+      quantita: 1
+    }
+    this.shoesSelectedArray.push(shoesSelectedForArray);
+    this.shoesToAddToCart = shoesCopy;
+    console.log(shoesCopy);
+    
+    console.log("ho fatto la copia della scarpa");
+
   }
   //  controllo che sia selezionata la taglia e la assegno ad una variabile
-  getSize(t: string) {
+  getSize(t: ITagliaDb) {
     this.sizeSelected = t
     if (this.colorSelected) {
       this.completeSizeColor = true
@@ -64,7 +89,8 @@ export class ShoesPageComponent {
     }
   }
   // controllo che sia selezionato il colore e lo assegno ad una variabile
-  getColor(c: string) {
+  getColor(c: IcolorDb
+  ) {
     this.colorSelected = c
     if (this.sizeSelected) {
       this.completeSizeColor = true
@@ -80,13 +106,17 @@ export class ShoesPageComponent {
       this.completeSizeColor = true
       this.getShoesAttribute()
       this.viewCart()
-      this.sessionService.setItem(this.shoesSelectedArray); //attenzione devo salvare l'articolo su una nuova variabile altrimenti da null quando non recupera il carrello
+      console.log("sto Funzionando");
+      this.cartService.saveItemCart(this.shoesToAddToCart); //attenzione devo salvare l'articolo su una nuova variabile altrimenti da null quando non recupera il carrello
+
     }
   }
   viewCart() {
     this.container.nativeElement.classList.add('container-filter')
     this.cartVisible = true
     this.hideCart()
+    console.log("sto visualizzando il carrello");
+
   }
 
   hideCart() {
