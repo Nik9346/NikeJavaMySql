@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { DataPostService } from '../../services/data-post.service';
 import { switchMap } from 'rxjs';
+import { SessionService } from '../../services/session.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-auth',
@@ -21,7 +23,13 @@ export class AuthComponent {
   passwordError: boolean = false
 
 
-  constructor(private shoesService: ShoesService, private localStorageService: LocalWebsaveService, private dataService: DataPostService, private router: Router, private authService: AuthService) {
+  constructor(private shoesService: ShoesService, 
+    private localStorageService: LocalWebsaveService, 
+    private dataService: DataPostService, 
+    private router: Router, 
+    private authService: AuthService, 
+    private sessionService: SessionService,
+  private cartService:CartService) {
     this.isLoggedIn = this.authService.isLoggedIn
     this.isLoggedIn = this.authService.isLoggedIn
     this.user = this.shoesService.user
@@ -85,14 +93,25 @@ export class AuthComponent {
     this.authService.loginDb(event).pipe(switchMap((response: ILoginDataDbResponse) => {
       this.saveTokentoStorage(response.messaggio)
       this.authService.isLoggedIn = true
-      console.log(this.authService.isLoggedIn);
       return this.dataService.getProfiloByUsername(event.username)
     })
     ).subscribe((profiloResponse:IUtenteDb) => {
+      if(this.sessionService.getItem("carrello:")){
+        const savedItemCart = this.sessionService.getItem("carrello:")
+        savedItemCart.forEach((i)=>{
+          this.cartService.saveItemCart(i).subscribe()
+        })
+        this.sessionService.removeSession("carrello:")
+      }
       this.shoesService.nome = profiloResponse.nome
       this.shoesService.cognome = profiloResponse.cognome
       this.shoesService.user = profiloResponse.profilo.username
-      this.router.navigate(['/home-page']);
+      setTimeout(()=>{
+        this.cartService.getCart().subscribe((res)=>{
+          this.shoesService.shoesSelectedArray.push(res)
+        })
+        this.router.navigate(['/home-page']);
+      },500)
     },
       (error) => {
         console.log(error);

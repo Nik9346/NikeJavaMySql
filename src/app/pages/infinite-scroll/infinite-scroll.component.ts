@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PaginationService } from '../../services/pagination.service';
-import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesCartDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { AuthService } from '../../services/auth.service';
 import { ShoesService } from '../../services/shoes.service';
 
@@ -20,7 +20,7 @@ export class InfiniteScrollComponent implements OnInit {
   isLoggedIn: boolean;
   user: string;
   cartVisible: boolean = false
-  shoesSelectedArray: IShoesSelected[] = []
+  shoesSelectedArray: IShoesCartDb[] = []
 
   constructor(private infiniteScrollService: PaginationService, private authService: AuthService, private shoesService: ShoesService) { }
 

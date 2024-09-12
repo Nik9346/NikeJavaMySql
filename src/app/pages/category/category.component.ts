@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
-import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesCartDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -16,7 +16,7 @@ export class CategoryComponent {
   isLoggedIn: boolean
   user: string
   cartVisible: boolean = false
-  shoesSelectedArray:IShoesSelected[] = []
+  shoesSelectedArray:IShoesCartDb[] = []
 
   constructor(private shoesService: ShoesService, private activeRouter: ActivatedRoute, private authService: AuthService) {
     this.isLoggedIn = this.authService.isLoggedIn

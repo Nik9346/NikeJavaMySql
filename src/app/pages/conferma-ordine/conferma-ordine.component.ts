@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
-import { IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoesCartDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { AuthService } from '../../services/auth.service';
 import { LocalWebsaveService } from '../../services/local-websave.service';
 
@@ -21,7 +21,7 @@ export class ConfermaOrdineComponent implements AfterViewInit {
   telefono: string
   cap: string
   email: string
-  shoesOrdered: IShoesSelected[]
+  shoesOrdered: IShoesCartDb[]
   orderNumber: number = null
   isLoggedIn: boolean
 

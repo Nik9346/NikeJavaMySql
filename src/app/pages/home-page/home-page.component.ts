@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
-import { IShoes, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesCartDb, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs';
 import { SessionService } from '../../services/session.service';
+import { CartService } from '../../services/cart.service';
 
 
 @Component({
@@ -20,11 +21,11 @@ export class HomePageComponent implements AfterViewInit {
   @ViewChild('divcarousel2') divcarousel2: ElementRef<HTMLDivElement>
   @ViewChild('container') container: ElementRef<HTMLDivElement>
   cartVisible: boolean = false
-  shoesSelectedArray: IShoesSelected[] = []
+  shoesSelectedArray: IShoesCartDb[] = []
 
 
 
-  constructor(private shoesService: ShoesService, private authService: AuthService, private session: SessionService) { }
+  constructor(private shoesService: ShoesService, private authService: AuthService, private session: SessionService, private cartService: CartService) { }
 
   // Funzione che fa una chiamata al service e popola le due variabili relative alle scarpe e al carrello
   ngAfterViewInit() {
@@ -34,11 +35,17 @@ export class HomePageComponent implements AfterViewInit {
     let randomNumber : number = this.shoesService.getRandomArbitrary()
     let randomNumberString : string = randomNumber.toString(10)
     sessionStorage.setItem("utente:", randomNumberString)
-    this.shoesSelectedArray = this.shoesService.shoesSelectedArray
+    
+    // this.shoesSelectedArray = this.shoesService.shoesSelectedArray
     this.isLoggedIn = this.authService.isLoggedIn
     if (this.isLoggedIn) {
       this.user = this.shoesService.user
-    }
+      this.cartService.getCart().subscribe((res)=>{
+        res.forEach((element)=>{
+          this.shoesSelectedArray.push(element)
+        })
+        this.shoesService.shoesSelectedArray = this.shoesSelectedArray
+    })}
   }
 
   // Funzioni utilizzate per lo scorrimento dei div a destra e sinistra

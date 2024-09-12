@@ -69,6 +69,7 @@ export interface IScarpaOrdinataDb{
 }
 
 export interface IShoesCartDb{
+  id?: number,
   scarpa:IShoesDb,
   colore: IcolorDb,
   taglia: ITagliaDb,

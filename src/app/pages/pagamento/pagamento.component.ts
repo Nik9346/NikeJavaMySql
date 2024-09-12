@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
-import { IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoesCartDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { DatePipe, getLocaleDateFormat } from '@angular/common';
 import { __values } from 'tslib';
@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class PagamentoComponent implements AfterViewInit, OnInit {
 
-  shoesSelected:IShoesSelected[] = []
+  shoesSelected:IShoesCartDb[] = []
   isLoggedIn: boolean
   total: number
   subtotal: number

@@ -5,6 +5,7 @@ import { LocalWebsaveService } from '../../services/local-websave.service';
 import { AuthService } from '../../services/auth.service';
 import { DataPostService } from '../../services/data-post.service';
 import { SessionService } from '../../services/session.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-cart-page',
@@ -13,7 +14,7 @@ import { SessionService } from '../../services/session.service';
 })
 export class CartPageComponent implements AfterViewInit {
 
-  cartShoesItem: IShoesSelected[] =  []
+  cartShoesItem: IShoesCartDb[] =  []
   selectedQuantity: number = 1
   deliveryCost: string
   totaPrice: number
@@ -24,16 +25,14 @@ export class CartPageComponent implements AfterViewInit {
   user: string
   
 
-  constructor(private shoesService: ShoesService, private sessionService: SessionService, private localeStorage: LocalWebsaveService, private authService: AuthService, private dataService : DataPostService) {
-    // this.cartShoesItem = this.shoesService.shoesSelectedArray
-    // this.cartShoesItem.forEach((element) => {
-    //   element.quantita = this.selectedQuantity
-    // })
+  constructor(private shoesService: ShoesService, private sessionService: SessionService, private localeStorage: LocalWebsaveService, private authService: AuthService, private dataService : DataPostService, private cartService: CartService) {
+    this.cartShoesItem = this.shoesService.shoesSelectedArray
+    this.cartShoesItem.forEach((element) => {
+      element.quantita = this.selectedQuantity
+    })
   }
 
   ngAfterViewInit(): void {
-    const savedStorage = this.sessionService.getItem("carrello:");
-    this.cartShoesItem = savedStorage;
     // this.cartShoesItem.forEach((element) => {
     //   element.quantita = this.selectedQuantity
     // })
@@ -42,7 +41,18 @@ export class CartPageComponent implements AfterViewInit {
       this.user = this.shoesService.user
       this.accessKey = this.localeStorage.getToken()
       this.idUser = this.shoesService.id
+      this.cartShoesItem = this.shoesService.shoesSelectedArray
+    }else{
+    const savedStorage = this.sessionService.getItem("carrello:");
+    if(savedStorage){
+      savedStorage.forEach((element)=>{
+        this.cartService.getCartItemNotLogged(element).subscribe((res)=>{
+          this.cartShoesItem.push(res)
+        })
+      })
     }
+    // this.cartShoesItem = savedStorage;
+  }
   }
 
   // Calcolo e conversione delle spese di spedizione
@@ -62,13 +72,20 @@ export class CartPageComponent implements AfterViewInit {
   getSubtotal(): number {
     let subtotal = 0
     this.cartShoesItem.forEach((element) => {
-      subtotal += element.prezzo * element.quantita
+      subtotal += element.scarpa.prezzo * element.quantita
     })
     return subtotal
   }
   
   // Funzione utilizzata per la rimozione dell'elemento dall'array del carrello
   removeItem(s: IShoesCartDb) {
+    if(this.isLoggedIn){
+      const indexOfItem = this.shoesService.shoesSelectedArray.indexOf(s);
+      if(indexOfItem > -1)
+      this.shoesService.shoesSelectedArray.splice(indexOfItem,1)
+      this.cartShoesItem = this.shoesService.shoesSelectedArray
+      this.cartService.removeItemCart(s.id).subscribe();
+    }
     this.sessionService.removeItemCart(s);
     this.cartShoesItem = this.sessionService.getItem("carrello:")
   }

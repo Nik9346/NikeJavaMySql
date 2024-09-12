@@ -46,7 +46,6 @@ export class ShoesPageComponent {
         this.singleShoes.taglie.forEach((taglia) => {
           this.shoesService.getTagliaByNumber(+taglia).subscribe((res) => {
             this.taglieDisponibili.push(res);
-            console.log(this.taglieDisponibili);
           })
         })
         this.singleShoes.colori.forEach((colore) => {
@@ -56,7 +55,9 @@ export class ShoesPageComponent {
         })
       })
     })
+    this.shoesSelectedArray = this.shoesService.shoesSelectedArray
   }
+
 
   // con questa funzione aggiungo delle proprietà al prodotto che mi occorrono per il carrello
   getShoesAttribute(): void {
@@ -74,10 +75,6 @@ export class ShoesPageComponent {
     }
     this.shoesSelectedArray.push(shoesSelectedForArray);
     this.shoesToAddToCart = shoesCopy;
-    console.log(shoesCopy);
-    
-    console.log("ho fatto la copia della scarpa");
-
   }
   //  controllo che sia selezionata la taglia e la assegno ad una variabile
   getSize(t: ITagliaDb) {
@@ -105,18 +102,17 @@ export class ShoesPageComponent {
     } else {
       this.completeSizeColor = true
       this.getShoesAttribute()
+      this.cartService.saveItemCart(this.shoesToAddToCart).subscribe()
+      this.cartService.getCart().subscribe((res)=>{
+        this.shoesService.shoesSelectedArray = res
+      })
       this.viewCart()
-      console.log("sto Funzionando");
-      this.cartService.saveItemCart(this.shoesToAddToCart); //attenzione devo salvare l'articolo su una nuova variabile altrimenti da null quando non recupera il carrello
-
     }
   }
   viewCart() {
     this.container.nativeElement.classList.add('container-filter')
     this.cartVisible = true
     this.hideCart()
-    console.log("sto visualizzando il carrello");
-
   }
 
   hideCart() {

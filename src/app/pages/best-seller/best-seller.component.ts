@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesCartDb, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { ShoesService } from '../../services/shoes.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -13,7 +13,7 @@ export class BestSellerComponent {
   isLoggedIn : boolean
   user: string
   cartVisible: boolean = false
-  shoesSelectedArray:IShoesSelected[] = []
+  shoesSelectedArray:IShoesCartDb[] = []
   
   constructor(private shoesService: ShoesService, private authService: AuthService) {
     this.isLoggedIn = this.authService.isLoggedIn

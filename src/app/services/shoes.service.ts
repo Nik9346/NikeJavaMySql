@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IShoes, IShoesDb, IShoesDbForSave, IShoesSelected } from '../models/shoes-interface.models';
+import { IShoes, IShoesCartDb, IShoesDb, IShoesDbForSave, IShoesSelected } from '../models/shoes-interface.models';
 import { Observable } from 'rxjs';
 import { ICategory } from '../models/category.interface';
 import { NgIf } from '@angular/common';
@@ -16,7 +16,7 @@ export class ShoesService {
   shoes: IShoes[] = [];
   IsOvered: boolean = false
   shoesNewA: IShoes[] = []
-  shoesSelectedArray: IShoesSelected[] = []
+  shoesSelectedArray: IShoesCartDb[] = []
   subtotal: number
   delivery: string
   total: number

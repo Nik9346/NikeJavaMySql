@@ -15,10 +15,11 @@
                     <img [src]="s.immagine" alt="">
                 </div>
                 <div class="mx-3 col-12 col-md-6 col-lg-9">
-                    <h4>{{s.nome}}</h4>
-                    <h5>{{s.categoria}}</h5>
-                    <p>Taglia/Misura EU: {{s.taglia_selezionata}}</p>
-                    <p>Colore: {{s.colore_selezionato}}</p>
+                    <h4>{{s.scarpa.nome}}</h4>
+                    <h5>{{s.scarpa.categoria}}</h5>
+                    <p>Taglia/Misura EU: {{s.taglia}}</p>
+                    <p>Colore: {{s.colore}}</p>
+                    <h5>{{s.scarpa.prezzo | currency : 'EUR'}}</h5>
                     <h5>{{s.prezzo | currency : 'EUR'}}</h5>
                 </div>
             </div>

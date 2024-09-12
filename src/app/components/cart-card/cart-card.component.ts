@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
 
 @Component({
   selector: 'app-cart-card',
@@ -8,7 +8,7 @@ import { IShoesSelected } from '../../models/shoes-interface.models';
 })
 export class CartCardComponent {
 
-  @Input() shoesSelectedArray:IShoesSelected[]
+  @Input() shoesSelectedArray:IShoesDb[]
   @Input() cartVisible: boolean
   @Input() isLoggedIn: boolean
   @Output() closeCartEmitter: EventEmitter<void> = new EventEmitter<void>

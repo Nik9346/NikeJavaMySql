@@ -1,6 +1,6 @@
 import { Component, OnChanges } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
-import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesCartDb, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
 
 import { AuthService } from '../../services/auth.service';
 import { IColor } from '../../models/color.interface';
@@ -22,7 +22,7 @@ export class AllProductComponent{
   isLoggedIn: boolean
   user:string
   cartVisible: boolean = false
-  shoesSelectedArray:IShoesSelected[] = []
+  shoesSelectedArray:IShoesCartDb[] = []
   colorMap : {[key: string]:string} ={
     "Black": "#000000",
     "White": "#ffffff",
