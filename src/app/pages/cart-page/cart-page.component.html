@@ -20,7 +20,7 @@
                 </div>
                 <div *ngFor="let s of cartShoesItem" class="row">
                     <div class="mt-3 col-12 col-md-3">
-                        <img [src]="s.immagine" alt="">
+                        <img [src]="s.scarpa.immagine" alt="">
                         <div class="row">
                             <h6>Ritiro gratuito</h6>
                             <h6><u>Trova un negozio</u></h6>
@@ -33,13 +33,13 @@
                         <div class="d-md-flex">
                             <p class="mb-0">Taglia/misura</p>
                             <select [(ngModel)]="s.taglia" class="mx-2 form-select p-0"
-                                aria-label="Default select example" *ngIf="s">
+                                aria-label="Default select example" (change)="update(s)" *ngIf="s">
                                 <option selected>{{s.taglia}}</option>
                                 <option *ngFor="let size of s.scarpa.taglie" [hidden]="size == s.taglia">{{size}}</option>
                             </select>
                             <p class="mb-0">Quantità</p>
                             <select [(ngModel)]="s.quantita" class="mx-2 form-select p-0"
-                                aria-label="Default select example">
+                                aria-label="Default select example" (change)="update(s)">
                                 <option value="1" selected>1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -126,7 +126,7 @@
                     <button [disabled]="cartShoesItem.length == 0" *ngIf="isLoggedIn == false" class="my-2 btn-add-cart"
                         routerLink="/payment" (click)="dataUpdate()">Vai al pagamento</button>
                     <button [disabled]="cartShoesItem.length == 0" *ngIf="isLoggedIn == true" class="my-2 btn-add-cart"
-                        routerLink="/order" (click)="dataUpdateLogged()">Vai al pagamento</button>
+                        routerLink="/payment" (click)="dataUpdateLogged()">Vai al pagamento</button>
                     <button class="my-2 btn-add-favorite"><img alt="PayPal" width="51" height="14"
                             src="https://www.nike.com/assets/experience/pet/payment-icons/paypal@2x.png"
                             class="css-v7ibj3 e1cllo3c1"></button>

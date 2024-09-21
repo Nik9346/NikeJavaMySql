@@ -1,4 +1,6 @@
+import { IAddressDb } from "./address.interface";
 import { IUtenteDb } from "./login-interface.models";
+import { IPayment } from "./payment.interface";
 import { IScarpaOrdinataDb, IShoesSelected } from "./shoes-interface.models";
 
 export interface IOrderData {
@@ -7,10 +9,9 @@ export interface IOrderData {
 }
 
 export interface IOrderDb{
-    in:number,
-    data:Date,
-    importo:number,
-    utente:IUtenteDb,
-    scarpaOrdinata: IScarpaOrdinataDb
-
+    id?:number,
+    speseSpedizione: number,
+    importo: number,
+    indirizzo: IAddressDb,
+    pagamento: IPayment
 }

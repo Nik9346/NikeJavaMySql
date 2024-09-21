@@ -68,22 +68,3 @@ export interface IScarpaOrdinataDb{
   ordine:IOrderDb
 }
 
-export interface IShoesCartDb{
-  id?: number,
-  scarpa:IShoesDb,
-  colore: IcolorDb,
-  taglia: ITagliaDb,
-  quantita?: number
-  }
-export interface IShoesItemAddToCart{
-  scarpa : {
-    id: number
-  },
-  colore: {
-    id:number
-  },
-  taglia:{
-    id:number
-  },
-  quantita?: number
-}

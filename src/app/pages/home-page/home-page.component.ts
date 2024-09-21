@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
-import { IShoes, IShoesCartDb, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs';
 import { SessionService } from '../../services/session.service';
 import { CartService } from '../../services/cart.service';
+import { IShoesCartDb } from '../../models/cart.inteface';
+import { ResolveEnd } from '@angular/router';
 
 
 @Component({
@@ -12,7 +14,7 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.sass'
 })
-export class HomePageComponent implements AfterViewInit {
+export class HomePageComponent implements OnInit {
 
   shoes: IShoesDb[] = []
   user: string
@@ -25,27 +27,44 @@ export class HomePageComponent implements AfterViewInit {
 
 
 
-  constructor(private shoesService: ShoesService, private authService: AuthService, private session: SessionService, private cartService: CartService) { }
+  constructor(private shoesService: ShoesService, private authService: AuthService, private session: SessionService, private cartService: CartService, private sessionService: SessionService) { }
 
   // Funzione che fa una chiamata al service e popola le due variabili relative alle scarpe e al carrello
-  ngAfterViewInit() {
+  ngOnInit() {
     this.shoesService.getShoes().subscribe((response) => {
       this.shoes = response
     })
-    let randomNumber : number = this.shoesService.getRandomArbitrary()
-    let randomNumberString : string = randomNumber.toString(10)
+
+    let randomNumber: number = this.shoesService.getRandomArbitrary()
+    let randomNumberString: string = randomNumber.toString(10)
+
     sessionStorage.setItem("utente:", randomNumberString)
-    
+
     // this.shoesSelectedArray = this.shoesService.shoesSelectedArray
+
     this.isLoggedIn = this.authService.isLoggedIn
     if (this.isLoggedIn) {
-      this.user = this.shoesService.user
-      this.cartService.getCart().subscribe((res)=>{
-        res.forEach((element)=>{
-          this.shoesSelectedArray.push(element)
+      this.user = this.shoesService.utente.profilo.username
+      this.cartService.getCartItem().subscribe((res) => {
+        res.forEach((element) => {
+          if (!this.shoesSelectedArray.includes(element))
+            this.shoesSelectedArray.push(element)
         })
         this.shoesService.shoesSelectedArray = this.shoesSelectedArray
-    })}
+      })
+    }
+    let savedItemCart = this.sessionService.getItem("carrello:")
+    if (savedItemCart) {
+      savedItemCart.forEach((element) => {
+        this.cartService.getCartItemNotLogged(element).subscribe((res) => {
+          if (res && !this.shoesSelectedArray.includes(res)) {
+            this.shoesSelectedArray.push(res)
+            this.shoesService.shoesSelectedArray = this.shoesSelectedArray
+          }
+        })
+      }
+      )
+    }
   }
 
   // Funzioni utilizzate per lo scorrimento dei div a destra e sinistra
@@ -82,22 +101,20 @@ export class HomePageComponent implements AfterViewInit {
     this.cartVisible = false
   }
 
-  filterContainerBlur()
-  {
+  filterContainerBlur() {
     this.container.nativeElement.style.filter = 'blur(8px)'
   }
-  filterContainerBlurOff()
-  {
+  filterContainerBlurOff() {
     this.container.nativeElement.style.filter = 'none'
   }
   // Funzione utilizzata per il logout
   logout() {
-    this.authService.logoutDb(localStorage.getItem("token")).subscribe((response)=>{
+    this.authService.logoutDb(localStorage.getItem("token")).subscribe((response) => {
       console.log(response);
     })
     this.isLoggedIn = false
     this.authService.isLoggedIn = !this.authService.isLoggedIn
-    this.shoesService.shoesSelectedArray.splice(0,this.shoesSelectedArray.length)
+    this.shoesService.shoesSelectedArray.splice(0, this.shoesSelectedArray.length)
     localStorage.removeItem("token")
     sessionStorage.removeItem("utente:")
     sessionStorage.removeItem("carrello:")
@@ -108,18 +125,18 @@ export class HomePageComponent implements AfterViewInit {
 
 // questa funzione mi ha permesso di popolare le immagini
 // this.shoesName.forEach((shoes) => {
-      //   this.shoesService.searchImages(shoes).subscribe((response) => {
+//   this.shoesService.searchImages(shoes).subscribe((response) => {
 
-      //     console.log(response);
-      //     this.shoes.forEach(element => {
-      //       if (response.items[0].title.toLowerCase().includes(element.nome.toLowerCase())) {
-      //         const image = response.items[0].link
-      //         // element.immagine = image
-      //         this.shoesService.addImgShoes(element.id, image).subscribe(() => {
-      //           element.immagine = image
-      //         })
-      //       }
-      //     })
-      //   })
-      // })  
+//     console.log(response);
+//     this.shoes.forEach(element => {
+//       if (response.items[0].title.toLowerCase().includes(element.nome.toLowerCase())) {
+//         const image = response.items[0].link
+//         // element.immagine = image
+//         this.shoesService.addImgShoes(element.id, image).subscribe(() => {
+//           element.immagine = image
+//         })
+//       }
+//     })
+//   })
+// })  
 

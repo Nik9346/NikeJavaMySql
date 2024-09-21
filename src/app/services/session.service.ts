@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
-import { IShoes, IShoesCartDb, IShoesDb, IShoesItemAddToCart, IShoesSelected } from '../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesSelected } from '../models/shoes-interface.models';
 import { elementAt } from 'rxjs';
+import { CartService } from './cart.service';
+import { ShoesService } from './shoes.service';
+import { ITagliaDb } from '../models/taglia.interface';
+import { IShoesCartDb, IShoesItemAddToCart } from '../models/cart.inteface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
 
-  constructor() { }
+  constructor(private shoesService: ShoesService) { }
 
   setItem(shoesInCart: IShoesCartDb[]): void {
     let cartSaveInSession: IShoesCartDb[] = this.getItem("carrello:")
@@ -21,38 +25,58 @@ export class SessionService {
     }
   }
 
-  addItem(shoesAddToCart: IShoesItemAddToCart):void{
-    let cartSaveInSession : IShoesItemAddToCart[] = this.getItem("carrello:")
-    if(cartSaveInSession == null){
-      let shoesCartItemArray : IShoesItemAddToCart[] = [shoesAddToCart];
-      sessionStorage.setItem("carrello:",JSON.stringify(shoesCartItemArray));
-    } else{
-      let shoesCartItemArray : IShoesItemAddToCart[]= []
-      cartSaveInSession.forEach((element) =>{
+  addItem(shoesAddToCart: IShoesItemAddToCart): void {
+    let cartSaveInSession: IShoesItemAddToCart[] = this.getItem("carrello:")
+    if (cartSaveInSession == null) {
+      let shoesCartItemArray: IShoesItemAddToCart[] = [shoesAddToCart];
+      sessionStorage.setItem("carrello:", JSON.stringify(shoesCartItemArray));
+    } else {
+      let shoesCartItemArray: IShoesItemAddToCart[] = []
+      cartSaveInSession.forEach((element) => {
         shoesCartItemArray.push(element)
       })
       shoesCartItemArray.push(shoesAddToCart)
-      sessionStorage.setItem("carrello:",JSON.stringify(shoesCartItemArray));
+      sessionStorage.setItem("carrello:", JSON.stringify(shoesCartItemArray));
     }
   }
 
   removeItemCart(shoes: IShoesCartDb): void {
     let cartSaveInSession: IShoesCartDb[] = this.getItem("carrello:")
-    console.log(shoes);
     let index = cartSaveInSession.indexOf(shoes);
-    cartSaveInSession.splice(index,1);
-    console.log(cartSaveInSession);
+    cartSaveInSession.splice(index, 1);
     sessionStorage.setItem("carrello:", JSON.stringify(cartSaveInSession));
-    if(cartSaveInSession.length<=0){
+    if (cartSaveInSession.length <= 0) {
       this.removeSession("carrello:");
     }
   }
 
   getItem(key: string): any {
-    const value = sessionStorage.getItem(key);
-    return value ? JSON.parse(value) : null;
+    let cartSavedInSession = sessionStorage.getItem(key)
+    return cartSavedInSession ? JSON.parse(cartSavedInSession) : null;
   }
-  removeSession(key:string){
+  removeSession(key: string) {
     sessionStorage.removeItem(key);
   }
+
+  updateItem(shoesAddToCart: IShoesItemAddToCart): void {
+    let cartSaveInSession: IShoesItemAddToCart[] = this.getItem("carrello:")
+    let newCartSaveInSession: IShoesItemAddToCart[];
+    let newSize: ITagliaDb
+    this.shoesService.getTagliaByNumber(+shoesAddToCart.taglia).subscribe((res)=>{
+      newSize = res
+      if (cartSaveInSession && newSize) {
+        newCartSaveInSession = cartSaveInSession.map((scarpa => {
+          if (scarpa.scarpa.id === shoesAddToCart.scarpa.id) return {
+            ...scarpa,
+            quantita : +shoesAddToCart.quantita,
+            taglia : {id:newSize.id}
+          }
+          return scarpa;
+        })
+      )
+    }
+    sessionStorage.setItem("carrello:",JSON.stringify(newCartSaveInSession));
+    })
+  }
+
 }

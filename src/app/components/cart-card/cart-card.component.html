@@ -12,7 +12,7 @@
         <ng-container *ngFor="let s of shoesSelectedArray">
             <div *ngIf="s" class="d-md-flex">
                 <div class="col-12 col-md-6 col-lg-3">
-                    <img [src]="s.immagine" alt="">
+                    <img [src]="s.scarpa.immagine" alt="">
                 </div>
                 <div class="mx-3 col-12 col-md-6 col-lg-9">
                     <h4>{{s.scarpa.nome}}</h4>
@@ -31,7 +31,7 @@
                 <button routerLink="/cart" class="btn-add-favorite col-12">Visualizza carrello <span *ngIf="shoesSelectedArray">({{shoesSelectedArray.length}})</span></button>
             </div>
             <div class="col-md-12 col-lg-6 my-3 my-md-0 px-2 px-lg-1">
-                <button *ngIf="!isLoggedIn" class="btn-add-cart col-12" routerLink="/payment">Pagamento</button>
+                <button disabled *ngIf="!isLoggedIn" class="btn-add-cart col-12" routerLink="/payment">Pagamento</button>
             </div>
         </ng-container>
         <ng-container  *ngIf="isLoggedIn">

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoesCartDb } from '../../models/cart.inteface';
 
 @Component({
   selector: 'app-card-order-product',
@@ -8,6 +9,6 @@ import { IShoesSelected } from '../../models/shoes-interface.models';
 })
 export class CardOrderProductComponent {
 
-  @Input() shoes:IShoesSelected
+  @Input() shoes:IShoesCartDb
 
 }

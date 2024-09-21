@@ -1,11 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IShoes, IShoesCartDb, IShoesDb, IShoesDbForSave, IShoesSelected } from '../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesDbForSave, IShoesSelected } from '../models/shoes-interface.models';
 import { Observable } from 'rxjs';
 import { ICategory } from '../models/category.interface';
 import { NgIf } from '@angular/common';
 import { IColor, IcolorDb } from '../models/color.interface';
 import { ITagliaDb } from '../models/taglia.interface';
+import { IShoesCartDb } from '../models/cart.inteface';
+import { IUtenteDb } from '../models/login-interface.models';
+import { IAddressDb } from '../models/address.interface';
 
 
 @Injectable({
@@ -23,6 +26,7 @@ export class ShoesService {
   nome: string
   cognome: string
   indirizzo: string
+  civico: string
   citta: string
   paese: string
   telefono: string
@@ -30,6 +34,11 @@ export class ShoesService {
   email: string
   user: string
   id:string
+
+  
+  utente: IUtenteDb
+  indirizzoDb: IAddressDb
+  
   testUrlRequest : string = "http://localhost:8080/";
   deployUrl : string = "https://json-server-nikeangular.onrender.com/"
   test:boolean = true

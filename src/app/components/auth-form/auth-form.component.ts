@@ -22,7 +22,7 @@ export class AuthFormComponent implements OnInit {
   ngOnInit(): void {
     this.authForm = new FormGroup({
       username: new FormControl("", Validators.required),
-      password: new FormControl("", [Validators.required, Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$')])
+      password: new FormControl("", [Validators.required, Validators.pattern('(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,50}')])
     })
   }
 

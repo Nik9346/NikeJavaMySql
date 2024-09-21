@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-address-form',
@@ -7,6 +7,18 @@ import { FormGroup } from '@angular/forms';
   styleUrl: './address-form.component.sass'
 })
 export class AddressFormComponent {
-  @Input() addressForm:FormGroup
+  @Input() addressForm:FormArray
 
+  constructor(){
+    this.addressForm = new FormArray([
+      new FormGroup({
+        indirizzo: new FormControl(''),
+        civico: new FormControl(''),
+        città: new FormControl(''),
+        paese: new FormControl(''),
+        cap: new FormControl(''),
+        provincia: new FormControl('')
+    })
+  ])
+  }
 }

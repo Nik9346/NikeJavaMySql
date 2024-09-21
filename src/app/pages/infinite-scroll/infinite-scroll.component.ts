@@ -1,8 +1,9 @@
 import { Component, HostListener, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PaginationService } from '../../services/pagination.service';
-import { IShoes, IShoesCartDb, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
 import { AuthService } from '../../services/auth.service';
 import { ShoesService } from '../../services/shoes.service';
+import { IShoesCartDb } from '../../models/cart.inteface';
 
 
 @Component({

@@ -1,8 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
-import { IShoes, IShoesCartDb, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesSelected } from '../../models/shoes-interface.models';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { IShoesCartDb } from '../../models/cart.inteface';
 
 @Component({
   selector: 'app-category',

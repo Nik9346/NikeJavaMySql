@@ -1,9 +1,10 @@
 import { Component, OnChanges } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
-import { IShoes, IShoesCartDb, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
 
 import { AuthService } from '../../services/auth.service';
 import { IColor } from '../../models/color.interface';
+import { IShoesCartDb } from '../../models/cart.inteface';
 
 @Component({
   selector: 'app-all-product',

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Output, output, ViewChild, viewChild } from '@angular/core';
-import { IShoes, IShoesCartDb, IShoesDb, IShoesItemAddToCart, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { ShoesService } from '../../services/shoes.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -7,6 +7,7 @@ import { SessionService } from '../../services/session.service';
 import { ITagliaDb } from '../../models/taglia.interface';
 import { IcolorDb } from '../../models/color.interface';
 import { CartService } from '../../services/cart.service';
+import { IShoesCartDb, IShoesItemAddToCart } from '../../models/cart.inteface';
 
 @Component({
   selector: 'app-shoes-page',
@@ -62,18 +63,18 @@ export class ShoesPageComponent {
   // con questa funzione aggiungo delle proprietà al prodotto che mi occorrono per il carrello
   getShoesAttribute(): void {
     const shoesCopy: IShoesItemAddToCart = {
-      scarpa: {id:this.singleShoes.id},
-      colore: {id:this.colorSelected.id},
-      taglia: {id:this.sizeSelected.id},
+      scarpa: { id: this.singleShoes.id },
+      colore: { id: this.colorSelected.id },
+      taglia: { id: this.sizeSelected.id },
       quantita: 1
     }
-    const shoesSelectedForArray : IShoesCartDb = {
-      scarpa: this.singleShoes,
-      colore: this.colorSelected,
-      taglia: this.sizeSelected,
-      quantita: 1
-    }
-    this.shoesSelectedArray.push(shoesSelectedForArray);
+    // const shoesSelectedForArray : IShoesCartDb = {
+    //   scarpa: this.singleShoes,
+    //   colore: this.colorSelected,
+    //   taglia: this.sizeSelected,
+    //   quantita: 1
+    // }
+    //this.shoesService.shoesSelectedArray.push(shoesSelectedForArray)
     this.shoesToAddToCart = shoesCopy;
   }
   //  controllo che sia selezionata la taglia e la assegno ad una variabile
@@ -95,6 +96,7 @@ export class ShoesPageComponent {
       !this.completeSizeColor
     }
   }
+
   // aggiungo il prodotto al carrello
   addToCart() {
     if (!this.sizeSelected || !this.colorSelected) {
@@ -102,13 +104,22 @@ export class ShoesPageComponent {
     } else {
       this.completeSizeColor = true
       this.getShoesAttribute()
-      this.cartService.saveItemCart(this.shoesToAddToCart).subscribe()
-      this.cartService.getCart().subscribe((res)=>{
-        this.shoesService.shoesSelectedArray = res
+      if (this.isLoggedIn) {
+        this.cartService.saveItemCart(this.shoesToAddToCart).subscribe(()=>{
+          this.cartService.getCartItem().subscribe((res) => {
+            this.shoesService.shoesSelectedArray = res
+            this.viewCart()
+          })
+        })
+      }
+      this.cartService.saveItemCart(this.shoesToAddToCart)
+      this.cartService.getCartItemNotLogged(this.shoesToAddToCart).subscribe((res) => {
+        this.shoesService.shoesSelectedArray.push(res)
+        this.viewCart()
       })
-      this.viewCart()
     }
   }
+
   viewCart() {
     this.container.nativeElement.classList.add('container-filter')
     this.cartVisible = true

@@ -21,6 +21,8 @@ export class AuthComponent {
   isLoggedIn: boolean
   user: string
   passwordError: boolean = false
+  registerComplete: boolean = false
+  userNameConfict: boolean = false
 
 
   constructor(private shoesService: ShoesService, 
@@ -57,11 +59,23 @@ export class AuthComponent {
     })
     this.router.navigate(['/home-page'])
   }
+
+  //Funzione utilizzata per registrare l'utente, verifica che non sia già presente nel Db l'username, in caso di conflitto cambia la variabile che nel componente figlio permette di visualizzare il messaggio di errore
   updateDataUserDb(event: IUtenteDb) {
     this.authService.registerDb(event).subscribe((response: ILoginDataDbResponse) => {
+      if(response.codice == 200){
+        this.registerComplete = true
       const responseServerLogin: ILoginDataDbResponse = response;
       this.saveTokentoStorage(responseServerLogin.messaggio);
-    })
+    }  
+  },(error) =>{
+      if(error.error.codice == 409){
+        this.userNameConfict = true
+        setTimeout(() => {
+          this.userNameConfict = false
+        }, 3000);
+      }
+    });
   }
   // Funzione utilizzata al click sul pulsante login prende i dati dal database, fa una chiamata post al locale storage per salvare il token, cambia il valore della variabile IsloggedIn in true e posta tutti i dati allo shoesService. Poi reindirizza alla home-page
   goToLogin(event: Object) {
@@ -103,12 +117,21 @@ export class AuthComponent {
         })
         this.sessionService.removeSession("carrello:")
       }
-      this.shoesService.nome = profiloResponse.nome
-      this.shoesService.cognome = profiloResponse.cognome
-      this.shoesService.user = profiloResponse.profilo.username
+      this.shoesService.utente = profiloResponse;
+      //  this.shoesService.utente.nome = profiloResponse.nome
+      // this.shoesService.utente.cognome = profiloResponse.cognome
+      // this.shoesService.utente.profilo.username = profiloResponse.profilo.username
+      // this.shoesService.utente.indirizzi[0].cap = profiloResponse.indirizzi[0].cap
+      // this.shoesService.utente.indirizzi[0].citta = profiloResponse.indirizzi[0].citta
+      // this.shoesService.utente.indirizzi[0].indirizzo = profiloResponse.indirizzi[0].indirizzo
+      // this.shoesService.utente.indirizzi[0].paese = profiloResponse.indirizzi[0].paese
+      // this.shoesService.utente.indirizzi[0].civico = profiloResponse.indirizzi[0].civico
       setTimeout(()=>{
-        this.cartService.getCart().subscribe((res)=>{
-          this.shoesService.shoesSelectedArray.push(res)
+        this.cartService.getCartItem().subscribe((res)=>{
+          res.forEach((i)=>{
+            if(!this.shoesService.shoesSelectedArray.includes(i))
+              this.shoesService.shoesSelectedArray.push(i)
+          })
         })
         this.router.navigate(['/home-page']);
       },500)

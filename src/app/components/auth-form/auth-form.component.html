@@ -1,6 +1,6 @@
 <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="col-12">
     <div class="mb-md-4 my-3 mx-md-5 text-center">
-        <h3>Entra nell'area Riservata</h3>
+        <h3>ENTRA NELL'AREA RISERVATA</h3>
     </div>
     <div class="form-group my-md-3 mx-md-5">
         <label for="exampleInputEmail1" class="mb-1">Username</label>
@@ -25,13 +25,12 @@
         <div *ngIf="passwordError" class="form-text text-red">La password inserita non è corretta</div>
     </div>
     <div class="d-md-flex justify-content-between mt-md-5 mx-md-5">
-        <button [disabled]="!authForm.valid" type="submit"
+        <button type="submit" [disabled]="!authForm.valid"
             class="btn-add-cart border-0 col-12 my-2 my-md-0 col-md-5 ">Accedi</button>
 
         <!-- <button type="button" class="btn-add-cart border-0 col-12 col-md-5" (click)="goToRegistration()">Registrati</button> -->
 
 
-        <button type="button" class="btn-add-cart border-0 col-12 col-md-5" (click)="goToRegistrationDb()">Registrati
-            nel db</button>
+        <button type="button" class="btn-add-cart border-0 col-12 col-md-5" (click)="goToRegistrationDb()">Registrati</button>
     </div>
 </form>

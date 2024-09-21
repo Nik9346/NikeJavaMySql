@@ -1,8 +1,9 @@
 <div class="container-fluid">
+    <app-modal [triggerMod]="triggerModal" (goToRoute)="goToHomePage()" [isLoggedIn]="isLoggedIn" [orderNumber]="orderNumber"></app-modal>
     <app-navbar-payment></app-navbar-payment>
     <div class="mt-5 container">
         <div class="text-center">
-            <h4>Ordine Confermato</h4>
+            <h4>Riepilogo Ordine</h4>
         </div>
         <div class="d-md-flex">
             <div class="col-12 col-md-8 p-2 px-md-3 py-md-3">
@@ -12,19 +13,43 @@
             </div>
             <div class="col-12 col-md-4 p-2 px-md-3 py-md-3">
                 <div class="row">
-                    <div class="card">
+                    <div *ngIf="isLoggedIn" class="card">
                         <div class="card-header text-center">
-                            <h5 *ngIf="orderNumber">Ordine N°{{orderNumber}}</h5>
+                            <h5>DATI UTENTE</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{utente.nome}} {{utente.cognome}}</li>
+                            <li class="list-group-item">{{utente.indirizzi[0].indirizzo}}, {{utente.indirizzi[0].citta}}, {{utente.indirizzi[0].cap}}</li>
+                        </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Spese spedizione € {{deliveryCosts}}</li>
+                            <li class="list-group-item">Importo totale € {{paymentMethod.importo}}</li>
+                        </ul>
+                    </div>
+                    <div *ngIf="!isLoggedIn" class="card">
+                        <div class="card-header text-center">
+                            <h5>DATI UTENTE</h5>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{nome}} {{cognome}}</li>
                             <li class="list-group-item">{{indirizzo}}, {{citta}}, {{cap}}</li>
-                            <li class="list-group-item">{{email}}</li>
-                            <li class="list-group-item">{{telefono}}</li>
+                        </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Importo totale € {{total}}</li>
+                            <li class="list-group-item">Ordine N° {{orderNumber}}</li>
                         </ul>
                     </div>
                     <div class="justify-content-center mt-2 mt-md-5 d-flex">
-                        <button class="col-12 btn-add-cart" (click)="resetCart()" routerLink="/home-page">Acquista Nuovi Prodotti</button>
+                        <button *ngIf="!isLoading && isLoggedIn" [disabled]="triggerModal" class="col-12 btn-add-cart" data-toggle="modal" data-target="#exampleModal" (click)="sendOrder()">
+                            Conferma ordine
+                        </button>
+                        <button *ngIf="!isLoggedIn && !isLoading" [disabled]="triggerModal" class="col-12 btn-add-cart" data-toggle="modal" data-target="#exampleModal" (click)="sendOrderNotLogged()">
+                            Conferma ordine
+                        </button>
+                        <button *ngIf="isLoading" class="col-12 btn-add-cart" disabled>
+                            Invio dati in corso...
+                        <span class="spinner-border"></span>
+                        </button>
                     </div>
                 </div>
             </div>

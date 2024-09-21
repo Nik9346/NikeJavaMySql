@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IShoes, IShoesCartDb, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
+import { IShoes, IShoesDb, IShoesSelected } from '../../models/shoes-interface.models';
 import { ShoesService } from '../../services/shoes.service';
 import { AuthService } from '../../services/auth.service';
+import { IShoesCartDb } from '../../models/cart.inteface';
 
 @Component({
   selector: 'app-best-seller',

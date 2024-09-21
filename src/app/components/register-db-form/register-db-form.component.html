@@ -1,76 +1,148 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <div class="text-center mb-md-5 my-3">
-        <h3>Inserisci i dati per la registrazione</h3>
-    </div>
-
-    <div class="d-md-flex my-md-2">
-        <div class="form-group col-md-6 me-md-2">
-            <label for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" aria-describedby="emailHelp"
-                placeholder="Inserisci il nome" formControlName="nome">
-            <div *ngIf="registerForm.controls.nome?.touched && registerForm.controls.nome?.value?.length <1"
-                id="name-error" class="form-text text-red">Inserisci il tuo nome.</div>
-            <div *ngIf="registerForm.controls.nome?.touched && registerForm.controls.nome?.errors?.pattern"
-                id="name-error" class="form-text text-red">Inserisci un nome valido</div>
+<form *ngIf="!registerComplete" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="mx-auto col-10 justify-content-center">
+        <div class="text-center mb-md-5 mt-5 mb-3">
+            <h3>INSERISCI I DATI PER LA REGISTRAZIONE</h3>
         </div>
-        <div class="form-group col-md-6">
-            <label for="cognome">Cognome</label>
-            <input type="text" class="form-control" id="cognome" aria-describedby="emailHelp"
-                placeholder="Inserisci il tuo cognome" formControlName="cognome">
-            <div *ngIf="registerForm.controls.cognome?.touched && registerForm.controls.cognome?.value.length <1"
-                id="surname-error" class="form-text text-red">Inserisci il tuo Cognome.</div>
-        </div>
-    </div>
-    <!-- <div formArrayName="indirizzi">
-        <app-address-form [addressForm]="indirizzo"></app-address-form>
-    </div> -->
-    <!-- <div class="col-12 d-md-flex my-md-2">
-        <div class="form-group col-md-6 me-md-2">
-            <label for="telefono">Telefono</label>
-            <input type="tel" class="form-control" id="telefono" aria-describedby="emailHelp"
-                placeholder="Inserisci il numero di telefono" formControlName="telefono">
-            <div *ngIf="registerForm.controls.telefono?.touched == true && registerForm.controls.telefono?.value?.length <1"
-                class="form-text text-red">Questo campo è obbligatorio</div>
-            <div *ngIf="registerForm.controls.telefono?.errors?.pattern" class="form-text text-red">
-                Inserisci un numero di telefono valido</div>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                placeholder="Inserisci la tua email" formControlName="email">
-            <div *ngIf="registerForm.controls.email?.touched == true && registerForm.controls.email?.value?.length <1"
-                class="form-text text-red">Questo campo è obbligatorio</div>
-            <div *ngIf="registerForm.controls.email?.touched == true && registerForm.controls.email?.errors?.pattern"
-                class="form-text text-red">Inserisci un indirizzo email valido</div>
-        </div> -->
-    <!-- </div> -->
-
-    <div formGroupName="profilo">
-        <div class="col-12 d-md-flex my-md-2">
+        <div class="d-md-flex my-md-2">
             <div class="form-group col-md-6 me-md-2">
-                <label for="user">Username</label>
-                <input type="text" class="form-control" id="user" aria-describedby="emailHelp"
-                    placeholder="Inserisci una Username" formControlName="username">
-                <div *ngIf="registerForm.controls.username?.touched == true && registerForm.controls.username?.value?.length <1"
-                    class="form-text text-red">Questo campo è obbligatorio</div>
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" aria-describedby="emailHelp"
+                    placeholder="Inserisci il nome" formControlName="nome">
+                <div *ngIf="registerForm.controls.nome?.touched && registerForm.controls.nome?.value?.length <1"
+                    id="name-error" class="form-text text-red">Inserisci il tuo nome.</div>
+                <div *ngIf="registerForm.controls.nome?.touched && registerForm.controls.nome?.errors?.pattern"
+                    id="name-error" class="form-text text-red">Inserisci un nome valido</div>
             </div>
             <div class="form-group col-md-6">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" aria-describedby="emailHelp"
-                    placeholder="Inserisci una Password" formControlName="password">
-                <div *ngIf="registerForm.controls.password?.touched == true && registerForm.controls.password?.value?.length <1"
-                    class="form-text text-red">Questo campo è obbligatorio</div>
-                <div *ngIf="registerForm.controls.password?.touched == true && registerForm.controls.password?.errors?.pattern"
-                    class="form-text text-red">Inserisci una password di almeno 8 caratteri e 1 numero</div>
+                <label for="cognome">Cognome</label>
+                <input type="text" class="form-control" id="cognome" aria-describedby="emailHelp"
+                    placeholder="Inserisci il tuo cognome" formControlName="cognome">
+                <div *ngIf="registerForm.controls.cognome?.touched && registerForm.controls.cognome?.value.length <1"
+                    id="surname-error" class="form-text text-red">Inserisci il tuo Cognome.</div>
             </div>
         </div>
+        <div formArrayName="indirizzi">
+            <ng-container *ngFor="let control of addressesAsFormArray.controls; let i = index">
+                <div [formGroupName]="i">
+                    <div class="col-10 d-md-flex mt-md-3">
+                        <h5 class="m-0 p-0">Indirizzo {{getLabelIndirizzo(i)}}</h5>
+                    </div>
+                    <div class="col-12 d-md-flex my-md-2">
+                        <div class="form-group col-md-6 me-md-2">
+                            <label for="indirizzo">Indirizzo</label>
+                            <input type="text" class="form-control" id="indirizzo"
+                                placeholder="Inserisci il tuo indirizzo" formControlName="indirizzo">
+                            <ng-container *ngIf="formValidation(control,'indirizzo')">
+                                <div *ngIf="getFieldErrorByType(control,'indirizzo','required')" id="address-error"
+                                    class="form-text text-red">Questo campo è obbligatorio</div>
+                                <div *ngIf="getFieldErrorByType(control, 'indirizzo', 'pattern')" id="address-error2"
+                                    class="form-text text-red">Inserisci un indirizzo valido</div>
+                            </ng-container>
+                        </div>
+                        <div class="form-group col-md-2 me-md-1">
+                            <label for="civico">Civico</label>
+                            <input type="text" maxlength="10" class="form-control" id="civico" placeholder="22"
+                                formControlName="civico">
+                            <ng-container *ngIf="formValidation(control,'civico')">
+                                <div *ngIf="getFieldErrorByType(control,'civico','required')" id="address-error"
+                                    class="form-text text-red">Questo campo è obbligatorio</div>
+                                <div *ngIf="getFieldErrorByType(control, 'civico', '')" id="address-error2"
+                                    class="form-text text-red">Inserisci un civico valido</div>
+                            </ng-container>
+                        </div>
+                        <div class="form-group col-md-4 me-md-2">
+                            <label for="Paese">Nazione</label>
+                            <input type="text" class="form-control" id="Paese" placeholder="Inserisci la Nazione"
+                                formControlName="paese">
+                        </div>
+                    </div>
+                    <div class="col-12 d-md-flex my-md-2">
+                        <div class="form-group col-md-7 me-md-1">
+                            <label for="citta">Città</label>
+                            <input type="text" class="form-control" id="citta" aria-describedby="emailHelp"
+                                placeholder="Inserisci la città" formControlName="citta">
+                            <ng-container *ngIf="formValidation(control,'citta')">
+                                <div *ngIf="getFieldErrorByType(control,'citta','required')" id="address-error"
+                                    class="form-text text-red">Questo campo è obbligatorio</div>
+                                <div *ngIf="getFieldErrorByType(control, 'citta', 'pattern')" id="address-error2"
+                                    class="form-text text-red">Inserisci un città valida</div>
+                            </ng-container>
+                        </div>
+                        <div class="form-group col-md-2 me-md-1">
+                            <label for="provincia">Provincia</label>
+                            <input type="text" class="form-control" id="provincia" aria-describedby="emailHelp"
+                                placeholder="Rm" formControlName="provincia">
+                            <ng-container *ngIf="formValidation(control,'provincia')">
+                                <div *ngIf="getFieldErrorByType(control,'indirizzo','required')" id="address-error"
+                                    class="form-text text-red">Questo campo è obbligatorio</div>
+                                <div *ngIf="getFieldErrorByType(control, 'indirizzo', 'pattern')" id="address-error2"
+                                    class="form-text text-red">Inserisci una provincia valida</div>
+                            </ng-container>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="cap">Cap</label>
+                            <input type="text" class="form-control" id="cap" aria-describedby="emailHelp"
+                                placeholder="CAP" formControlName="cap">
+                            <ng-container *ngIf="formValidation(control,'cap')">
+                                <div *ngIf="getFieldErrorByType(control,'cap','required')" id="address-error"
+                                    class="form-text text-red">Questo campo è obbligatorio</div>
+                                <div *ngIf="getFieldErrorByType(control, 'cap', 'pattern')" id="address-error2"
+                                    class="form-text text-red">Inserisci un CAP valido</div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 d-md-flex my-md-1" *ngIf="this.addressesAsFormArray.length>1">
+                    <button type="button" class="btn bold font-small p-0 m-0" (click)="removeAddress(i)">- Rimuovi
+                        indirizzo</button>
+                </div>
+            </ng-container>
+            <div *ngIf="addressesAsFormArray.length == 1" class="col-12 d-md-flex justify-content-start">
+                <button type="button" class="btn font-small p-0 m-0" (click)="addAddress()">+ Aggiungi
+                    indirizzo</button>
+            </div>
+        </div>
+        <div formGroupName="profilo">
+            <div class="col-12 d-md-flex my-md-2">
+                <div class="form-group col-md-6 me-md-2">
+                    <label for="user">Username</label>
+                    <input type="text" class="form-control" id="user" aria-describedby="emailHelp"
+                        placeholder="Inserisci una Username" formControlName="username">
+                    <ng-container *ngIf="formValidation(profiloAsFormGroup,'username')">
+                        <div *ngIf="getFieldErrorByType(profiloAsFormGroup,'username','required')" id="address-error"
+                            class="form-text text-red">Questo campo è obbligatorio</div>
+                    </ng-container>
+                    <div *ngIf="userNameConfict == true" id="address-error2" class="form-text text-red">Spiacenti,
+                        username già in uso</div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" aria-describedby="emailHelp"
+                        placeholder="Inserisci una Password" formControlName="password">
+                    <ng-container *ngIf="formValidation(profiloAsFormGroup,'password')">
+                        <div *ngIf="getFieldErrorByType(profiloAsFormGroup,'password','required')" id="address-error"
+                            class="form-text text-red">Questo campo è obbligatorio</div>
+                        <div *ngIf="getFieldErrorByType(profiloAsFormGroup, 'password', 'pattern')" id="address-error2"
+                            class="form-text text-red">Inserisci una password di almeno 8 caratteri, 1 numero e 1
+                            carattere speciale</div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!registerComplete" class="d-md-flex justify-content-center my-5">
+            <button [disabled]="registerForm.invalid" type="submit" class="btn-add-cart col-12 col-md-4 mx-md-1"
+                routerLink="/login">Registrati</button>
+            <button type="button" (click)="goToLoginPage()"
+                class="btn-add-cart border-0 col-12 col-md-4 my-2 my-md-0 mx-md-1">Torna Indietro</button>
+        </div>
     </div>
-    <div class="d-md-flex justify-content-center mt-3">
-        <button [disabled]="!registerForm.valid" type="submit" class="btn-add-cart col-12 col-md-6 mx-md-1"
-            routerLink="/login">Registrati</button>
-        <button type="button" (click)="goToLoginPage()"
-            class="btn-add-cart border-0 col-12 col-md-6 my-2 my-md-0 mx-md-1">Torna Indietro</button>
-    </div>
-
-
 </form>
+<div>
+    <div *ngIf="registerComplete" class="d-md-flex justify-content-center mt-3">
+        <h3>Registrazione avvenuta con successo</h3>
+    </div>
+    <div *ngIf="registerComplete" class="d-md-flex justify-content-center mt-3">
+        <button type="button" (click)="goToLoginPage()"
+            class="btn-add-cart border-0 col-12 col-md-6 my-2 my-md-0 mx-md-1">Vai al login</button>
+    </div>
+</div>
