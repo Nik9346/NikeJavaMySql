@@ -39,7 +39,7 @@ export class ShoesPageComponent {
     private cartService: CartService) {
     this.isLoggedIn = this.authService.isLoggedIn
     if (this.isLoggedIn) {
-      this.user = this.shoesService.user
+      this.user = this.shoesService.utente.profilo.username
     }
     this.activatedrouter.params.subscribe((params) => {
       this.shoesService.getShoesById(params.productId).subscribe((response) => {

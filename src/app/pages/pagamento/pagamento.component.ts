@@ -17,7 +17,7 @@ import { IUtenteDb } from '../../models/login-interface.models';
   templateUrl: './pagamento.component.html',
   styleUrl: './pagamento.component.sass'
 })
-export class PagamentoComponent implements AfterViewInit, OnInit {
+export class PagamentoComponent implements OnInit {
 
   shoesSelected: IShoesCartDb[] = []
   isLoggedIn: boolean
@@ -55,9 +55,9 @@ export class PagamentoComponent implements AfterViewInit, OnInit {
     // Reactive Forms
     this.paymentForm2 = new FormGroup(
       {
-        cardNumber: new FormControl("2133132132123131312", [Validators.required, Validators.pattern('(\\d\\s?){16,19}$')]),
+        cardNumber: new FormControl("", [Validators.required, Validators.pattern('(\\d\\s?){16,19}$')]),
         expiringDateCard: new FormControl('', Validators.required),
-        cardCvv: new FormControl("123", [Validators.required, Validators.pattern('^[0-9]{3,4}$')])
+        cardCvv: new FormControl("", [Validators.required, Validators.pattern('^[0-9]{3,4}$')])
       }
     )
     this.isLoggedIn = this.authService.isLoggedIn
@@ -68,12 +68,10 @@ export class PagamentoComponent implements AfterViewInit, OnInit {
         this.utente = this.shoesService.utente
       })
     }
+    this.shoesSelected = this.shoesService.shoesSelectedArray
     this.total = this.shoesService.total
     this.subtotal = this.shoesService.subtotal
     this.deliveryCost = this.shoesService.delivery
-  }
-
-  ngAfterViewInit(): void {
   }
 
   // Funzione che fa l'upload al service di tutti i dati quando faccio submit sulla prima parte del form

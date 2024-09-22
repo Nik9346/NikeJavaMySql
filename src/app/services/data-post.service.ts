@@ -28,7 +28,6 @@ export class DataPostService {
      return this.http.get(`https://json-server-nikeangular.onrender.com/posts/?userId=${idUser}`, {headers})
   }
 
-  
   postProductData(token,idUser){
     const accessToken = token
     // data.userId = idUser

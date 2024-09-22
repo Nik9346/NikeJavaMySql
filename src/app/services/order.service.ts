@@ -16,10 +16,14 @@ export class OrderService {
 
   constructor(private httprequest: HttpClient, private authService: AuthService) { }
 
-
+  //Funzione utilizzata per inoltrare l'ordine al db
   sendOrder(order:IOrderDb): Observable<any> {
     if (this.authService.isLoggedIn) {
       return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}ordine/addOrder`, order, { withCredentials: true })
     }
+  }
+  getOrderByIdUtente(idUtente: number):Observable<any>{
+    if(this.authService.isLoggedIn)
+      return this.httprequest.get(`${this.test ? this.testUrlRequest : this.deployUrl}ordine/getOrder/${idUtente}`, { withCredentials: true })
   }
 }

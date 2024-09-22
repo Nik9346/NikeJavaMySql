@@ -15,9 +15,11 @@ export class AuthFormComponent implements OnInit {
   authForm: FormGroup
   loginData: UserData
   @Input() passwordError: boolean
+  @Input() userNameNotFound : boolean
   @Output() registrationEmitter: EventEmitter<void> = new EventEmitter();
   @Output() loginEmitter: EventEmitter<Object> = new EventEmitter<Object>();
   @Output() registrationEmitterDb: EventEmitter<Object> = new EventEmitter<Object>();
+
 
   ngOnInit(): void {
     this.authForm = new FormGroup({

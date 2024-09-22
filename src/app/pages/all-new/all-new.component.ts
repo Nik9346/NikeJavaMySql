@@ -21,7 +21,7 @@ export class AllNewComponent {
     this.shoesSelectedArray = this.shoesService.shoesSelectedArray
     this.isLoggedIn = this.authService.isLoggedIn
     if(this.isLoggedIn){
-    this.user = this.shoesService.user
+    this.user = this.shoesService.utente.profilo.username
     }
     this.shoesService.getNewShoes(this.isNew).subscribe((response) => {
       this.shoes = response

@@ -16,13 +16,13 @@
                     <div class="row">
                         <ng-container *ngFor="let s of shoesFiltered">
                             <ng-container *ngIf="priceFilter == null">
-                                <div *ngIf=" color == null || s.colori_disponibili.includes(color)"
+                                <div *ngIf=" color == null || s.colori.includes(color)"
                                     class="my-2 px-1 my-md-5 col-12 col-md-6 col-xl-4">
                                     <app-shoes-card [shoes]="s"></app-shoes-card>
                                 </div>
                             </ng-container>
                             <ng-container
-                                *ngIf="(s.prezzo <= priceFilter && s.prezzo >= priceFilter -50) && (color == null || s.colori_disponibili.includes(color))">
+                                *ngIf="(s.prezzo <= priceFilter && s.prezzo >= priceFilter -50) && (color == null || s.colori.includes(color))">
                                 <div class="my-2 px-1 my-md-5 col-12 col-md-6 col-xl-4">
                                     <app-shoes-card [shoes]="s"></app-shoes-card>
                                 </div>

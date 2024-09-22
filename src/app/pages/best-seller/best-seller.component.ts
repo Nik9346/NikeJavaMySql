@@ -19,14 +19,13 @@ export class BestSellerComponent {
   constructor(private shoesService: ShoesService, private authService: AuthService) {
     this.isLoggedIn = this.authService.isLoggedIn
     if(this.isLoggedIn){
-    this.user = this.shoesService.user}
+    this.user = this.shoesService.utente.profilo.username}
     this.shoesSelectedArray = this.shoesService.shoesSelectedArray
-    
 
     // Chiamata verso il database e relativo filtro degli elementi
     this.shoesService.getShoes().subscribe((response) => {
        response.forEach((element) => {
-         if (element.best_seller >= 4) {
+         if (element.bestSeller >= 4) {
            this.best_seller.push(element)
          }
        })

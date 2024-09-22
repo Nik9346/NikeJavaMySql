@@ -17,10 +17,10 @@ export class PaymentService {
   constructor(private httprequest: HttpClient, private authService: AuthService) { }
 
 
+  //Funzione utilizzata per inviare il pagamento al db
   payOrder(payment : IPayment): Observable<any> {
     if (this.authService.isLoggedIn) {
       return this.httprequest.post(`${this.test ? this.testUrlRequest : this.deployUrl}pay/payOrder`, payment, { withCredentials: true })
     }
-    sessionStorage.getItem("carrello:")
   }
 }

@@ -17,7 +17,7 @@ export class RegisterDbFormComponent {
   indirizziDb: IAddressDb[] = []
   addressForm: FormGroup
   @Input() registerComplete: boolean;
-
+  @Input() isLoading: boolean;
   @Input() userNameConfict : boolean;
 
   @Output() formDataDbEmit: EventEmitter<IUtenteDb> = new EventEmitter<IUtenteDb>()

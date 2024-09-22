@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ShoesService } from '../../services/shoes.service';
 import { UserData } from '../../models/register-interface.models';
 import { ILoginDataDbResponse, IProfiloUtenteDb, IUtenteDb, loginData } from '../../models/login-interface.models';
@@ -9,13 +9,16 @@ import { DataPostService } from '../../services/data-post.service';
 import { switchMap } from 'rxjs';
 import { SessionService } from '../../services/session.service';
 import { CartService } from '../../services/cart.service';
+import { IRisposta } from '../../models/rispostaDb.interface';
+import { IShoesDb } from '../../models/shoes-interface.models';
+import { IShoesCartDb } from '../../models/cart.inteface';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.sass'
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   registerDb: boolean = true
   isRegister: boolean = true
   isLoggedIn: boolean
@@ -23,6 +26,10 @@ export class AuthComponent {
   passwordError: boolean = false
   registerComplete: boolean = false
   userNameConfict: boolean = false
+  userNameNotFound: boolean = false
+  isLoading: boolean = false
+  shoesSelectedArray : IShoesCartDb[] = []
+  cartVisible: boolean = false
 
 
   constructor(private shoesService: ShoesService, 
@@ -32,10 +39,17 @@ export class AuthComponent {
     private authService: AuthService, 
     private sessionService: SessionService,
   private cartService:CartService) {
-    this.isLoggedIn = this.authService.isLoggedIn
+  }
+  ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn
     this.user = this.shoesService.user
+    this.shoesSelectedArray = this.shoesService.shoesSelectedArray
+    if(this.isLoggedIn){
+      this.shoesSelectedArray = this.shoesService.shoesSelectedArray
+      this.user = this.shoesService.utente.profilo.username
+    }
   }
+
 
   //  Funzione utilizzata per visualizzare il form di registrazione al click sul pulsante registrati
   viewRegistration() {
@@ -49,8 +63,7 @@ export class AuthComponent {
   }
   viewLogin() {
     this.registerDb = true
-    console.log(this.isRegister);
-    
+    this.registerComplete = false
   }
   // Funzione utilizzata per passare i dati della registrazione al database
   updateDataUser(event: UserData) {
@@ -62,9 +75,11 @@ export class AuthComponent {
 
   //Funzione utilizzata per registrare l'utente, verifica che non sia già presente nel Db l'username, in caso di conflitto cambia la variabile che nel componente figlio permette di visualizzare il messaggio di errore
   updateDataUserDb(event: IUtenteDb) {
+    this.isLoading = true
     this.authService.registerDb(event).subscribe((response: ILoginDataDbResponse) => {
       if(response.codice == 200){
         this.registerComplete = true
+        this.isLoading = false
       const responseServerLogin: ILoginDataDbResponse = response;
       this.saveTokentoStorage(responseServerLogin.messaggio);
     }  
@@ -73,6 +88,7 @@ export class AuthComponent {
         this.userNameConfict = true
         setTimeout(() => {
           this.userNameConfict = false
+          this.isLoading = false
         }, 3000);
       }
     });
@@ -118,14 +134,6 @@ export class AuthComponent {
         this.sessionService.removeSession("carrello:")
       }
       this.shoesService.utente = profiloResponse;
-      //  this.shoesService.utente.nome = profiloResponse.nome
-      // this.shoesService.utente.cognome = profiloResponse.cognome
-      // this.shoesService.utente.profilo.username = profiloResponse.profilo.username
-      // this.shoesService.utente.indirizzi[0].cap = profiloResponse.indirizzi[0].cap
-      // this.shoesService.utente.indirizzi[0].citta = profiloResponse.indirizzi[0].citta
-      // this.shoesService.utente.indirizzi[0].indirizzo = profiloResponse.indirizzi[0].indirizzo
-      // this.shoesService.utente.indirizzi[0].paese = profiloResponse.indirizzi[0].paese
-      // this.shoesService.utente.indirizzi[0].civico = profiloResponse.indirizzi[0].civico
       setTimeout(()=>{
         this.cartService.getCartItem().subscribe((res)=>{
           res.forEach((i)=>{
@@ -137,7 +145,10 @@ export class AuthComponent {
       },500)
     },
       (error) => {
-        console.log(error);
+        let errore : IRisposta = error.error
+        if(errore.codice === 404){
+          this.userNameNotFound = true
+        }
       })
   }
 
@@ -150,4 +161,22 @@ export class AuthComponent {
     this.isLoggedIn = false
     this.authService.isLoggedIn = !this.authService.isLoggedIn
   }
+
+   // Funzioni utilizzate per la visualizzazione del carrello
+   viewCart() {
+    if (this.shoesSelectedArray.length) {
+      this.cartVisible = true
+      this.hideCart()
+    }
+  }
+
+  hideCart() {
+    setTimeout(() => {
+      this.cartVisible = false
+    }, 3500)
+  }
+  hideCartNow() {
+    this.cartVisible = false
+  }
+
 }

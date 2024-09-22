@@ -7,15 +7,15 @@
         <div class="row">
             <div class="mt-3 col-12 col-md-8 pe-md-5">
                 <!-- Viene visualizzata sono su display dispositivi mobile -->
-                <div class="mb-4 accordion d-block d-md-none" id="accordionExample">
-                    <div class="border-bottom">
+                <div class="mb-4 accordion d-md-none" id="accordionExampleOne">
+                    <div class="border-bottom accordion-item">
                         <h2 class="accordion-header">
-                            <button class="ps-0 accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                <h4>Nel Carrello</h4>
-                            </button>
+                             <button class="ps-0 accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                <!-- <h4>Nel Carrello</h4> -->
+                             </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExampleOne">
+                        
                             <div class="accordion-body">
                                 <div class="row" *ngFor="let s of shoesSelected">
                                     <div class="col-3">
@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <p>Costi di spedizione stimati</p>
-                                        <p>{{deliveryCost | currency: 'EUR'}}</p>
+                                        <p>{{deliveryCost === 'Gratis' ? 'Gratis' : (deliveryCost | currency: 'EUR')}}</p>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <p>Totale</p>
@@ -298,6 +298,10 @@
                         <p class="mb-0">Quantità: {{s.quantita}}</p>
                         <p class="mb-0">Prezzo: {{s.scarpa.prezzo | currency: 'EUR'}}</p>
                     </div>
+                </div>
+                <div class="my-2 my-md-5 row col-12">
+                    <button *ngIf="!isLoggedIn" class="btn-add-cart col-12 col-md-6" routerLink="/login">Accedi</button>
+                    <button class="btn-add-cart col-12 col-md-6" routerLink="/home-page">Torna alla Home</button>
                 </div>
             </div>
         </div>

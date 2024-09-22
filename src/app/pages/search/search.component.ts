@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IShoes } from '../../models/shoes-interface.models';
+import { IShoes, IShoesDb } from '../../models/shoes-interface.models';
 import { ShoesService } from '../../services/shoes.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -10,8 +10,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './search.component.sass'
 })
 export class SearchComponent {
-  shoes: IShoes[] = []
-  searchShoes: IShoes[] = []
+  shoes: IShoesDb[] = []
+  searchShoes: IShoesDb[] = []
   isLoggedIn: boolean
   user: string
 
@@ -19,7 +19,7 @@ export class SearchComponent {
   constructor(private shoesService: ShoesService, private activatedRouter: ActivatedRoute, private authService: AuthService) {
     this.isLoggedIn = this.authService.isLoggedIn
     if (this.isLoggedIn) {
-      this.user = this.shoesService.user
+      this.user = this.shoesService.utente.profilo.username
     }
     // Funzione utilizzata per la ricerca delle scarpe passando il nome inserito nel campo ricerca
     this.shoesService.getShoes().subscribe((response) => {

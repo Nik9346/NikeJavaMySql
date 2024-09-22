@@ -22,7 +22,7 @@ export class CategoryComponent {
   constructor(private shoesService: ShoesService, private activeRouter: ActivatedRoute, private authService: AuthService) {
     this.isLoggedIn = this.authService.isLoggedIn
     if(this.isLoggedIn){
-      this.user = this.shoesService.user
+      this.user = this.shoesService.utente.profilo.username
     }
     this.shoesSelectedArray = this.shoesService.shoesSelectedArray
     // Vecchio metodo

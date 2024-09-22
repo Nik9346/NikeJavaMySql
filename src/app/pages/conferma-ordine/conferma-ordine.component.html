@@ -5,15 +5,20 @@
         <div class="text-center">
             <h4>Riepilogo Ordine</h4>
         </div>
-        <div class="d-md-flex">
-            <div class="col-12 col-md-8 p-2 px-md-3 py-md-3">
+        <div class="justify-content-center mt-2 mt-md-5 d-flex">
+            <button routerLink="/home-page" class="col-12 btn-add-cart" *ngIf="shoesOrdered.length === 0">
+                Torna alla Home-Page
+            </button>
+        </div>
+        <div class="d-md-flex m-md-auto col-12 col-md-8">
+            <div class="col-12 col-md-6 p-2 px-md-3 py-md-3">
                 <div class="row mb-3" *ngFor="let s of shoesOrdered">
                     <app-card-order-product [shoes]="s"></app-card-order-product>
                 </div>
             </div>
-            <div class="col-12 col-md-4 p-2 px-md-3 py-md-3">
+            <div class="col-12 col-md-6 p-2 px-md-3 py-md-3">
                 <div class="row">
-                    <div *ngIf="isLoggedIn" class="card">
+                    <div *ngIf="isLoggedIn && shoesOrdered.length>0" class="card">
                         <div class="card-header text-center">
                             <h5>DATI UTENTE</h5>
                         </div>
@@ -26,7 +31,7 @@
                             <li class="list-group-item">Importo totale € {{paymentMethod.importo}}</li>
                         </ul>
                     </div>
-                    <div *ngIf="!isLoggedIn" class="card">
+                    <div *ngIf="!isLoggedIn && shoesOrdered.length>0" class="card">
                         <div class="card-header text-center">
                             <h5>DATI UTENTE</h5>
                         </div>
@@ -35,15 +40,15 @@
                             <li class="list-group-item">{{indirizzo}}, {{citta}}, {{cap}}</li>
                         </ul>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Importo totale € {{total}}</li>
+                            <li class="list-group-item">Importo totale {{total | currency : 'EUR'}}</li>
                             <li class="list-group-item">Ordine N° {{orderNumber}}</li>
                         </ul>
                     </div>
                     <div class="justify-content-center mt-2 mt-md-5 d-flex">
-                        <button *ngIf="!isLoading && isLoggedIn" [disabled]="triggerModal" class="col-12 btn-add-cart" data-toggle="modal" data-target="#exampleModal" (click)="sendOrder()">
+                        <button *ngIf="!isLoading && isLoggedIn" [disabled]="triggerModal" class="col-12 btn-add-cart"(click)="sendOrder()">
                             Conferma ordine
                         </button>
-                        <button *ngIf="!isLoggedIn && !isLoading" [disabled]="triggerModal" class="col-12 btn-add-cart" data-toggle="modal" data-target="#exampleModal" (click)="sendOrderNotLogged()">
+                        <button *ngIf="!isLoggedIn && !isLoading && shoesOrdered.length>0" [disabled]="triggerModal" class="col-12 btn-add-cart" (click)="sendOrderNotLogged()">
                             Conferma ordine
                         </button>
                         <button *ngIf="isLoading" class="col-12 btn-add-cart" disabled>

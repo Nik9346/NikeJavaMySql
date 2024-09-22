@@ -130,9 +130,9 @@
             </div>
         </div>
         <div *ngIf="!registerComplete" class="d-md-flex justify-content-center my-5">
-            <button [disabled]="registerForm.invalid" type="submit" class="btn-add-cart col-12 col-md-4 mx-md-1"
+            <button [disabled]="registerForm.invalid || isLoading" type="submit" class="btn-add-cart col-12 col-md-4 mx-md-1"
                 routerLink="/login">Registrati</button>
-            <button type="button" (click)="goToLoginPage()"
+            <button type="button" [disabled]="isLoading" (click)="goToLoginPage()"
                 class="btn-add-cart border-0 col-12 col-md-4 my-2 my-md-0 mx-md-1">Torna Indietro</button>
         </div>
     </div>

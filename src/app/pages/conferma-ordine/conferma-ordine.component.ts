@@ -64,6 +64,8 @@ export class ConfermaOrdineComponent implements OnInit {
       this.paymentMethod = this.paymentService.payment
       this.total = this.paymentMethod.importo
       this.deliveryCosts = this.shoesService.delivery
+      console.log(this.total);
+      
     }
     else {
       this.nome = this.shoesService.nome

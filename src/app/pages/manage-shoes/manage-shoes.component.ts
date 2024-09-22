@@ -5,6 +5,7 @@ import { IColor, IcolorDb } from '../../models/color.interface';
 import { ITagliaDb } from '../../models/taglia.interface';
 import { IShoes, IShoesDb, IShoesDbForSave } from '../../models/shoes-interface.models';
 import { UntypedFormBuilder } from '@angular/forms';
+import { IRisposta } from '../../models/rispostaDb.interface';
 
 @Component({
   selector: 'app-manage-shoes',
@@ -123,6 +124,8 @@ export class ManageShoesComponent {
     this.coloriSelezionati.map((element) => {
       this.coloriConfermati.push(element)
     })
+    console.log(this.coloriConfermati);
+    
   }
 
   //inserimento taglia nuova + scelta e conferma taglie per scarpa
@@ -163,6 +166,8 @@ export class ManageShoesComponent {
     this.taglieSelezionate.forEach(element => {
       this.taglieConfermate.push(element);
     });
+    console.log(this.taglieSelezionate);
+    
   }
 
   newArrivo(event: Event): void {
@@ -171,7 +176,6 @@ export class ManageShoesComponent {
   }
   salvaDatiScarpa(){
     this.scarpa = {
-      id: null,
       nome: this.nomeScarpa,
       prezzo: this.prezzo,
       descrizione: this.descrizioneScarpa,
@@ -184,8 +188,10 @@ export class ManageShoesComponent {
     }
   }
   registraDatiScarpa() {
-    this.shoesService.postShoes(this.scarpa).subscribe((response) => {
-      console.log(response);
+    this.shoesService.postShoes(this.scarpa).subscribe((response:IRisposta) => {
+      if(response.codice === 200){
+       window.location.reload(); 
+      }
     })
   }
 }

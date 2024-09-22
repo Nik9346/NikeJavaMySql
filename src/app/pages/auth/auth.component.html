@@ -1,18 +1,19 @@
 <div class="container-fluid">
-    <app-navbar [isLoggedIn]="isLoggedIn" [username]="user" (logoutEmitter)="logout()"></app-navbar>
+    <app-navbar [shoesSelectedArray]="shoesSelectedArray" [isLoggedIn]="isLoggedIn" [username]="user" (logoutEmitter)="logout()" (displaycartEmitter)="viewCart()"
+    (closeCartEmitter)="hideCartNow()" [cartVisible]="cartVisible"></app-navbar>
     <app-slider></app-slider>
     <div class="container">
         <div class="row justify-content-center m-2">
             <div class="col-12 rounded col-md-8 shadow-form p-3">
                 <ng-container *ngIf="registerDb">
-                    <app-auth-form class="col-10" [passwordError]="passwordError" (loginEmitter)="goToLoginDb($event)"
+                    <app-auth-form class="col-10" [userNameNotFound]="userNameNotFound" [passwordError]="passwordError" (loginEmitter)="goToLoginDb($event)"
                         (registrationEmitter)="viewRegistration()" (registrationEmitterDb)="viewRegistrationDb()"></app-auth-form>
                 </ng-container>
                 <!-- <ng-container *ngIf="registerDb">
                     <app-register-form (toLogin)="viewLogin()" (formDataEmit)="updateDataUser($event)"></app-register-form>
                 </ng-container> -->
                 <ng-container *ngIf="!registerDb">
-                    <app-register-db-form (toLogin)="viewLogin()" [userNameConfict]="userNameConfict" [registerComplete]="registerComplete" (formDataDbEmit)="updateDataUserDb($event)"></app-register-db-form>
+                    <app-register-db-form (toLogin)="viewLogin()" [isLoading]="isLoading" [userNameConfict]="userNameConfict" [registerComplete]="registerComplete" (formDataDbEmit)="updateDataUserDb($event)"></app-register-db-form>
                 </ng-container>
             </div>
         </div>

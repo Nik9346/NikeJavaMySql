@@ -49,7 +49,7 @@ export interface IShoesDb{
 }
 //interfaccia di dialogo db in fase di salvataggio scarpa
 export interface IShoesDbForSave{
-  id:number,
+  id?:number,
   nome: string,
   prezzo: number,
   descrizione: string,

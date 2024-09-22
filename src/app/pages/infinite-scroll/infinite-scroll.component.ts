@@ -30,7 +30,7 @@ export class InfiniteScrollComponent implements OnInit {
     this.loadData();
     this.isLoggedIn = this.authService.isLoggedIn
     if (this.isLoggedIn) {
-      this.user = this.shoesService.user
+      this.user = this.shoesService.utente.profilo.username
     }
     this.shoesSelectedArray = this.shoesService.shoesSelectedArray
   }

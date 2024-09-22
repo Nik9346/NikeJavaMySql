@@ -1,7 +1,8 @@
 import { IAddressDb } from "./address.interface";
+import { IShoesCartDb } from "./cart.inteface";
 import { IUtenteDb } from "./login-interface.models";
 import { IPayment } from "./payment.interface";
-import { IScarpaOrdinataDb, IShoesSelected } from "./shoes-interface.models";
+import { IScarpaOrdinataDb, IShoesDb, IShoesSelected } from "./shoes-interface.models";
 
 export interface IOrderData {
     orderItem : IShoesSelected[]
@@ -13,5 +14,6 @@ export interface IOrderDb{
     speseSpedizione: number,
     importo: number,
     indirizzo: IAddressDb,
-    pagamento: IPayment
+    pagamento: IPayment,
+    scarpeOrdinate?: IShoesCartDb
 }

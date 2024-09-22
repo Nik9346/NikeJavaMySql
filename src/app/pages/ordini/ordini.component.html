@@ -8,9 +8,11 @@
         <div class="col-12">
             <div class="d-flex justify-content-center flex-wrap">
                 <div class="card col-12 col-md-3 my-2 my-md-5 mx-md-2" *ngFor="let s of orderedData">
-                    <h5 class="card-header">Numero Ordine #{{s.orderNumber}}</h5>
+                    <h5 class="card-header">Numero Ordine #{{s.id}}</h5>
+                    <h5 class="card-header justify-content-between d-flex">Importo: <p>{{s.importo | currency : 'EUR'}}</p>
+                    </h5>
                     <div class="card-body p-2 py-md-3 mb-3 justify-content-center">
-                        <ng-container *ngFor="let shoes of s.orderItem">
+                        <ng-container *ngFor="let shoes of s.scarpeOrdinate">
                             <div>
                                 <app-card-order-product class="mx-lg-5" [shoes]="shoes"></app-card-order-product>
                             </div>

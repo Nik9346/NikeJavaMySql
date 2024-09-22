@@ -5,6 +5,7 @@ import { IShoes, IShoesDb, IShoesSelected } from '../../models/shoes-interface.m
 import { AuthService } from '../../services/auth.service';
 import { IColor } from '../../models/color.interface';
 import { IShoesCartDb } from '../../models/cart.inteface';
+import { ICategory } from '../../models/category.interface';
 
 @Component({
   selector: 'app-all-product',
@@ -12,18 +13,19 @@ import { IShoesCartDb } from '../../models/cart.inteface';
   styleUrl: './all-product.component.sass'
 })
 export class AllProductComponent{
-  shoes: IShoes[] = []
-  shoesFiltered: IShoes[] = []
+  shoes: IShoesDb[] = []
+  shoesFiltered: IShoesDb[] = []
   shoesName: string[] = []
-  shoesCategory: string[] = []
+  shoesCategory: ICategory[] = []
   shoesColor: string[] = []
   color: string
-  category: string
+  category: ICategory
   priceFilter: number
   isLoggedIn: boolean
   user:string
   cartVisible: boolean = false
   shoesSelectedArray:IShoesCartDb[] = []
+  
   colorMap : {[key: string]:string} ={
     "Black": "#000000",
     "White": "#ffffff",
@@ -34,8 +36,17 @@ export class AllProductComponent{
     "Green": "#008000",
     "Orange": "#ffa500",
     "Silver": "#c0c0c0",
-    "Gold": "#ffd700"
+    "Gold": "#ffd700",
+    "Bordeaux": "#850a36",
+    "Lavanda": "#afa4ce",
+    "Turchese": "#30D5C8",
+    "Lilla": "#c8a2c8",
+    "Magenta": "#ff00ff",
+    "Cyan": "#00ffff",
+    "Beige":"#e1c699",
+    "Menta":"#3EB489"
   }
+  
   colorObject: IColor[]=[ 
   { colore: "Nero", esadecimale: this.colorMap["Black"] || "" },
   { colore: "Bianco", esadecimale: this.colorMap["White"] || "" },
@@ -57,20 +68,28 @@ export class AllProductComponent{
   { colore: "Oro", esadecimale: this.colorMap["Gold"] || "" },
   { colore: "Arancione", esadecimale: this.colorMap["Orange"] || "" },
   { colore: "Nero/Bianco", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["White"]})` },
-  { colore: "Rosso/Nero", esadecimale: `linear-gradient(${this.colorMap["Red"]}, ${this.colorMap["Black"]})` }]
+  { colore: "Rosso/Nero", esadecimale: `linear-gradient(${this.colorMap["Red"]}, ${this.colorMap["Black"]})` },
+  {colore: "Bordeaux", esadecimale: this.colorMap["Bordeaux"] || ""},
+  {colore: "Lavanda", esadecimale: this.colorMap["Lavanda"] || ""},
+  {colore: "Turchese", esadecimale: this.colorMap["Turchese"] || ""},
+  {colore: "Lilla", esadecimale: this.colorMap["Lilla"] || ""},
+  {colore: "Magenta", esadecimale: this.colorMap["Magenta"] || ""},
+  {colore: "Cyan", esadecimale: this.colorMap["Cyan"] || ""},
+  {colore: "Beige", esadecimale: this.colorMap["Beige"] || ""},
+  {colore: "Menta", esadecimale: this.colorMap["Menta"] || ""},
+]
  
 
   constructor(private shoesService: ShoesService, private authService:AuthService ) { }
+  
   ngAfterViewInit() {
     // chiamata verso il db per il popolamento della variabile shoes e shoesFiltered + definizione delle categorie, nomi, colori
     this.isLoggedIn = this.authService.isLoggedIn
     if(this.isLoggedIn){
-    this.user = this.shoesService.user
+    this.user = this.shoesService.utente.profilo.username
     }
     this.shoesService.getShoes().subscribe((response) => {
       this.shoes = response
-      console.log(response);
-      
       this.shoesFiltered = this.shoes
       this.shoes.forEach((element) => {
         this.shoesName.push(element.nome)
@@ -79,7 +98,7 @@ export class AllProductComponent{
         }
       })
       this.shoes.forEach((element) => {
-        element.colori_disponibili.forEach((color) => {
+        element.colori.forEach((color) => {
           if (!this.shoesColor.includes(color)) {
             this.shoesColor.push(color)
           }
@@ -87,13 +106,10 @@ export class AllProductComponent{
       })
     })
     this.shoesSelectedArray = this.shoesService.shoesSelectedArray
-    console.log(this.shoesColor);
-    
-    
   }
 
   // Funzione tramite la quale filtro le scarpe in base alla categoria e visualizzo i relativi colori disponibili in base alla categoria
-  goToCategory(category: string) {
+  goToCategory(category: ICategory) {
     this.category = category
     this.color = null
     this.shoesFiltered = []
@@ -103,7 +119,7 @@ export class AllProductComponent{
         this.shoesFiltered.push(element)
       }
       this.shoesFiltered.forEach((element) => {
-        element.colori_disponibili.forEach((color) => {
+        element.colori.forEach((color) => {
           if (!this.shoesColor.includes(color)) {
             this.shoesColor.push(color)
           }
@@ -131,7 +147,7 @@ export class AllProductComponent{
         }
       })
       this.shoes.forEach((element) => {
-        element.colori_disponibili.forEach((color) => {
+        element.colori.forEach((color) => {
           if (!this.shoesColor.includes(color)) {
             this.shoesColor.push(color)
           }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { delay, Observable, of } from 'rxjs';
-import { IShoes } from '../models/shoes-interface.models';
+import { IShoes, IShoesDb } from '../models/shoes-interface.models';
 import { ShoesService } from './shoes.service';
 
 
@@ -8,9 +8,12 @@ import { ShoesService } from './shoes.service';
   providedIn: 'root'
 })
 export class PaginationService {
-  totalItems: number = 50;
-  shoes:IShoes[] = []
+  totalItems: number = 20;
+  shoes:IShoesDb[] = []
   
+  constructor(private shoesService:ShoesService) { }
+
+  //Funzione utilizzata per popolare la pagina dell'infinite scrolling
   getItems(page,itemsPerPage):Observable<any>{
     const startIndex = (page-1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -26,6 +29,5 @@ export class PaginationService {
   }
   
   
-  constructor(private shoesService:ShoesService) { }
 }
 

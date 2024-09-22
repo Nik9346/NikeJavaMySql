@@ -35,7 +35,7 @@ export class CartPageComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     
     if (this.isLoggedIn) {
-      this.user = this.shoesService.user
+      this.user = this.shoesService.utente.profilo.username
       this.accessKey = this.localeStorage.getToken()
       this.idUser = this.shoesService.id
       this.cartService.getCartItem().subscribe((res)=>{
@@ -110,11 +110,13 @@ export class CartPageComponent implements AfterViewInit {
   }
 
   get total(): number {
+    let totalValue : number;
     if (this.deliveryCost != 'Gratis') {
-      return this.getSubtotal() + parseFloat(this.deliveryCosts())
+      totalValue =  this.getSubtotal() + parseFloat(this.deliveryCosts())
     } else {
-      return this.getSubtotal()
+      totalValue = this.getSubtotal()
     }
+    return parseFloat(totalValue.toFixed(2));
   }
 
   get delivery(): string {

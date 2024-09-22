@@ -1,13 +1,13 @@
 <div class="card col-12">
-    <img [src]="shoes.scarpa.immagine" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">{{shoes.scarpa.nome}}</h5>
-      <p class="card-text">{{shoes.scarpa.descrizione}}</p>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Colore: {{shoes.colore}}</li>
-      <li class="list-group-item">Misura: {{shoes.taglia}}</li>
-      <li class="list-group-item">Prezzo: {{shoes.scarpa.prezzo | currency : 'EUR'}}</li>
-      <li class="list-group-item">Prezzo: {{shoes.quantita}}</li>
-    </ul>
+  <img [src]="shoes.scarpa.immagine" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{shoes.scarpa.nome}}</h5>
+    <p class="card-text">{{shoes.scarpa.descrizione}}</p>
   </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Colore: {{shoes.colore}}</li>
+    <li class="list-group-item">Misura: {{shoes.taglia}}</li>
+    <li class="list-group-item">Prezzo: {{shoes.scarpa.prezzo | currency : 'EUR'}}</li>
+    <li class="list-group-item">Quantità: {{shoes.quantita}}</li>
+  </ul>
+</div>

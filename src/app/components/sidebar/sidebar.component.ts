@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IShoes } from '../../models/shoes-interface.models';
+import { IShoes, IShoesDb } from '../../models/shoes-interface.models';
 import { ShoesService } from '../../services/shoes.service';
 import { IColor } from '../../models/color.interface';
+import { ICategory } from '../../models/category.interface';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,8 +10,8 @@ import { IColor } from '../../models/color.interface';
   styleUrl: './sidebar.component.sass'
 })
 export class SidebarComponent {
-  @Input() shoesCategory: IShoes[] = []
-  @Input() shoes: IShoes[] = []
+  @Input() shoesCategory: ICategory[] = []
+  @Input() shoes: IShoesDb[] = []
   @Input() shoesColor: string[] = []
   @Input() shoesFiltered: IShoes[] = []
   @Input() colorMap: IColor[]
