@@ -60,7 +60,7 @@ export interface IShoesDbForSave{
   taglie:ITagliaDb[]
   colori:IcolorDb[]
 }
-
+//Intefaccia di dialogo db in fase di ricezione dati scarpa ordinata
 export interface IScarpaOrdinataDb{
   id:number,
   quantità:number,

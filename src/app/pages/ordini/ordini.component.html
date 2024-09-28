@@ -5,6 +5,9 @@
         <div class="text-center">
             <h4>Lista degli ordini</h4>
         </div>
+        <div *ngIf="orderedData.length<=0" class="text-center text-red">
+            <h5>La lista degli ordini è vuota</h5>
+        </div>
         <div class="col-12">
             <div class="d-flex justify-content-center flex-wrap">
                 <div class="card col-12 col-md-3 my-2 my-md-5 mx-md-2" *ngFor="let s of orderedData">

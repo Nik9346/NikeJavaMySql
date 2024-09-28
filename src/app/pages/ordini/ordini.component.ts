@@ -16,7 +16,7 @@ export class OrdiniComponent implements OnInit {
 
   isLoggedIn: boolean
   userId: number
-  orderedData: IOrderDb[]
+  orderedData: IOrderDb[] = []
   user: string
 
 
@@ -30,8 +30,6 @@ export class OrdiniComponent implements OnInit {
 
       this.orderService.getOrderByIdUtente(this.userId).subscribe((res)=>{
         this.orderedData = res
-        console.log(this.orderedData);
-        
       })
       
       // Prima utilizzavo questa funzione per salvare i dati nel local storage

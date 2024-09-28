@@ -12,7 +12,7 @@ import { ICategory } from '../../models/category.interface';
   templateUrl: './all-product.component.html',
   styleUrl: './all-product.component.sass'
 })
-export class AllProductComponent{
+export class AllProductComponent {
   shoes: IShoesDb[] = []
   shoesFiltered: IShoesDb[] = []
   shoesName: string[] = []
@@ -22,11 +22,11 @@ export class AllProductComponent{
   category: ICategory
   priceFilter: number
   isLoggedIn: boolean
-  user:string
+  user: string
   cartVisible: boolean = false
-  shoesSelectedArray:IShoesCartDb[] = []
-  
-  colorMap : {[key: string]:string} ={
+  shoesSelectedArray: IShoesCartDb[] = []
+
+  colorMap: { [key: string]: string } = {
     "Black": "#000000",
     "White": "#ffffff",
     "Grey": "#808080",
@@ -43,50 +43,50 @@ export class AllProductComponent{
     "Lilla": "#c8a2c8",
     "Magenta": "#ff00ff",
     "Cyan": "#00ffff",
-    "Beige":"#e1c699",
-    "Menta":"#3EB489"
+    "Beige": "#e1c699",
+    "Menta": "#3EB489"
   }
-  
-  colorObject: IColor[]=[ 
-  { colore: "Nero", esadecimale: this.colorMap["Black"] || "" },
-  { colore: "Bianco", esadecimale: this.colorMap["White"] || "" },
-  { colore: "Grigio", esadecimale: this.colorMap["Grey"] || "" },
-  { colore: "Blu", esadecimale: this.colorMap["Blue"] || "" },
-  { colore: "Rosso", esadecimale: this.colorMap["Red"] || "" },
-  { colore: "Nero/Giallo", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Yellow"]})` },
-  { colore: "Grigio/Blue", esadecimale: `linear-gradient(${this.colorMap["Grey"]}, ${this.colorMap["Blue"]})` },
-  { colore: "Bianco/Rosso", esadecimale: `linear-gradient(${this.colorMap["White"]}, ${this.colorMap["Red"]})` },
-  { colore: "Verde", esadecimale: this.colorMap["Green"] || "" },
-  { colore: "Grigio/Arancione", esadecimale: `linear-gradient(${this.colorMap["Grey"]}, ${this.colorMap["Orange"]})` },
-  { colore: "Bianco/Nero", esadecimale: `linear-gradient(${this.colorMap["White"]}, ${this.colorMap["Black"]})` },
-  { colore: "Blu/Verde", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Green"]})` },
-  { colore: "Nero/Rosso", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Red"]})` },
-  { colore: "Blu/Rosso", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Red"]})` },
-  { colore: "Rosso/Bianco", esadecimale: `linear-gradient(${this.colorMap["Red"]}, ${this.colorMap["White"]})` },
-  { colore: "Nero/Grigio", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Grey"]})` },
-  { colore: "Argento", esadecimale: this.colorMap["Silver"] || "" },
-  { colore: "Oro", esadecimale: this.colorMap["Gold"] || "" },
-  { colore: "Arancione", esadecimale: this.colorMap["Orange"] || "" },
-  { colore: "Nero/Bianco", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["White"]})` },
-  { colore: "Rosso/Nero", esadecimale: `linear-gradient(${this.colorMap["Red"]}, ${this.colorMap["Black"]})` },
-  {colore: "Bordeaux", esadecimale: this.colorMap["Bordeaux"] || ""},
-  {colore: "Lavanda", esadecimale: this.colorMap["Lavanda"] || ""},
-  {colore: "Turchese", esadecimale: this.colorMap["Turchese"] || ""},
-  {colore: "Lilla", esadecimale: this.colorMap["Lilla"] || ""},
-  {colore: "Magenta", esadecimale: this.colorMap["Magenta"] || ""},
-  {colore: "Cyan", esadecimale: this.colorMap["Cyan"] || ""},
-  {colore: "Beige", esadecimale: this.colorMap["Beige"] || ""},
-  {colore: "Menta", esadecimale: this.colorMap["Menta"] || ""},
-]
- 
 
-  constructor(private shoesService: ShoesService, private authService:AuthService ) { }
-  
+  colorObject: IColor[] = [
+    { colore: "Nero", esadecimale: this.colorMap["Black"] || "" },
+    { colore: "Bianco", esadecimale: this.colorMap["White"] || "" },
+    { colore: "Grigio", esadecimale: this.colorMap["Grey"] || "" },
+    { colore: "Blu", esadecimale: this.colorMap["Blue"] || "" },
+    { colore: "Rosso", esadecimale: this.colorMap["Red"] || "" },
+    { colore: "Nero/Giallo", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Yellow"]})` },
+    { colore: "Grigio/Blue", esadecimale: `linear-gradient(${this.colorMap["Grey"]}, ${this.colorMap["Blue"]})` },
+    { colore: "Bianco/Rosso", esadecimale: `linear-gradient(${this.colorMap["White"]}, ${this.colorMap["Red"]})` },
+    { colore: "Verde", esadecimale: this.colorMap["Green"] || "" },
+    { colore: "Grigio/Arancione", esadecimale: `linear-gradient(${this.colorMap["Grey"]}, ${this.colorMap["Orange"]})` },
+    { colore: "Bianco/Nero", esadecimale: `linear-gradient(${this.colorMap["White"]}, ${this.colorMap["Black"]})` },
+    { colore: "Blu/Verde", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Green"]})` },
+    { colore: "Nero/Rosso", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Red"]})` },
+    { colore: "Blu/Rosso", esadecimale: `linear-gradient(${this.colorMap["Blue"]}, ${this.colorMap["Red"]})` },
+    { colore: "Rosso/Bianco", esadecimale: `linear-gradient(${this.colorMap["Red"]}, ${this.colorMap["White"]})` },
+    { colore: "Nero/Grigio", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["Grey"]})` },
+    { colore: "Argento", esadecimale: this.colorMap["Silver"] || "" },
+    { colore: "Oro", esadecimale: this.colorMap["Gold"] || "" },
+    { colore: "Arancione", esadecimale: this.colorMap["Orange"] || "" },
+    { colore: "Nero/Bianco", esadecimale: `linear-gradient(${this.colorMap["Black"]}, ${this.colorMap["White"]})` },
+    { colore: "Rosso/Nero", esadecimale: `linear-gradient(${this.colorMap["Red"]}, ${this.colorMap["Black"]})` },
+    { colore: "Bordeaux", esadecimale: this.colorMap["Bordeaux"] || "" },
+    { colore: "Lavanda", esadecimale: this.colorMap["Lavanda"] || "" },
+    { colore: "Turchese", esadecimale: this.colorMap["Turchese"] || "" },
+    { colore: "Lilla", esadecimale: this.colorMap["Lilla"] || "" },
+    { colore: "Magenta", esadecimale: this.colorMap["Magenta"] || "" },
+    { colore: "Cyan", esadecimale: this.colorMap["Cyan"] || "" },
+    { colore: "Beige", esadecimale: this.colorMap["Beige"] || "" },
+    { colore: "Menta", esadecimale: this.colorMap["Menta"] || "" },
+  ]
+
+
+  constructor(private shoesService: ShoesService, private authService: AuthService) { }
+
   ngAfterViewInit() {
     // chiamata verso il db per il popolamento della variabile shoes e shoesFiltered + definizione delle categorie, nomi, colori
     this.isLoggedIn = this.authService.isLoggedIn
-    if(this.isLoggedIn){
-    this.user = this.shoesService.utente.profilo.username
+    if (this.isLoggedIn) {
+      this.user = this.shoesService.utente.profilo.username
     }
     this.shoesService.getShoes().subscribe((response) => {
       this.shoes = response
@@ -132,11 +132,11 @@ export class AllProductComponent{
     this.color = color
   }
   // Funzione utilizzata per filtrare in base al prezzo
-  filterPrice(number:number){
+  filterPrice(number: number) {
     this.priceFilter = number
   }
 
-  resetItem(){
+  resetItem() {
     this.shoesService.getShoes().subscribe((response) => {
       this.shoes = response
       this.shoesFiltered = this.shoes
@@ -158,7 +158,7 @@ export class AllProductComponent{
     this.color = null;
     this.priceFilter = null;
   }
-//  Funzioni relativi alla visualizzazione del carrello
+  //  Funzioni relativi alla visualizzazione del carrello
   viewCart() {
     this.cartVisible = true
     this.hideCart()
@@ -172,8 +172,8 @@ export class AllProductComponent{
   hideCartNow() {
     this.cartVisible = false
   }
-// Funzione utilizzata per il logout
-  logout(){
+  // Funzione utilizzata per il logout
+  logout() {
     this.isLoggedIn = false
     this.authService.isLoggedIn = !this.authService.isLoggedIn
   }

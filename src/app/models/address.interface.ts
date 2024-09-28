@@ -1,3 +1,4 @@
+//Interfaccia utilizzata per gli indirizzi nel db
 export interface IAddressDb{
     id?: number,
     indirizzo: string,

@@ -45,7 +45,6 @@ export class AuthFormComponent implements OnInit {
   //   // this.loginEmitter.emit(this.loginData)
   // }
 
-
   goToLogin() {
     const datiutente = this.authForm.value
     const profiloLogin: IProfiloUtenteDb = {

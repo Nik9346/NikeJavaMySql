@@ -92,21 +92,6 @@ export class RegisterDbFormComponent {
   this.registerForm.reset()
   }
   
-  
-  // this.formDataDbEmit.emit(this.formData)
-  // }
-  //Funzione commentata perchè permetteva direttamente accesso sostituita da pagina accesso
-  // goToLogin() {
-  //   const datiutente = this.registerForm.value
-  //   const profiloLogin: IProfiloUtenteDb = {
-  //     username: datiutente.profilo.username,
-  //     password: datiutente.profilo.password,
-  //     id: null,
-  //     token: undefined
-  //   }
-  //   this.toLogin.emit(profiloLogin)
-  // }
-
   goToLoginPage() {
     this.toLogin.emit()
   }

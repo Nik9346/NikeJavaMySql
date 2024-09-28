@@ -65,7 +65,6 @@ export class ConfermaOrdineComponent implements OnInit {
       this.total = this.paymentMethod.importo
       this.deliveryCosts = this.shoesService.delivery
       console.log(this.total);
-      
     }
     else {
       this.nome = this.shoesService.nome
@@ -91,39 +90,6 @@ export class ConfermaOrdineComponent implements OnInit {
   goToHomePage(){
     this.router.navigate(['home-page'])
   }
-  // Funzione che prende tutti i dati dal service, se l'utente è loggato recupera anche il numero dell'ordine dal locale storage, altrimenti ne genera uno casuale
-
-  // ngAfterViewInit() {
-  //   this.total = this.shoesService.total
-  //   this.nome = this.shoesService.nome
-  //   this.cognome = this.shoesService.cognome
-  //   this.indirizzo = this.shoesService.indirizzo
-  //   this.citta = this.shoesService.citta
-  //   this.paese = this.shoesService.paese
-  //   this.telefono = this.shoesService.telefono
-  //   this.cap = this.shoesService.cap
-  //   this.email = this.shoesService.email
-  //   this.shoesOrdered = this.shoesService.shoesSelectedArray
-  //   this.isLoggedIn = this.authService.isLoggedIn
-  //   if (!this.isLoggedIn) {
-  //     this.orderNumber = this.generaNumOrd()
-  //   } else {
-  //     this.orderNumber = this.localeStorage.orderNumber
-  //   }
-  // }
-
-  // ngAfterViewInit(): void {
-  //     if(this.authService.isLoggedIn){
-  //       this.nome = this.shoesService.nome
-  //    this.cognome = this.shoesService.cognome
-  //    this.indirizzo = this.shoesService.indirizzo
-  //    this.citta = this.shoesService.citta
-  //    this.paese = this.shoesService.paese
-  //    this.cap = this.shoesService.cap
-  //    this.shoesOrdered = this.shoesService.shoesSelectedArray
-  //    this.paymentMethod = this.paymentService.payment
-  //     }
-  // }
 
   // Funzione utilizata per generare un numero d'ordine random
   generaNumOrd(): number {
@@ -134,6 +100,7 @@ export class ConfermaOrdineComponent implements OnInit {
     this.shoesService.shoesSelectedArray = []
   }
 
+  //Funzione utilizzata per inoltrare un ordine quando l'utente non è loggato
   sendOrderNotLogged(){
     this.isLoading = true
     this.shoesService.shoesSelectedArray = []
@@ -144,6 +111,7 @@ export class ConfermaOrdineComponent implements OnInit {
     }, 3000);
   }
 
+  //Funzione utilizzata per inoltrare l'ordine al database da utente loggato
   sendOrder() {
     this.isLoading = true;
 
@@ -152,6 +120,8 @@ export class ConfermaOrdineComponent implements OnInit {
       let totaleCalcolato: number;
       if (this.deliveryCosts !== 'Gratis') {
         totaleCalcolato = +this.deliveryCosts + importoCart
+        console.log(totaleCalcolato);
+        
       } else {
         totaleCalcolato = importoCart;
       }

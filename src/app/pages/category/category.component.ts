@@ -25,21 +25,6 @@ export class CategoryComponent {
       this.user = this.shoesService.utente.profilo.username
     }
     this.shoesSelectedArray = this.shoesService.shoesSelectedArray
-    // Vecchio metodo
-    // this.shoesService.getShoes().subscribe((response) => {
-    //   this.shoes = response
-    //   this.activeRouter.params.subscribe((params) => {
-    //     this.catOfShoes = params.productCategory
-    //     this.shoesCategory = []
-    //     this.shoes.forEach(element => {
-    //       if (element.categoria == this.catOfShoes) {
-    //         this.shoesCategory.push(element)
-    //       }
-    //     });
-    //   })
-    // });
-
-    // Codice Ottimizzato
     this.activeRouter.params.subscribe((params)=>{
       this.catOfShoes = params.productCategory
       this.shoesService.getShoesByCat(this.catOfShoes).subscribe((response)=>{
@@ -47,6 +32,7 @@ export class CategoryComponent {
       })
     })
   }
+  
   // Funzioni utilizzate per visualizzare il carrello
   viewCart() {
     this.cartVisible = true

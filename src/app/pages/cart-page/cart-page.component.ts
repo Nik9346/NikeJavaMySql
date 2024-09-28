@@ -167,6 +167,7 @@ export class CartPageComponent implements AfterViewInit {
     sessionStorage.removeItem("carrello:")
   }
 
+  //Funzione utilizzata per controllare se sono presenti elementi salvati nel carrello della Sessione, se sono presenti, fa una chiamata al be per ottenere i dati e aggiunge i dati completi ad un array che contiene tutti gli elementi nel carrello
   cartSessionControl(): void {
     const savedStorage = this.sessionService.getItem("carrello:");
     if (savedStorage) {

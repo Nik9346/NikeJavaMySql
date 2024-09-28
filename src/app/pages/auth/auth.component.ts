@@ -169,7 +169,6 @@ export class AuthComponent implements OnInit {
       this.hideCart()
     }
   }
-
   hideCart() {
     setTimeout(() => {
       this.cartVisible = false
